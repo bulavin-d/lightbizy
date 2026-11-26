@@ -64,6 +64,11 @@
        "@type": "Service",
        "name": "Разработка сайтов для бизнеса",
        "description": "Сайт-визитка, каталог, онлайн-запись, прайс, отзывы."
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "minPrice": 300,
+       "priceCurrency": "USD"
       }
      },
      {
@@ -72,6 +77,11 @@
        "@type": "Service",
        "name": "Разработка телеграм-ботов",
        "description": "Магазин, запись клиентов, напоминания, промокоды, подарочные сертификаты, управление в Телеграме."
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "minPrice": 350,
+       "priceCurrency": "USD"
       }
      },
      {
@@ -80,6 +90,11 @@
        "@type": "Service",
        "name": "Telegram Mini App",
        "description": "Приложение внутри Телеграма: меню, каталог, клуб постоянных клиентов, бонусы, личный кабинет."
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "minPrice": 800,
+       "priceCurrency": "USD"
       }
      },
      {
@@ -120,7 +135,15 @@
      "name": "Сколько это стоит?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Зависит от задачи: что войдёт, нужна ли оплата, запись, сертификаты. Точную цену называем, когда разберём задачу. Без сюрпризов потом."
+      "text": "Ориентиры — в блоке «Сколько стоит» выше: сайт от $300, бот от $350. Цена растёт только от объёма задачи. Точную сумму называем до старта и фиксируем в договоре. Без сюрпризов потом."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Как проходит оплата?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Официально: по договору, оплата на ИП. Для старта — $100, остальное двумя частями по ходу работы. Можно в рассрочку без процентов на 3 месяца."
      }
     },
     {
@@ -141,6 +164,30 @@
     },
     {
      "@type": "Question",
+     "name": "Сколько правок входит?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "До 5 кругов правок на дизайн и до 5 — на сборку. Обычно этого хватает с запасом, но всё индивидуально."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Кому будет принадлежать сайт и бот?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Вам. После финальной оплаты передаём код, дизайн, тексты и все доступы — у нас не остаётся единоличного контроля над вашим проектом. Сервер и домен оформляем на вас, вы платите за них напрямую по себестоимости, а мы помогаем всё настроить."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Как вы сдаёте работу?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Финальный платёж — только после того, как вы сами всё проверили: кнопки, формы, записи и тестовые оплаты. Сначала всё работает, потом оплата."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "Смогу ли я сам что-то менять?",
      "acceptedAnswer": {
       "@type": "Answer",
@@ -152,7 +199,7 @@
      "name": "А если что-то сломается?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Вы пишете нам, мы разбираемся. Ночные резервные копии данных настраиваем по умолчанию."
+      "text": "Вы пишете нам, мы разбираемся. Первые 3 месяца после запуска поддержка бесплатная. Дальше — по желанию: $20 в месяц или $35 за разовое обращение. Ночные резервные копии данных настраиваем по умолчанию."
      }
     }
    ]
@@ -265,6 +312,38 @@ h2 em{font-style:normal;color:var(--wine)}
 @media (max-width:760px){.gains li{grid-template-columns:1fr}}
 
 /* works: open slots */
+.pr-head{display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:24px clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(40px,5vw,70px)}
+.pr-head p{margin:18px 0 0;color:#3F3634;max-width:46ch}
+@media (max-width:860px){.pr-head{grid-template-columns:1fr}}
+.cur{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap}
+.cur-l{font-size:13px;color:var(--mute);margin-right:6px}
+.cur button{position:relative;min-width:44px;min-height:44px;background:none;border:0;cursor:pointer;font-family:'Unbounded';font-weight:300;font-size:19px;color:#A99D99;transition:color .3s}
+.cur button:hover{color:var(--ink)}
+.cur button.on{color:var(--ink)}
+.cur button svg{position:absolute;left:2px;top:4px;width:calc(100% - 4px);height:calc(100% - 8px);overflow:visible;pointer-events:none}
+.cur button path{fill:none;stroke:var(--wine);stroke-width:1.4;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.6,0,.3,1)}
+.plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.4vw,34px)}
+@media (max-width:1000px){.plans{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.plans{grid-template-columns:1fr}}
+.plan{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-direction:column}
+.plan h3{margin:0 0 18px;font-family:'Unbounded';font-weight:300;font-size:clamp(17px,1.4vw,20px);letter-spacing:-.02em;line-height:1.2;min-height:2.4em}
+.plan .from{font-size:13px;color:var(--mute)}
+.plan .amt{font-family:'Unbounded';font-weight:250;font-size:clamp(38px,3.6vw,56px);letter-spacing:-.035em;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums}
+.plan p{margin:16px 0 0;color:#3F3634;font-size:15.5px}
+@media (max-width:560px){.plan h3{min-height:0}}
+.ratenote{margin:26px 0 0;font-size:13px;color:var(--mute)}
+.combo{margin-top:clamp(36px,4vw,56px);display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 30px;padding:22px 0;border-top:1px dashed #C9BCB5;border-bottom:1px dashed #C9BCB5}
+.combo b{font-weight:500;color:var(--wine)}
+.lnk{background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;font-family:'Unbounded';font-weight:300;font-size:17px;color:var(--ink);border-bottom:1px solid var(--ink);transition:color .3s,border-color .3s}
+.lnk:hover{color:var(--wine);border-color:var(--wine)}
+.perks{list-style:none;margin:clamp(36px,4vw,56px) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px clamp(24px,4vw,60px)}
+@media (max-width:760px){.perks{grid-template-columns:1fr}}
+.perks li{display:flex;gap:14px;align-items:flex-start;font-size:16px;color:#3F3634}
+.perks b{font-weight:500;color:var(--ink)}
+.perks svg{flex:none;width:22px;height:18px;margin-top:3px;overflow:visible}
+.perks path{fill:none;stroke:var(--wine);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .7s cubic-bezier(.6,0,.3,1) .35s}
+.perks li.on path{stroke-dashoffset:0}
+.costs{margin:clamp(30px,3vw,44px) 0 0;max-width:70ch;font-size:14.5px;color:var(--mute)}
 .wk-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(44px,6vw,80px)}
 .wk-head p{margin:0;color:#3F3634;max-width:40ch}
 .wk-head p.mk-o{display:block;justify-self:end;margin-right:clamp(10px,2vw,30px)}
@@ -371,6 +450,8 @@ h2 em{font-style:normal;color:var(--wine)}
 .btn:hover{background:var(--wine);border-color:var(--wine);color:var(--paper)}
 footer{border-top:1px solid var(--line)}
 footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:22px;padding-bottom:26px;font-size:13px;color:var(--mute)}
+footer a{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;transition:color .3s}
+footer a:hover{color:var(--ink)}
 footer b{font-family:'Unbounded';font-weight:500;letter-spacing:.06em;color:var(--ink)}
 
 /* request form */
@@ -412,7 +493,8 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 .send i{font-style:normal;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .send:hover{color:var(--wine)}.send:hover i{transform:translateX(6px)}
 .send:disabled{opacity:.5;cursor:default}
-.note{font-size:12px;color:var(--mute);margin:0;max-width:40ch}
+.note{font-size:12px;color:var(--mute);margin:0;max-width:42ch}
+.note a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 .done{display:none;flex-direction:column;gap:16px;margin-top:10vh}
 .done svg{width:74px;height:60px;overflow:visible}
 .done path{fill:none;stroke:var(--wine);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1s .2s cubic-bezier(.6,0,.3,1)}
@@ -432,6 +514,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   <a class="m" href="#start">ЛАЙТБИЗИ</a>
   <nav class="r" aria-label="Разделы">
     <a class="ln" href="#tools">Инструменты</a>
+    <a class="ln" href="#price">Цены</a>
     <a class="ln" href="#work">Работы</a>
     <a class="ln" href="#faq">Вопросы</a>
     <a class="ln" href="#hello">Написать →</a>
@@ -513,8 +596,43 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   <div class="knot"><svg class="thread" id="th2" aria-hidden="true"><defs><mask id="th2m" maskUnits="userSpaceOnUse"><path fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/></mask></defs><path class="v" mask="url(#th2m)"/></svg></div>
 </section>
 
+<section class="w" id="price" aria-label="Сколько стоит">
+  <div class="lab"><span>Сколько стоит</span><span>06</span></div>
+  <div class="pr-head">
+    <div>
+      <h2 class="rv">Доступнее, <em>чем кажется</em></h2>
+      <p class="rv">Красивый сайт — не значит дорогой. Цена зависит только от объёма задачи: называем её до старта и фиксируем в договоре.</p>
+    </div>
+    <div class="cur rv" role="group" aria-label="Валюта">
+      <span class="cur-l">показать в</span>
+      <button type="button" data-cur="USD" class="on" aria-pressed="true">$</button>
+      <button type="button" data-cur="KZT" aria-pressed="false">₸</button>
+      <button type="button" data-cur="RUB" aria-pressed="false">₽</button>
+      <button type="button" data-cur="EUR" aria-pressed="false">€</button>
+    </div>
+  </div>
+  <div class="plans">
+    <article class="plan rv"><h3>Сайт</h3><span class="from">от</span><span class="amt" data-usd="300">$300</span><p>Визитка или лендинг: кто вы, услуги и цены, отзывы, заявка прямо вам в Телеграм.</p></article>
+    <article class="plan rv"><h3>Бот для записи и заявок</h3><span class="from">от</span><span class="amt" data-usd="350">$350</span><p>Запись клиентов, напоминания, ответы на частые вопросы и пульт управления в Телеграме.</p></article>
+    <article class="plan rv"><h3>Бот-магазин</h3><span class="from">от</span><span class="amt" data-usd="600">$600</span><p>Каталог, корзина, оплата, подарочные сертификаты и промокоды.</p></article>
+    <article class="plan rv"><h3>Mini App</h3><span class="from">от</span><span class="amt" data-usd="800">$800</span><p>Полноценное приложение внутри Телеграма: меню, каталог, клуб, бонусы, личный кабинет.</p></article>
+  </div>
+  <p class="ratenote rv">Пересчёт в другие валюты — по примерному курсу. Итоговую сумму фиксируем в договоре.</p>
+  <div class="combo rv"><span>Нужна связка — сайт, бот и автоматизация вместе? <b>Посчитаем под вашу задачу.</b></span><button class="lnk" type="button" data-open>Рассказать о задаче →</button></div>
+  <ul class="perks">
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Старт — $100</b>, остальное двумя частями по ходу работы</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Рассрочка</b> без процентов на 3 месяца</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Официально:</b> договор и оплата на ИП</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Всё ваше:</b> код, дизайн, тексты и доступы</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>5 + 5 кругов правок</b> на дизайн и на сборку</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Финальный платёж</b> — только после вашей проверки</span></li>
+    <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>3 месяца поддержки</b> после запуска — бесплатно</span></li>
+  </ul>
+  <p class="costs rv">Отдельно — только домен и сервер. Оформляем их на вас, и вы платите напрямую по себестоимости, обычно $1–15 в месяц. Говорим об этом заранее.</p>
+</section>
+
 <section class="w" id="work">
-  <div class="lab"><span>Работы</span><span>06</span></div>
+  <div class="lab"><span>Работы</span><span>07</span></div>
   <div class="wk-head">
     <h2 class="rv">Здесь будет <em>ваш</em> проект</h2>
     <p class="rv mk-o">ЛАЙТБИЗИ — молодая студия, и сейчас мы собираем первые кейсы. Первые пять проектов окажутся на этих местах и получат особые условия.</p>
@@ -530,14 +648,18 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 </section>
 
 <section class="w" id="faq">
-  <div class="lab"><span>Вопросы</span><span>07</span></div>
+  <div class="lab"><span>Вопросы</span><span>08</span></div>
   <div class="faq">
     <details><summary>Вы делаете только сайты и ботов?<i aria-hidden="true">+</i></summary><div class="ans"><p>Нет. Мы умеем почти всё, что нужно бизнесу онлайн: сайты, боты, Mini App, дизайн, креативные идеи и логику того, как всё это работает вместе. Каждый проект собираем индивидуально под ваш запрос, без готовых пакетов.</p><p>Сначала разбираемся в задаче: где теряются клиенты, что съедает ваше время. Потом предлагаем решение — иногда это сайт, иногда бот, иногда их связка или просто правильно выстроенный процесс.</p><p>И мы дотошные: доводим работу до результата, которым вы правда довольны, а не до «сдали и забыли».</p></div></details>
-    <details><summary>Сколько это стоит?<i aria-hidden="true">+</i></summary><div class="ans"><p>Зависит от задачи: что войдёт, нужна ли оплата, запись, сертификаты.</p><p>Точную цену называем, когда разберём задачу. Без сюрпризов потом.</p></div></details>
+    <details><summary>Сколько это стоит?<i aria-hidden="true">+</i></summary><div class="ans"><p>Ориентиры — в блоке «Сколько стоит» выше: сайт от $300, бот от $350. Цена растёт только от объёма задачи.</p><p>Точную сумму называем до старта и фиксируем в договоре. Без сюрпризов потом.</p></div></details>
+    <details><summary>Как проходит оплата?<i aria-hidden="true">+</i></summary><div class="ans"><p>Официально: по договору, оплата на ИП. Для старта — $100, остальное двумя частями по ходу работы.</p><p>Можно в рассрочку без процентов на 3 месяца.</p></div></details>
     <details><summary>Сколько по времени?<i aria-hidden="true">+</i></summary><div class="ans"><p>Обычно 2–3 недели с момента, когда есть всё нужное.</p><p>Точный срок скажем, когда разберём задачу.</p></div></details>
     <details><summary>Что нужно от меня?<i aria-hidden="true">+</i></summary><div class="ans"><p>Почти ничего. Мы подготовим для вас короткий список вопросов, чтобы снять лишние хлопоты, и будем отталкиваться от ваших ответов.</p><p>Вам останется проверить результат.</p></div></details>
+    <details><summary>Сколько правок входит?<i aria-hidden="true">+</i></summary><div class="ans"><p>До 5 кругов правок на дизайн и до 5 — на сборку.</p><p>Обычно этого хватает с запасом, но всё индивидуально.</p></div></details>
+    <details><summary>Кому будет принадлежать сайт и бот?<i aria-hidden="true">+</i></summary><div class="ans"><p>Вам. После финальной оплаты передаём код, дизайн, тексты и все доступы — у нас не остаётся единоличного контроля над вашим проектом.</p><p>Сервер и домен оформляем на вас, вы платите за них напрямую по себестоимости, а мы помогаем всё настроить.</p></div></details>
+    <details><summary>Как вы сдаёте работу?<i aria-hidden="true">+</i></summary><div class="ans"><p>Финальный платёж — только после того, как вы сами всё проверили: кнопки, формы, записи и тестовые оплаты.</p><p>Сначала всё работает, потом оплата.</p></div></details>
     <details><summary>Смогу ли я сам что-то менять?<i aria-hidden="true">+</i></summary><div class="ans"><p>Да. Цены, товары, описания и фото вы меняете сами через простой пульт управления.</p><p>Без программиста.</p></div></details>
-    <details><summary>А если что-то сломается?<i aria-hidden="true">+</i></summary><div class="ans"><p>Вы пишете нам, мы разбираемся.</p><p>Ночные резервные копии данных настраиваем по умолчанию.</p></div></details>
+    <details><summary>А если что-то сломается?<i aria-hidden="true">+</i></summary><div class="ans"><p>Вы пишете нам, мы разбираемся. Первые 3 месяца после запуска поддержка бесплатная.</p><p>Дальше — по желанию: $20 в месяц или $35 за разовое обращение. Ночные резервные копии данных настраиваем по умолчанию.</p></div></details>
     <details class="about" id="about">
       <summary><span>Коротко <span class="mk">о нас</span></span><i aria-hidden="true">+</i></summary>
       <div class="flow">
@@ -553,7 +675,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 </section>
 
 <section class="w cta" id="hello">
-  <div class="lab" style="text-align:left"><span>Написать</span><span>08</span></div>
+  <div class="lab" style="text-align:left"><span>Написать</span><span>09</span></div>
   <div class="box" id="ctabox">
     <svg class="arrow" id="arrow" aria-hidden="true"><path class="ln"/><path class="hd"/></svg>
     <div>
@@ -566,7 +688,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 </section>
 </main>
 
-<footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · lightbizy.com</span></div></footer>
+<footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · <a href="/privacy.html">Конфиденциальность</a> · lightbizy.com</span></div></footer>
 
 <dialog id="req" aria-labelledby="req-t">
   <div class="sheet" id="sheet">
@@ -592,7 +714,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
         <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fld"><label for="f-msg"><span class="no">04</span><b>Пара слов о задаче</b> (необязательно)</label><textarea id="f-msg" name="msg" placeholder="Например: хотим онлайн-запись и сертификаты к Новому году"></textarea><span class="uline" aria-hidden="true"></span></div>
         <button class="send" type="submit"><span class="mk-o">Отправить</span><i aria-hidden="true">→</i></button>
-        <p class="note">Ответим в течение дня там, где вам удобно. Контакты используем только для связи с вами.</p>
+        <p class="note">Ответим в течение дня там, где вам удобно. Отправляя заявку, вы соглашаетесь с <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
       </div>
     </form>
     <div class="done" role="status">
@@ -1001,6 +1123,49 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
     if (about.open) { pth.style.transitionDelay = (base + head) + 's'; pth.style.strokeDashoffset = 0; }
     else { pth.style.transitionDelay = '0s'; pth.style.strokeDashoffset = L; }
   }));
+
+  /* ---------- prices: shown in dollars, switch to ₸ / ₽ / € with a marker loop ---------- */
+  const RATES = { USD: 1, KZT: 500, RUB: 90, EUR: 0.92 };   // fallback; replaced by today's rates below
+  const curBtns = [...document.querySelectorAll('.cur button')], amts = [...document.querySelectorAll('.plan .amt')];
+  let curNow = 'USD';
+  const fmt = (usd, c) => {
+    const v = usd * RATES[c], sp = ' ';
+    if (c === 'USD') return '$' + Math.round(v);
+    if (c === 'EUR') return '€' + Math.round(v / 10) * 10;
+    if (c === 'KZT') return (Math.round(v / 5000) * 5000).toLocaleString('ru-RU').replace(/\s/g, sp) + sp + '₸';
+    return (Math.round(v / 500) * 500).toLocaleString('ru-RU').replace(/\s/g, sp) + sp + '₽';
+  };
+  function showCur(c) {
+    curNow = c;
+    curBtns.forEach(b => {
+      const on = b.dataset.cur === c; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+      const pth = b.querySelector('path'); if (pth) pth.style.strokeDashoffset = on ? 0 : pth.getTotalLength();
+    });
+    amts.forEach(a => {
+      if (reduce || !a.animate) { a.textContent = fmt(+a.dataset.usd, c); return; }
+      a.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-6px)' }], { duration: 160 }).onfinish = () => {
+        a.textContent = fmt(+a.dataset.usd, curNow);
+        a.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      };
+    });
+  }
+  function curLoops() {
+    curBtns.forEach(b => {
+      b.querySelector('svg')?.remove();
+      const w = b.offsetWidth - 4, h = b.offsetHeight - 8; if (w < 10) return;
+      const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('viewBox', `0 0 ${w} ${h}`); sv.setAttribute('aria-hidden', 'true');
+      const pth = document.createElementNS(NS, 'path'); pth.setAttribute('d', loopPath(w, h)); sv.appendChild(pth); b.appendChild(sv);
+      const L = pth.getTotalLength(); pth.style.strokeDasharray = L; pth.style.strokeDashoffset = b.dataset.cur === curNow ? 0 : L;
+    });
+  }
+  document.fonts.ready.then(curLoops);
+  curBtns.forEach(b => b.addEventListener('click', () => b.dataset.cur !== curNow && showCur(b.dataset.cur)));
+  fetch('https://open.er-api.com/v6/latest/USD').then(r => r.json()).then(j => {
+    if (j && j.rates) ['KZT', 'RUB', 'EUR'].forEach(c => { if (j.rates[c]) RATES[c] = j.rates[c]; });
+    if (curNow !== 'USD') amts.forEach(a => a.textContent = fmt(+a.dataset.usd, curNow));
+  }).catch(() => {});
+  const pio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); pio.unobserve(e.target); } }), { threshold: .8 });
+  document.querySelectorAll('.perks li').forEach(li => pio.observe(li));
 
   /* ---------- request form ---------- */
   // адрес пересылки заявок в Телеграм (Cloudflare Worker); пока пусто — форма просто благодарит
