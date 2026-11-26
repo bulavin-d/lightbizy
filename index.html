@@ -340,6 +340,8 @@ h2 em{font-style:normal;color:var(--wine)}
 .faq .ans{padding:0 0 26px;color:#3F3634;max-width:62ch}
 .faq .ans p{margin:0}
 .faq .ans p+p{margin-top:14px;color:var(--mute)}
+.caret{display:inline-block;width:2px;height:1.05em;margin-left:3px;vertical-align:-0.15em;background:var(--wine);animation:blink .9s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 
 /* contact */
 .cta{padding-bottom:clamp(60px,8vw,110px)}
@@ -960,6 +962,36 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   let arW = innerWidth;
   document.fonts.ready.then(() => setTimeout(drawArrow, 150)); addEventListener('resize', () => { if (innerWidth !== arW) { arW = innerWidth; drawArrow(); } });
   new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { arrow.dataset.on = 1; arrow.querySelectorAll('path').forEach(p => p.style.strokeDashoffset = 0); o.disconnect(); } }), { threshold: .5 }).observe(ctabox);
+
+  /* ---------- FAQ: answers are "typed" piece by piece, like a chat reply ---------- */
+  document.querySelectorAll('.faq details:not(.about)').forEach(d => {
+    const ps = [...d.querySelectorAll('.ans p')], full = ps.map(p => p.textContent);
+    const caret = document.createElement('span'); caret.className = 'caret'; caret.setAttribute('aria-hidden', 'true');
+    let run = 0;
+    const restore = () => { caret.remove(); ps.forEach((p, i) => { p.textContent = full[i]; p.hidden = false; }); };
+    d.addEventListener('toggle', () => {
+      const my = ++run;
+      if (!d.open || reduce) { restore(); return; }
+      ps.forEach(p => { p.textContent = ''; p.hidden = true; });
+      let pi = 0, ci = 0;
+      ps[0].hidden = false; ps[0].appendChild(caret);
+      const step = () => {
+        if (my !== run || !d.open) return;
+        if (pi >= ps.length) { caret.remove(); return; }
+        const txt = full[pi];
+        ci = Math.min(txt.length, ci + 2 + Math.floor(Math.random() * 5));   // 2–6 characters at a time, like tokens
+        ps[pi].textContent = txt.slice(0, ci); ps[pi].appendChild(caret);
+        if (ci >= txt.length) {
+          pi++; ci = 0;
+          if (pi < ps.length) { ps[pi].hidden = false; setTimeout(step, 220); } else setTimeout(() => my === run && caret.remove(), 900);
+        } else {
+          const ch = txt[ci - 1];
+          setTimeout(step, /[.,:;—!?]/.test(ch) ? 60 + Math.random() * 60 : 12 + Math.random() * 14);   // tiny pauses on punctuation
+        }
+      };
+      setTimeout(step, 320);   // a short "thinking" beat with the caret blinking
+    });
+  });
 
   /* ---------- about: arrows lead the eye once it opens ---------- */
   const about = document.getElementById('about'), hops = [...about.querySelectorAll('.hop path')];
