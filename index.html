@@ -929,7 +929,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 
   /* ---------- request form ---------- */
   // адрес пересылки заявок в Телеграм (Cloudflare Worker); пока пусто — форма просто благодарит
-  const LEAD_URL = '';
+  const LEAD_URL = 'https://lightbizy-leads.lu4danya.workers.dev';
   const dlg = document.getElementById('req'), sheet = document.getElementById('sheet'), form = document.getElementById('form');
   document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => { sheet.classList.remove('sent'); dlg.showModal(); requestAnimationFrame(decorate); setTimeout(() => document.getElementById('f-name').focus(), 450); }));
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
