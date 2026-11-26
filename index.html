@@ -170,7 +170,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Onest',system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--wine);color:var(--paper)}
-#air{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#air{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;pointer-events:none;z-index:0}
 main,header,footer{position:relative;z-index:1}
 .w{max-width:1280px;margin:0 auto;padding-inline:var(--pad)}
 
@@ -272,7 +272,7 @@ h2 em{font-style:normal;color:var(--wine)}
 @media (max-width:860px){.wk-head{grid-template-columns:1fr}}
 .slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
 @media (max-width:1000px){.slots{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:560px){.slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.slots{grid-template-columns:repeat(2,minmax(0,1fr))}.slots .slot:last-child{grid-column:1 / -1;aspect-ratio:auto;min-height:132px;flex-direction:row;align-items:flex-end}.slots .slot:last-child .no{align-self:flex-start}}
 .slot{position:relative;aspect-ratio:3/4;border:1px solid var(--line);background:rgba(255,255,255,.32);display:flex;flex-direction:column;justify-content:space-between;padding:18px;transition:border-color .5s,background .5s;cursor:pointer;text-align:left;font:inherit;color:inherit}
 .slot:hover,.slot:focus-visible{border-color:var(--wine);background:rgba(255,255,255,.6);outline:none}
 .slot .no{font-family:'Unbounded';font-weight:200;font-size:clamp(34px,3.4vw,54px);line-height:1;color:#CDBFB8;transition:color .5s}
@@ -395,6 +395,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 .fld input:focus~.uline,.fld textarea:focus~.uline{transform:scaleX(1)}
 .fld.bad .uline{transform:scaleX(1)}
 .fld textarea{resize:vertical;min-height:76px}
+.callnote{margin:-14px 0 0;font-size:12.5px;line-height:1.5;color:var(--wine)}
 .chans{display:flex;flex-wrap:wrap;gap:10px 18px;margin:2px 0 4px;padding:0;border:0}
 .chans legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .chan{position:relative;cursor:pointer;font-size:15px;padding:5px 10px;color:#5F5452;transition:color .3s}
@@ -584,6 +585,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
           </fieldset>
           <input id="f-contact" name="contact" required placeholder="@ваш_ник" aria-label="Ваш ник или номер"><span class="uline" aria-hidden="true"></span>
         </div>
+        <p class="callnote" id="callnote" hidden>Звоним только по Казахстану. Из других стран удобнее Telegram или WhatsApp.</p>
         <div class="fld"><label for="f-brand"><span class="no">03</span><b>Ссылка на бренд</b> (если есть)</label><input id="f-brand" name="brand" placeholder="instagram.com/… или сайт"><span class="uline" aria-hidden="true"></span></div>
         <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fld"><label for="f-msg"><span class="no">04</span><b>Пара слов о задаче</b> (необязательно)</label><textarea id="f-msg" name="msg" placeholder="Например: хотим онлайн-запись и сертификаты к Новому году"></textarea><span class="uline" aria-hidden="true"></span></div>
@@ -650,61 +652,92 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
     return c;
   }
 
+  // phone browsers fire "resize" whenever the address bar slides in or out while scrolling;
+  // only a real width change (rotation, window resize) should rebuild anything
+  let lastW = innerWidth;
+  const widthChanged = () => { if (innerWidth === lastW) return false; lastW = innerWidth; return true; };
+
+  function sizeCanvas() {
+    DPR = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  }
   function build() {
-    DPR = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
-    cv.width = W * DPR; cv.height = H * DPR;
+    sizeCanvas();
     if (!sprites.length) {
       const tints = ['74,52,50', '74,52,50', '107,15,36', '120,92,88', '74,52,50', '138,58,76', '74,52,50'];
       for (let i = 0; i < 7; i++) sprites.push(makeSprite(rnd(170, 260), tints[i % tints.length]));
     }
     const count = Math.round(Math.max(5, Math.min(11, W * H / 130000)));
-    feathers = Array.from({ length: count }, (_, i) => spawn(true, i / count));
+    feathers = Array.from({ length: count }, (_, i) => spawn(i / count));
   }
-  function spawn(initial, f = Math.random()) {
+  function spawn(f) {
     const z = rnd(0.35, 1);
     return {
       sp: sprites[Math.floor(Math.random() * sprites.length)],
-      x: rnd(-0.05, 1.05) * W, y: initial ? f * H * 1.1 - H * 0.05 + rnd(-40, 40) : -rnd(120, 260),
-      z, s: 0.35 + z * 0.55, vy: (9 + z * 14), wx: 0, wy: 0,
-      ph: rnd(0, 6.28), fr: rnd(0.35, 0.6), amp: rnd(22, 46) * z, rot: rnd(-0.6, 0.6), spin: rnd(-0.08, 0.08)
+      x: rnd(-0.05, 1.05) * W, y: f == null ? -rnd(140, 240) : f * H * 1.1 - H * 0.05 + rnd(-40, 40),
+      z, s: 0.35 + z * 0.55, vy: 9 + z * 14, wx: 0, wy: 0,
+      ph: rnd(0, 6.28), fr: rnd(0.35, 0.6), amp: rnd(22, 46) * z, rot: rnd(-0.6, 0.6), spin: rnd(-0.08, 0.08),
+      fp: rnd(0, 6.28), fs: rnd(0.25, 0.55),            // slow turn around its own quill, like a real feather
+      extra: false, fade: 1
     };
   }
-  addEventListener('resize', () => { clearTimeout(build.t); build.t = setTimeout(build, 200); });
   build();
+  addEventListener('resize', () => { if (!widthChanged()) { sizeCanvas(); return; } clearTimeout(build.t); build.t = setTimeout(build, 200); });
 
-  let mx = -1e4, my = -1e4, pmx = 0, pmy = 0, lastScroll = scrollY;
+  let mx = -1e4, my = -1e4, pmx = -1e4, pmy = -1e4, lastScroll = scrollY, wind = 0;
   addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; });
-  document.addEventListener('pointerleave', () => { mx = my = -1e4; });
+  const release = e => { if (!e || e.pointerType !== 'mouse') mx = my = pmx = pmy = -1e4; };
+  addEventListener('pointerup', release); addEventListener('pointercancel', release);
+  document.addEventListener('pointerleave', () => { mx = my = pmx = pmy = -1e4; });
+
+  // a tap or click on empty space lets one more feather go from that spot
+  addEventListener('pointerdown', e => {
+    if (reduce || e.target.closest('a,button,input,textarea,label,summary,select,dialog,.slot,.cbtn,.tnav')) return;
+    if (feathers.filter(f => f.extra).length >= 6) return;
+    const f = spawn(0); f.x = e.clientX; f.y = e.clientY; f.z = rnd(.7, 1); f.s = .35 + f.z * .55;
+    f.wy = -70; f.wx = rnd(-30, 30); f.extra = true; f.fade = 0; feathers.push(f);
+  });
 
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     const t = now / 1000;
-    const sd = scrollY - lastScroll; lastScroll = scrollY;
-    const mvx = mx - pmx, mvy = my - pmy; pmx = mx; pmy = my;
-    const calm = 1 - 0.45 * Math.min(1, scrollY / (H * 0.9));
+    const sd = Math.max(-40, Math.min(40, scrollY - lastScroll)); lastScroll = scrollY;
+    wind += (Math.max(-240, Math.min(240, sd * 7)) - wind) * 0.06;    // scrolling stirs a soft gust
+    const touching = mx > -1e3 && pmx > -1e3;
+    const mvx = touching ? mx - pmx : 0, mvy = touching ? my - pmy : 0; pmx = mx; pmy = my;
+    const calm = 1 - 0.38 * Math.min(1, scrollY / (H * 0.9));
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H);
-    for (let i = 0; i < feathers.length; i++) {
+    for (let i = feathers.length - 1; i >= 0; i--) {
       const f = feathers[i];
       if (!reduce) {
         const sw = Math.sin(t * f.fr + f.ph);
-        f.x += (Math.cos(t * f.fr + f.ph) * f.amp * f.fr) * dt + f.wx * dt;
-        f.y += (f.vy * (0.6 + 0.4 * Math.abs(sw))) * dt + f.wy * dt - sd * 0.35 * f.z;
-        f.rot += f.spin * dt;
+        f.x += (Math.cos(t * f.fr + f.ph) * f.amp * f.fr + wind * 0.35 * f.z) * dt + f.wx * dt;
+        f.y += f.vy * (0.6 + 0.4 * Math.abs(sw)) * dt + f.wy * dt - sd * 0.15 * f.z;
+        f.rot += f.spin * dt + wind * 0.0004 * dt;
         const dx = f.x - mx, dy = f.y - my, d = Math.hypot(dx, dy);
         if (d < 170) {
-          const k = (1 - d / 170);
+          const k = 1 - d / 170;
           f.wx += (dx / (d || 1) * 60 + mvx * 2.2) * k;
           f.wy += (dy / (d || 1) * 60 + mvy * 2.2) * k;
         }
         f.wx *= 0.95; f.wy *= 0.95;
-        if (f.y > H + 260 || f.y < -400 || f.x < -300 || f.x > W + 300) feathers[i] = spawn(false);
+        f.fade = Math.min(1, f.fade + dt * 1.5);
+        // leave the screen → come back on the opposite side, never vanish in the middle of the view
+        if (f.y > H + 200 || f.y < -300 || f.x < -260 || f.x > W + 260) {
+          if (f.extra) { feathers.splice(i, 1); continue; }
+          if (f.y > H + 200) { f.y = -rnd(140, 220); f.x = rnd(-0.05, 1.05) * W; }
+          else if (f.y < -300) { f.y = H + rnd(120, 180); f.x = rnd(-0.05, 1.05) * W; }
+          if (f.x < -260) f.x = W + 200; else if (f.x > W + 260) f.x = -200;
+          f.wx = f.wy = 0;
+        }
         f.tilt = sw * 0.45;
       }
       const sp = f.sp, s = f.s;
+      const turn = Math.cos(t * f.fs + f.fp), sx = Math.sign(turn || 1) * Math.max(0.22, Math.abs(turn));
       ctx.save();
-      ctx.globalAlpha = (0.45 + f.z * 0.55) * calm;
-      ctx.translate(f.x, f.y); ctx.rotate(f.rot + (f.tilt || 0));
+      ctx.globalAlpha = (0.45 + f.z * 0.55) * calm * f.fade * (0.75 + 0.25 * Math.abs(turn));
+      ctx.translate(f.x, f.y); ctx.rotate(f.rot + (f.tilt || 0)); ctx.scale(reduce ? 1 : sx, 1);
       ctx.drawImage(sp, -sp.width / 4 * s, -sp.height / 4 * s, sp.width / 2 * s, sp.height / 2 * s);
       ctx.restore();
     }
@@ -749,7 +782,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   const steps = document.getElementById('steps'), track = document.getElementById('track'), tv = document.getElementById('tvis'), tm = document.getElementById('tmask'), tdots = document.getElementById('tdots');
   let tlen = 0, dotAt = [];
   function shapeTrack() {
-    const w = steps.clientWidth, h = 44, cols = [...steps.querySelectorAll('.stp')];
+    const w = steps.clientWidth; shapeTrack.w = w; const h = 44, cols = [...steps.querySelectorAll('.stp')];
     track.setAttribute('viewBox', `0 0 ${w} ${h}`);
     const pts = cols.map((c, i) => [c.offsetLeft + 5, i % 2 ? h * .68 : h * .3]);
     pts.push([w - 2, h * .5]);
@@ -764,7 +797,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
       dotAt.push(i === 0 ? 0 : (x - pts[0][0]) / (w - pts[0][0]));
     });
   }
-  shapeTrack(); addEventListener('resize', shapeTrack);
+  shapeTrack(); addEventListener('resize', () => { if (steps.clientWidth !== shapeTrack.w) shapeTrack(); });
 
   /* ---------- tool tags: loose marker loops drawn around each word ---------- */
   function loopPath(w, h) {
@@ -816,7 +849,15 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   const marks = [...document.querySelectorAll('.mk, .mk-o')].filter(m => !m.closest('dialog'));
   const mio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const pth = e.target.querySelector(':scope > svg path'); if (pth) pth.style.strokeDashoffset = 0; mio.unobserve(e.target); } }), { threshold: 1, rootMargin: '0px 0px -12% 0px' });
   document.fonts.ready.then(() => setTimeout(() => marks.forEach(m => { addMark(m, m.classList.contains('mk-o')); mio.observe(m); }), 80));
-  addEventListener('resize', () => { clearTimeout(addMark.t); addMark.t = setTimeout(() => marks.forEach(m => { const old = m.querySelector(':scope > svg'); if (!old) return; const drawn = old.querySelector('path').style.strokeDashoffset === '0'; old.remove(); addMark(m, m.classList.contains('mk-o')); if (drawn) m.querySelector(':scope > svg path').style.strokeDashoffset = 0; }), 200); });
+  let markW = innerWidth;
+  addEventListener('resize', () => {
+    if (innerWidth === markW) return; markW = innerWidth;
+    clearTimeout(addMark.t); addMark.t = setTimeout(() => marks.forEach(m => {
+      const old = m.querySelector(':scope > svg'); if (!old) return;
+      const drawn = old.querySelector('path').style.strokeDashoffset === '0'; old.remove(); addMark(m, m.classList.contains('mk-o'));
+      const pth = m.querySelector(':scope > svg path'); if (drawn) { pth.style.transition = 'none'; pth.style.strokeDashoffset = 0; }
+    }), 200);
+  });
 
   /* ---------- dashed threads drawn as you scroll ---------- */
   const threads = [];
@@ -854,7 +895,8 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
       + ` S ${w * .985} ${h * .85}, ${w * .97} ${h}`;
   });
   const buildThreads = () => threads.forEach(t => t.build());
-  document.fonts.ready.then(() => setTimeout(buildThreads, 120)); addEventListener('resize', buildThreads);
+  let thW = innerWidth;
+  document.fonts.ready.then(() => setTimeout(buildThreads, 120)); addEventListener('resize', () => { if (innerWidth !== thW) { thW = innerWidth; buildThreads(); } });
 
   const tio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('path').forEach(p => p.style.strokeDashoffset = 0); tio.unobserve(e.target); } }), { threshold: .6 });
   document.fonts.ready.then(() => setTimeout(() => tagSets.forEach(s => tio.observe(s)), 60));
@@ -915,7 +957,8 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
     hd.setAttribute('d', `M ${ex - 17} ${ey - 11} Q ${ex - 7} ${ey - 4}, ${ex + 1} ${ey} Q ${ex - 8} ${ey + 5}, ${ex - 15} ${ey + 13}`);
     [ln, hd].forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; if (!arrow.dataset.on) p.style.strokeDashoffset = L; });
   }
-  document.fonts.ready.then(() => setTimeout(drawArrow, 150)); addEventListener('resize', drawArrow);
+  let arW = innerWidth;
+  document.fonts.ready.then(() => setTimeout(drawArrow, 150)); addEventListener('resize', () => { if (innerWidth !== arW) { arW = innerWidth; drawArrow(); } });
   new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { arrow.dataset.on = 1; arrow.querySelectorAll('path').forEach(p => p.style.strokeDashoffset = 0); o.disconnect(); } }), { threshold: .5 }).observe(ctabox);
 
   /* ---------- about: arrows lead the eye once it opens ---------- */
@@ -948,7 +991,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   }
   chans.forEach(c => c.querySelector('input').addEventListener('change', () => {
     chans.forEach(x => { const on = x.querySelector('input').checked; x.classList.toggle('on', on); const pth = x.querySelector('path'); if (pth) pth.style.strokeDashoffset = on ? 0 : pth.getTotalLength(); });
-    cinput.placeholder = PH[form.elements['channel'].value] || ''; cinput.focus();
+    cinput.placeholder = PH[form.elements['channel'].value] || ''; document.getElementById('callnote').hidden = form.elements['channel'].value !== 'Звонок'; cinput.focus();
   }));
   const sendMark = form.querySelector('.send .mk-o'), headMark = sheet.querySelector('h3 .mk');
   function decorate() {
