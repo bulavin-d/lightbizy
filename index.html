@@ -979,17 +979,17 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
         if (my !== run || !d.open) return;
         if (pi >= ps.length) { caret.remove(); return; }
         const txt = full[pi];
-        ci = Math.min(txt.length, ci + 2 + Math.floor(Math.random() * 5));   // 2–6 characters at a time, like tokens
+        ci = Math.min(txt.length, ci + 1 + Math.floor(Math.random() * 3));   // 1–3 characters at a time, like tokens
         ps[pi].textContent = txt.slice(0, ci); ps[pi].appendChild(caret);
         if (ci >= txt.length) {
           pi++; ci = 0;
-          if (pi < ps.length) { ps[pi].hidden = false; setTimeout(step, 220); } else setTimeout(() => my === run && caret.remove(), 900);
+          if (pi < ps.length) { ps[pi].hidden = false; setTimeout(step, 380); } else setTimeout(() => my === run && caret.remove(), 900);
         } else {
           const ch = txt[ci - 1];
-          setTimeout(step, /[.,:;—!?]/.test(ch) ? 60 + Math.random() * 60 : 12 + Math.random() * 14);   // tiny pauses on punctuation
+          setTimeout(step, /[.,:;—!?]/.test(ch) ? 120 + Math.random() * 90 : 20 + Math.random() * 14);   // tiny pauses on punctuation
         }
       };
-      setTimeout(step, 320);   // a short "thinking" beat with the caret blinking
+      setTimeout(step, 450);   // a short "thinking" beat with the caret blinking
     });
   });
 
