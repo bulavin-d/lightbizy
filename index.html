@@ -328,7 +328,12 @@ h2 em{font-style:normal;color:var(--wine)}
 .plan{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-direction:column}
 .plan h3{margin:0 0 18px;font-family:'Unbounded';font-weight:300;font-size:clamp(17px,1.4vw,20px);letter-spacing:-.02em;line-height:1.2;min-height:2.4em}
 .plan .from{font-size:13px;color:var(--mute)}
-.plan .amt{font-family:'Unbounded';font-weight:250;font-size:clamp(38px,3.6vw,56px);letter-spacing:-.035em;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums}
+.plan .amt{display:block;font-family:'Unbounded';font-weight:250;font-size:clamp(38px,3.6vw,56px);letter-spacing:-.035em;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums}
+.plans.long .amt{font-size:clamp(30px,2.75vw,42px)}
+@media (max-width:560px){.plans.long .amt{font-size:34px}}
+.plan .amt .c{display:inline-block;font-size:.46em;letter-spacing:0;vertical-align:.95em;color:var(--wine)}
+.plan .amt .c:first-child{margin-right:.14em}
+.plan .amt .c:last-child{margin-left:.2em}
 .plan p{margin:16px 0 0;color:#3F3634;font-size:15.5px}
 @media (max-width:560px){.plan h3{min-height:0}}
 .ratenote{margin:26px 0 0;font-size:13px;color:var(--mute)}
@@ -612,10 +617,10 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
     </div>
   </div>
   <div class="plans">
-    <article class="plan rv"><h3>Сайт</h3><span class="from">от</span><span class="amt" data-usd="300">$300</span><p>Визитка или лендинг: кто вы, услуги и цены, отзывы, заявка прямо вам в Телеграм.</p></article>
-    <article class="plan rv"><h3>Бот для записи и заявок</h3><span class="from">от</span><span class="amt" data-usd="350">$350</span><p>Запись клиентов, напоминания, ответы на частые вопросы и пульт управления в Телеграме.</p></article>
-    <article class="plan rv"><h3>Бот-магазин</h3><span class="from">от</span><span class="amt" data-usd="600">$600</span><p>Каталог, корзина, оплата, подарочные сертификаты и промокоды.</p></article>
-    <article class="plan rv"><h3>Mini App</h3><span class="from">от</span><span class="amt" data-usd="800">$800</span><p>Полноценное приложение внутри Телеграма: меню, каталог, клуб, бонусы, личный кабинет.</p></article>
+    <article class="plan rv"><h3>Сайт</h3><span class="from">от</span><span class="amt" data-usd="300"><span class="c">$</span><span class="n">300</span></span><p>Визитка или лендинг: кто вы, услуги и цены, отзывы, заявка прямо вам в Телеграм.</p></article>
+    <article class="plan rv"><h3>Бот для записи и заявок</h3><span class="from">от</span><span class="amt" data-usd="350"><span class="c">$</span><span class="n">350</span></span><p>Запись клиентов, напоминания, ответы на частые вопросы и пульт управления в Телеграме.</p></article>
+    <article class="plan rv"><h3>Бот-магазин</h3><span class="from">от</span><span class="amt" data-usd="600"><span class="c">$</span><span class="n">600</span></span><p>Каталог, корзина, оплата, подарочные сертификаты и промокоды.</p></article>
+    <article class="plan rv"><h3>Mini App</h3><span class="from">от</span><span class="amt" data-usd="800"><span class="c">$</span><span class="n">800</span></span><p>Полноценное приложение внутри Телеграма: меню, каталог, клуб, бонусы, личный кабинет.</p></article>
   </div>
   <p class="ratenote rv">Пересчёт в другие валюты — по примерному курсу. Итоговую сумму фиксируем в договоре.</p>
   <div class="combo rv"><span>Нужна связка — сайт, бот и автоматизация вместе? <b>Посчитаем под вашу задачу.</b></span><button class="lnk" type="button" data-open>Рассказать о задаче →</button></div>
@@ -1129,12 +1134,21 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   const curBtns = [...document.querySelectorAll('.cur button')], amts = [...document.querySelectorAll('.plan .amt')];
   let curNow = 'USD';
   const fmt = (usd, c) => {
-    const v = usd * RATES[c], sp = ' ';
-    if (c === 'USD') return '$' + Math.round(v);
-    if (c === 'EUR') return '€' + Math.round(v / 10) * 10;
-    if (c === 'KZT') return (Math.round(v / 5000) * 5000).toLocaleString('ru-RU').replace(/\s/g, sp) + sp + '₸';
-    return (Math.round(v / 500) * 500).toLocaleString('ru-RU').replace(/\s/g, sp) + sp + '₽';
+    const v = usd * RATES[c], sp = '\u00a0', grp = x => x.toLocaleString('ru-RU').replace(/\s/g, sp);
+    const pre = (sym, n) => `<span class="c">${sym}</span><span class="n">${n}</span>`, post = (n, sym) => `<span class="n">${n}</span><span class="c">${sym}</span>`;
+    if (c === 'USD') return pre('$', Math.round(v));
+    if (c === 'EUR') return pre('€', Math.round(v / 10) * 10);
+    if (c === 'KZT') return post(grp(Math.round(v / 5000) * 5000), '₸');
+    return post(grp(Math.round(v / 500) * 500), '₽');
   };
+  // one size for all four prices: shrink together if the longest one doesn't fit its column
+  function fitAmts() {
+    amts[0].closest('.plans').classList.toggle('long', curNow === 'KZT' || curNow === 'RUB');
+    amts.forEach(a => a.style.fontSize = '');
+    let k = 1;
+    amts.forEach(a => { const w = a.parentElement.clientWidth; if (a.scrollWidth > w) k = Math.min(k, w / a.scrollWidth); });
+    if (k < 1) { const f = parseFloat(getComputedStyle(amts[0]).fontSize) * k * 0.98; amts.forEach(a => a.style.fontSize = f + 'px'); }
+  }
   function showCur(c) {
     curNow = c;
     curBtns.forEach(b => {
@@ -1142,9 +1156,9 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
       const pth = b.querySelector('path'); if (pth) pth.style.strokeDashoffset = on ? 0 : pth.getTotalLength();
     });
     amts.forEach(a => {
-      if (reduce || !a.animate) { a.textContent = fmt(+a.dataset.usd, c); return; }
+      if (reduce || !a.animate) { a.innerHTML = fmt(+a.dataset.usd, c); fitAmts(); return; }
       a.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-6px)' }], { duration: 160 }).onfinish = () => {
-        a.textContent = fmt(+a.dataset.usd, curNow);
+        a.innerHTML = fmt(+a.dataset.usd, curNow); fitAmts();
         a.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2,.7,.2,1)' });
       };
     });
@@ -1158,11 +1172,12 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
       const L = pth.getTotalLength(); pth.style.strokeDasharray = L; pth.style.strokeDashoffset = b.dataset.cur === curNow ? 0 : L;
     });
   }
-  document.fonts.ready.then(curLoops);
+  document.fonts.ready.then(() => { curLoops(); fitAmts(); });
+  let prW = innerWidth; addEventListener('resize', () => { if (innerWidth !== prW) { prW = innerWidth; fitAmts(); } });
   curBtns.forEach(b => b.addEventListener('click', () => b.dataset.cur !== curNow && showCur(b.dataset.cur)));
   fetch('https://open.er-api.com/v6/latest/USD').then(r => r.json()).then(j => {
     if (j && j.rates) ['KZT', 'RUB', 'EUR'].forEach(c => { if (j.rates[c]) RATES[c] = j.rates[c]; });
-    if (curNow !== 'USD') amts.forEach(a => a.textContent = fmt(+a.dataset.usd, curNow));
+    if (curNow !== 'USD') { amts.forEach(a => a.innerHTML = fmt(+a.dataset.usd, curNow)); fitAmts(); }
   }).catch(() => {});
   const pio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); pio.unobserve(e.target); } }), { threshold: .8 });
   document.querySelectorAll('.perks li').forEach(li => pio.observe(li));
