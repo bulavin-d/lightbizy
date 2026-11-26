@@ -239,7 +239,6 @@ main,header,footer{position:relative;z-index:1}
 .lock{display:inline-flex;flex-direction:column;align-items:stretch}
 .tagrow{display:flex;align-items:center;gap:clamp(14px,1.6vw,26px);margin-top:clamp(8px,1.2vw,18px)}
 .rule{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--ink) 0 7px,transparent 7px 14px);transform:scaleX(0);transform-origin:left;transition:transform 1.6s 1.5s cubic-bezier(.6,0,.2,1)}
-.in .rule{transform:none}
 .hero h1{margin:0;font-family:'Unbounded';font-weight:250;font-size:clamp(34px,12.4vw,210px);line-height:1;letter-spacing:.12em;opacity:0;filter:blur(14px);transform:scale(1.04);transition:opacity 2s cubic-bezier(.2,.7,.2,1),filter 2s cubic-bezier(.2,.7,.2,1),transform 2.4s cubic-bezier(.2,.7,.2,1),letter-spacing 2.4s cubic-bezier(.2,.7,.2,1)}
 .in .hero h1{opacity:1;filter:none;transform:none;letter-spacing:-.03em}
 .tag{margin:0 .2em 0 0;white-space:nowrap;font-family:'Unbounded';font-weight:300;font-size:clamp(18px,2.3vw,38px);line-height:1.1;letter-spacing:-.025em;opacity:0;transform:translateY(12px);transition:opacity 1.4s 1.7s,transform 1.4s 1.7s cubic-bezier(.2,.7,.2,1)}
@@ -692,6 +691,30 @@ h2 em{font-style:normal;color:var(--wine)}
 .pult-img{margin:0}
 .pult-img img{display:block;width:100%;border:1px solid var(--line);box-shadow:0 30px 60px -36px rgba(23,16,15,.45)}
 .pult-img figcaption{font-size:13px;color:var(--mute);margin-top:10px}
+/* privacy: the same sheet, sliding in from the left */
+.sheet.left{right:auto;left:0;animation:slideL .6s cubic-bezier(.2,.7,.2,1)}
+.sheet.left::before{left:auto;right:0}
+@keyframes slideL{from{transform:translateX(-40px);opacity:0}}
+.pv-date{margin:-6px 0 0;font-size:13px;color:var(--mute)}
+.pv{display:flex;flex-direction:column;gap:0;font-size:15px;line-height:1.55;color:#3F3634}
+.pv-short{border-top:1px solid #BFB3AC;padding:16px 0 20px}
+.pv-short b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:400;margin-bottom:10px}
+.pv-short ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink)}
+.pv-short li{position:relative;padding-left:22px}
+.pv-short li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:1px;background:var(--wine)}
+.pv-s{display:grid;grid-template-columns:34px 1fr;gap:6px;border-top:1px solid var(--line);padding:16px 0 10px}
+.pv-s .n{font-family:'Unbounded';font-weight:250;font-size:13px;color:var(--wine);padding-top:3px}
+.pv-s h4{margin:0 0 8px;font-family:'Unbounded';font-weight:300;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+.pv-s p{margin:0 0 10px}.pv-s ul{margin:0 0 10px;padding-left:18px}.pv-s li{margin-bottom:4px}.pv-s li::marker{color:var(--wine)}
+.pv-mail{color:var(--wine);text-underline-offset:3px}
+.pv-page{align-self:flex-start;font-size:13px;color:var(--mute);text-decoration:underline;text-underline-offset:3px;margin-top:6px}
+#priv .close{right:14px}
+#priv h3{font-size:clamp(20px,6.4vw,32px);padding-right:36px}
+
+/* hero: a burgundy thread with a little loop instead of the dashed rule */
+.rule{position:relative;height:28px;margin-top:-8px;background:none;transform:none;transition:none;align-self:center}
+.rule svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+.rule path{fill:none;stroke:var(--wine);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke-dashoffset 2.2s 1.4s cubic-bezier(.6,0,.25,1)}
 .wk-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(44px,6vw,80px)}
 .wk-head p{margin:0;color:#3F3634;max-width:40ch}
 .wk-head p.mk-o{display:block;justify-self:end;margin-right:clamp(10px,2vw,30px)}
@@ -1045,7 +1068,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 </section>
 </main>
 
-<footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · <a href="/privacy.html">Конфиденциальность</a> · lightbizy.com</span></div></footer>
+<footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · <a href="/privacy.html" data-priv>Конфиденциальность</a> · lightbizy.com</span></div></footer>
 
 <dialog id="case" class="short" aria-labelledby="case-t">
   <div class="cs" id="cs">
@@ -1240,6 +1263,96 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
   </div>
 </dialog>
 
+<dialog id="priv" aria-labelledby="priv-t">
+  <div class="sheet left">
+    <button class="close" type="button" aria-label="Закрыть" data-pclose>Закрыть</button>
+    <span class="kick">Документ</span>
+    <h3 id="priv-t">Политика <em>конфиденциальности</em></h3>
+    <p class="pv-date">Редакция от 26 ноября 2026 года</p>
+    <div class="pv">
+<div class="pv-short">
+    <b>Коротко</b>
+    <ul>
+      <li>Берём только то, что вы сами написали в заявке, — чтобы ответить вам.</li>
+      <li>Не продаём, не передаём для рекламы и не делаем рассылок.</li>
+      <li>На сайте нет рекламных трекеров, аналитики и cookie.</li>
+      <li>Напишите нам — и мы удалим ваши данные.</li>
+    </ul>
+  </div>
+
+  <section class="pv-s"><span class="n">01</span><div><h4>Кто мы</h4>
+      <p>Сайт lightbizy.com принадлежит студии ЛАЙТБИЗИ (LIGHTBIZY). Оператор персональных данных — индивидуальный предприниматель «ИП BULAVIN», Республика Казахстан, г. Алматы. Реквизиты указываем в договоре и по запросу.</p>
+      <p>Политика составлена с учётом Закона Республики Казахстан «О персональных данных и их защите».</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">02</span><div><h4>Какие данные мы получаем</h4>
+      <p>Из формы заявки — только то, что вы ввели сами:</p>
+      <ul>
+        <li>имя или как к вам обращаться;</li>
+        <li>контакт для связи: телефон, ник или ссылку — и удобный способ связи (Telegram, WhatsApp, Instagram или звонок);</li>
+        <li>по желанию — название бизнеса или ссылку на него и описание задачи.</li>
+      </ul>
+      <p>Технические данные: при открытии любого сайта браузер передаёт серверу IP-адрес и сведения о браузере. Их видят сервисы, которые обеспечивают работу сайта. Сами мы эти данные не собираем и не анализируем.</p>
+      <p>Пожалуйста, не отправляйте через форму пароли, данные банковских карт и другие лишние сведения о себе или о других людях.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">03</span><div><h4>Зачем</h4>
+      <ul>
+        <li>чтобы связаться с вами и ответить на заявку;</li>
+        <li>чтобы подготовить предложение под вашу задачу;</li>
+        <li>если договоримся о работе — чтобы заключить и выполнить договор.</li>
+      </ul>
+      <p>Мы не используем ваши данные для рекламных рассылок и не передаём их третьим лицам для их собственных целей.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">04</span><div><h4>Основание — ваше согласие</h4>
+      <p>Отправляя заявку, вы соглашаетесь на обработку указанных данных для целей из раздела 03, включая передачу через сервисы из раздела 05. Согласие можно отозвать в любой момент (раздел 07).</p>
+      <p>Сайт рассчитан на взрослых, которые представляют свой бизнес.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">05</span><div><h4>Где хранятся данные</h4>
+      <p>Для работы сайта и доставки заявок мы используем сервисы крупных провайдеров. Их серверы могут находиться за пределами Казахстана. Отправляя заявку, вы соглашаетесь на передачу данных через них.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">06</span><div><h4>Сколько храним</h4>
+      <p>Если сотрудничество не началось — храним заявку не дольше 12 месяцев с последнего общения, потом удаляем. Раньше — если вы попросите.</p>
+      <p>Если мы заключили договор — храним данные, пока действует договор, и потом столько, сколько требует закон для договорных и бухгалтерских документов.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">07</span><div><h4>Ваши права</h4>
+      <p>Вы можете в любой момент:</p>
+      <ul>
+        <li>узнать, какие ваши данные у нас есть;</li>
+        <li>попросить исправить или дополнить их;</li>
+        <li>попросить удалить их;</li>
+        <li>отозвать согласие на обработку.</li>
+      </ul>
+      <p>Для этого напишите на <a class="pv-mail" href="mailto:hello@lightbizy.com">hello@lightbizy.com</a> — ответим в разумный срок, не позже срока, установленного законом. Если законы вашей страны дают вам больше прав, напишите — мы их учтём.</p>
+      <p>Если вы считаете, что мы нарушили ваши права, вы можете обратиться в уполномоченный орган по защите персональных данных Республики Казахстан или в суд. Но лучше сначала напишите нам — постараемся решить вопрос быстро.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">08</span><div><h4>Cookie и аналитика</h4>
+      <p>Сайт не устанавливает cookie, не использует рекламные пиксели и системы аналитики. В вашем браузере запоминается только выбранный формат кейса («коротко» или «подробно») — к нам эти данные не попадают. Если что-то изменится, мы обновим эту страницу до того, как подключим.</p>
+    </div>
+  </section>
+
+  <section class="pv-s"><span class="n">09</span><div><h4>Защита и изменения</h4>
+      <p>Сайт работает только по защищённому соединению (HTTPS). Форма принимает заявки только с нашего сайта, а ключи доступа к сервисам хранятся отдельно от кода сайта.</p>
+      <p>Мы можем обновлять эту политику. Новая редакция действует с даты, указанной вверху страницы.</p>
+    </div>
+  </section>
+    </div>
+    <a class="pv-page" href="/privacy.html" target="_blank" rel="noopener">Открыть отдельной страницей ↗</a>
+  </div>
+</dialog>
+
 <dialog id="req" aria-labelledby="req-t">
   <div class="sheet" id="sheet">
     <button class="close" type="button" aria-label="Закрыть" data-close>Закрыть</button>
@@ -1264,7 +1377,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
         <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fld"><label for="f-msg"><span class="no">04</span><b>Пара слов о задаче</b> (необязательно)</label><textarea id="f-msg" name="msg" placeholder="Например: хотим онлайн-запись и сертификаты к Новому году"></textarea><span class="uline" aria-hidden="true"></span></div>
         <button class="send" type="submit"><span class="mk-o">Отправить</span><i aria-hidden="true">→</i></button>
-        <p class="note">Ответим в течение дня там, где вам удобно. Отправляя заявку, вы соглашаетесь с <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+        <p class="note">Ответим в течение дня там, где вам удобно. Отправляя заявку, вы соглашаетесь с <a href="/privacy.html" data-priv>политикой конфиденциальности</a>.</p>
       </div>
     </form>
     <div class="done" role="status">
@@ -1875,6 +1988,41 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
     addEventListener('hashchange', () => { if (location.hash === '#aprils') openCase(); });
     let csW = innerWidth; addEventListener('resize', () => { if (innerWidth !== csW && caseDlg.open) { csW = innerWidth; loops(gTabs); loops(mBtns); } });
   }
+
+
+  /* ---------- hero thread: a burgundy thread runs to the tagline and ties a small loop ---------- */
+  const rule = document.querySelector('.rule');
+  function drawRule() {
+    const w = rule.clientWidth, h = 28, m = 20; if (w < 20) return;
+    rule.innerHTML = '';
+    const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('viewBox', `0 0 ${w} ${h}`); sv.setAttribute('aria-hidden', 'true');
+    const p = document.createElementNS(NS, 'path');
+    let d;
+    if (w > 140) {
+      const lx = w * .8, r = Math.min(17, w * .045);
+      d = `M 1 ${m + 2} C ${w * .14} ${m - 5}, ${w * .26} ${m + 6}, ${w * .4} ${m}`
+        + ` S ${w * .6} ${m - 5}, ${lx - r * 2.4} ${m + 1}`
+        + ` C ${lx - r * .6} ${m + 2}, ${lx + r * 1.3} ${m - r * .4}, ${lx + r * .7} ${m - r * 1.4}`
+        + ` C ${lx + r * .1} ${m - r * 2.4}, ${lx - r * 1.5} ${m - r * 1.6}, ${lx - r * .8} ${m - r * .2}`
+        + ` C ${lx - r * .2} ${m + r * .9}, ${lx + r * 2.2} ${m + 2}, ${lx + r * 3.6} ${m}`
+        + ` S ${w * .95} ${m + 2}, ${w - 1} ${m}`;
+    } else d = `M 1 ${m} C ${w * .3} ${m - 3}, ${w * .6} ${m + 3}, ${w - 1} ${m}`;
+    p.setAttribute('d', d); sv.appendChild(p); rule.appendChild(sv);
+    const L = p.getTotalLength(); p.style.strokeDasharray = L;
+    p.style.strokeDashoffset = document.body.classList.contains('in') || drawRule.done ? 0 : L;
+    if (!drawRule.done) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.strokeDashoffset = 0; drawRule.done = 1; }));
+  }
+  let ruleW = innerWidth;
+  document.fonts.ready.then(drawRule); addEventListener('resize', () => { if (innerWidth !== ruleW) { ruleW = innerWidth; drawRule(); } });
+
+  /* ---------- privacy: opens as a sheet from the left ---------- */
+  const priv = document.getElementById('priv');
+  const openPriv = e => { if (e) e.preventDefault(); if (!priv.open) priv.showModal(); priv.querySelector('.sheet').scrollTop = 0; };
+  document.querySelectorAll('[data-priv]').forEach(a => a.addEventListener('click', openPriv));
+  priv.querySelectorAll('[data-pclose]').forEach(b => b.addEventListener('click', () => priv.close()));
+  priv.addEventListener('click', e => { if (e.target === priv) priv.close(); });
+  if (location.hash === '#privacy') openPriv();
+  addEventListener('hashchange', () => { if (location.hash === '#privacy') openPriv(); });
 
   /* ---------- request form ---------- */
   // адрес пересылки заявок в Телеграм (Cloudflare Worker); пока пусто — форма просто благодарит
