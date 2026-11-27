@@ -1349,7 +1349,6 @@ html.lite .pr-fold,html.lite .pr-point,html.lite .pr-up{display:none!important}
 
 /* ---------- v13: the rest of the site waits for the choice; the short way is a hub ---------- */
 html.fk-wait:not(.picked) .rest{height:0;overflow:hidden}
-html.lite .lp:not(.open-p){display:none!important}
 .fk-note{margin:clamp(30px,3.6vw,48px) 0 0;font-size:13px;color:var(--mute)}
 html.picked .fk-note{display:none}
 .fk-st text{font-family:'Onest',sans-serif;font-size:11.5px;fill:#A79C98;transition:fill .45s,opacity .6s}
@@ -1358,24 +1357,192 @@ html.picked .fk-note{display:none}
 .fk-end{fill:var(--paper);stroke:var(--wine);stroke-width:1.5;transition:opacity .6s}
 .fk.chosen .fk-end:not(.on){opacity:.2}
 .fk-svg .fk-dot{transition:opacity .3s}
-.hub-t{display:block;margin-top:clamp(44px,5.4vw,80px);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.hub{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 clamp(16px,2.6vw,40px);margin-top:14px}
-.hub-o{position:relative;display:flex;align-items:flex-start;gap:10px;padding:18px 0 20px;border:0;border-top:1px solid var(--ink);background:none;cursor:pointer;font:inherit;color:var(--ink);text-align:left;text-decoration:none}
-.hub-o i{font-style:normal;font-family:'Unbounded';font-weight:250;font-size:12px;color:var(--wine);margin-top:5px}
-.hub-o b{position:relative;font-family:'Unbounded';font-weight:300;font-size:clamp(20px,2.3vw,34px);letter-spacing:-.025em;line-height:1.1;padding-bottom:12px;transition:color .35s}
-.hub-o b::after{content:"";position:absolute;left:-2px;right:-2px;bottom:0;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.6,0,.2,1)}
-.hub-o:hover b::after,.hub-o.on b::after{transform:scaleX(1)}
-.hub-o span{margin-left:auto;margin-top:4px;color:var(--wine);font-size:18px;line-height:1;transition:transform .5s cubic-bezier(.6,0,.2,1)}
-.hub-o:not(.go):not(.on):hover span{transform:translateY(3px)}
-.hub-o.go:hover span{transform:translateX(4px)}
-.hub-o.on span{transform:rotate(180deg)}
-.hub-o.on b,.hub-o.go b{color:var(--wine)}
-@media (max-width:760px){.hub{grid-template-columns:repeat(2,minmax(0,1fr))}}
-#brief .bf-more{margin-top:clamp(26px,3vw,40px)}
+
+/* ---------- v14: the short way is a slider — Суть · Работы · Цены · Вопросы ---------- */
+html.lite .rest{display:flex;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;transition:height .45s cubic-bezier(.6,0,.2,1)}
+html.lite .rest::-webkit-scrollbar{display:none}
+html.lite .rest>section{flex:0 0 100%;min-width:0;max-width:none;margin:0;scroll-snap-align:start;scroll-snap-stop:always;padding-inline:max(var(--pad),calc((100% - 1280px) / 2 + var(--pad)));padding-top:clamp(34px,4.4vw,60px);padding-bottom:clamp(40px,5vw,70px)}
+html.lite .rest .bignum{display:none}
+.lt-bar{position:sticky;top:var(--hdr,64px);z-index:4;background:rgba(245,242,238,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.lt-wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad);display:flex;align-items:center;gap:16px}
+.lt-tabs{display:flex;gap:clamp(14px,2.6vw,40px);min-width:0;overflow-x:auto;scrollbar-width:none}
+.lt-tabs::-webkit-scrollbar{display:none}
+.lt-tabs button{position:relative;display:flex;align-items:baseline;gap:6px;padding:16px 0 18px;background:none;border:0;cursor:pointer;font:inherit;font-size:15px;color:var(--mute);white-space:nowrap;transition:color .3s}
+.lt-tabs i{font-style:normal;font-family:'Unbounded';font-weight:250;font-size:11px;color:var(--wine);opacity:.7}
+.lt-tabs button::after{content:"";position:absolute;left:-2px;right:-2px;bottom:7px;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.6,0,.2,1)}
+.lt-tabs button:hover,.lt-tabs button.on{color:var(--ink)}
+.lt-tabs button.on::after{transform:scaleX(1)}
+.lt-end{padding-top:clamp(30px,4vw,56px);padding-bottom:clamp(60px,8vw,120px)}
+.lt-end-t{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);border-top:1px solid #BFB3AC;padding-top:14px}
+.lt-end-r{display:flex;flex-wrap:wrap;align-items:center;gap:18px clamp(24px,4vw,56px);margin-top:clamp(20px,2.6vw,32px)}
+.lt-full{position:relative;display:inline-flex;align-items:baseline;gap:8px;padding:6px 0 12px;background:none;border:0;cursor:pointer;font:inherit;font-weight:500;font-size:clamp(15px,1.3vw,17px);color:var(--ink)}
+.lt-full::after{content:"";position:absolute;left:-2px;right:-2px;bottom:1px;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.lt-full span{color:var(--wine);display:inline-block;animation:arBob 2.2s ease-in-out infinite}
+.lt-full:hover{color:var(--wine)}
+@media (prefers-reduced-motion:reduce){html.lite .rest{transition:none}.lt-full span{animation:none}}
+
+/* ---------- v15: calm fork, progress tabs, one "next" control, folded FAQ ---------- */
+.fk-head{display:block;max-width:780px;margin:0 auto;text-align:center}
+.fk-head p{margin:18px auto 0;max-width:46ch}
+.fk{max-width:780px;margin:clamp(30px,4vw,52px) auto 0}
+.fk-opts{gap:clamp(12px,3vw,40px);padding-top:clamp(110px,11vw,160px)}
+.fk-o{align-items:center;text-align:center;gap:10px}
+.fk-o span{max-width:26ch}
+.fk-note{text-align:center;margin-top:clamp(34px,4vw,54px)}
+.fk-st{display:none}
+.lt-wrap{display:block}
+.lt-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.6vw,22px);width:100%;overflow:visible}
+.lt-tabs button{justify-content:flex-start;gap:8px;padding:17px 0 15px;font-size:clamp(14px,1.15vw,16px);color:var(--mute)}
+.lt-tabs button::after{left:0;right:0;bottom:0;height:3px;border-radius:2px;background:var(--line);transform:none;transition:none}
+.lt-tabs button::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:2px;background:var(--wine);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.6,0,.2,1),opacity .4s;z-index:1}
+.lt-tabs button.past::before{transform:scaleX(1);opacity:.32}
+.lt-tabs button.on::before{transform:scaleX(1);opacity:1}
+.lt-tabs button.on{color:var(--ink);font-weight:500}
+.lt-tabs i{font-size:12px;opacity:.55}
+.lt-tabs button.on i{opacity:1}
+@media (max-width:560px){.lt-tabs i{display:none}.lt-tabs{gap:8px}.lt-tabs button{font-size:14px;justify-content:center}}
+/* the only "next" control: a pill bottom-right (thumb zone); on wide screens a circle in the right margin */
+.lt-side{position:fixed;z-index:6;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:6px;height:52px;padding:0 6px 0 20px;border:0;border-radius:999px;background:var(--wine);color:var(--paper);cursor:pointer;font:inherit;box-shadow:0 14px 30px -14px rgba(107,15,36,.6);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .4s,transform .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.lt-side span{font-size:15px;font-weight:500}
+.lt-side b{display:grid;place-items:center;width:40px;height:40px;font-weight:400;font-size:18px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.lt-side:hover b{transform:translateX(3px)}
+.lt-side.end{background:var(--ink)}
+html.lt-in .lt-side{opacity:1;transform:none;pointer-events:auto}
+html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
+@media (min-width:1440px) and (hover:hover){
+  .lt-side{top:50%;bottom:auto;right:clamp(10px,calc((100vw - 1280px) / 4 - 29px),60px);height:auto;padding:0;flex-direction:column-reverse;gap:8px;background:none;color:var(--mute);border-radius:0;box-shadow:none;transform:translateY(-50%)}
+  html.lt-in .lt-side{transform:translateY(-50%)}
+  .lt-side b{width:58px;height:58px;border-radius:50%;background:var(--wine);color:var(--paper);font-size:20px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s}
+  .lt-side span{font-size:12px;font-weight:400}
+  .lt-side.end{background:none}.lt-side.end b{background:var(--ink)}
+  .lt-side:hover b{background:var(--ink)}
+}
+#faq .fq-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .65s cubic-bezier(.6,0,.2,1)}
+#faq .fq-fold.open{grid-template-rows:1fr}
+#faq .fq-fold>.faq{overflow:hidden;min-height:0}
+.fq-head h2{margin:0}
+@media (prefers-reduced-motion:reduce){#faq .fq-fold,.lt-tabs button::before{transition:none}}
+
+/* ---------- v16: no pills — site-native text buttons; the "next" control is a circle everywhere ---------- */
+.fq-tg{position:relative;display:inline-flex;align-items:baseline;gap:8px;margin:clamp(22px,2.8vw,34px) 0 clamp(30px,4vw,48px);padding:6px 0 12px;border:0;background:none;cursor:pointer;font:inherit;font-weight:500;font-size:clamp(16px,1.3vw,18px);color:var(--ink);transition:color .3s}
+.fq-tg::after{content:"";position:absolute;left:-2px;right:-2px;bottom:1px;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.fq-tg small{align-self:flex-start;font-size:12px;font-weight:500;color:var(--wine);margin-left:-4px}
+.fq-tg b{font-weight:400;color:var(--wine);display:inline-block;transition:transform .5s cubic-bezier(.6,0,.2,1)}
+.fq-tg[aria-expanded="false"] b{animation:arBob 2.2s ease-in-out infinite}
+.fq-tg[aria-expanded="true"] b{transform:rotate(180deg)}
+.fq-tg:hover{color:var(--wine)}
+.lt-end-r .cbtn{margin-left:16px}
+@media (max-width:1439px),(hover:none){
+  .lt-side{width:56px;height:56px;padding:0;gap:0;justify-content:center;border-radius:50%}
+  .lt-side span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+}
+.lt-side.hint b::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wine);animation:ltRing 1.4s ease-out 3}
+.lt-side b{position:relative}
+@media (min-width:1440px) and (hover:hover){.lt-side.hint b::after{border-color:var(--wine)}}
+@keyframes ltRing{from{transform:scale(1);opacity:.7}to{transform:scale(1.7);opacity:0}}
+@media (prefers-reduced-motion:reduce){.fq-tg b{animation:none!important}.lt-side.hint b::after{animation:none;display:none}}
+
+/* ---------- v17: lighter prices, terms folded; back arrow on the last slide ---------- */
+.fk-o span,.fk-head p{text-wrap:balance}
+.tm{margin-top:clamp(34px,4vw,52px);border-top:1px solid var(--line);padding-top:clamp(14px,1.6vw,20px)}
+.tm-tg{position:relative;display:inline-flex;align-items:baseline;gap:12px;padding:6px 0 12px;border:0;background:none;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:color .3s}
+.tm-tg .tm-l{font-family:'Unbounded';font-weight:300;font-size:clamp(18px,1.7vw,24px);letter-spacing:-.02em}
+.tm-tg small{font-size:14px;color:var(--mute)}
+.tm-tg b{font-weight:400;font-size:18px;color:var(--wine);display:inline-block;transition:transform .5s cubic-bezier(.6,0,.2,1)}
+.tm-tg[aria-expanded="false"] b{animation:arBob 2.2s ease-in-out infinite}
+.tm-tg[aria-expanded="true"] b{transform:rotate(180deg)}
+.tm-tg .tm-l{position:relative;padding-bottom:8px}
+.tm-tg .tm-l::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-2px;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.6,0,.2,1)}
+.tm-tg:hover .tm-l::after,.tm-tg[aria-expanded="true"] .tm-l::after{transform:scaleX(1)}
+@media (max-width:520px){.tm-tg{flex-wrap:wrap;gap:4px 10px}.tm-tg small{order:3;flex-basis:100%}}
+.tm-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.6,0,.2,1)}
+.tm-fold.open{grid-template-rows:1fr}
+.tm-in{overflow:hidden;min-height:0}
+.tm .perks{margin-top:clamp(18px,2.4vw,30px)}
+.tm .costs{margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.tm-fold{transition:none}.tm-tg b{animation:none!important}}
+
+/* ---------- v18: fork laid out like «Что мы делаем»; prev + next arrows ---------- */
+.lt-side[hidden]{display:none!important}
+.lt-side.prev{right:82px;background:var(--paper);color:var(--wine);border:1px solid var(--wine);box-shadow:none}
+.lt-side.prev:hover b{transform:translateX(-3px)}
+@media (max-width:1439px),(hover:none){.lt-side.prev.solo{right:16px}}
+@media (min-width:1440px) and (hover:hover){
+  .lt-side.prev{right:auto;left:clamp(10px,calc((100vw - 1280px) / 4 - 29px),60px);background:none;border:0;color:var(--mute)}
+  .lt-side.prev b{background:none;border:1px solid var(--wine);color:var(--wine)}
+  .lt-side.prev:hover b{background:var(--wine);color:var(--paper)}
+}
+
+/* ---------- v19: fork head like «Что мы делаем»; a dashed thread leads from the text into the fork ---------- */
+.fork .fk-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));max-width:none;margin:0;text-align:left;row-gap:0}
+.fork .fk-head h2{grid-column:1 / span 8}
+.fork .fk-head p{grid-column:1 / span 7;margin:clamp(20px,2.4vw,34px) 0 0;max-width:none;font-family:'Unbounded';font-weight:250;font-size:clamp(19px,1.9vw,28px);line-height:1.28;letter-spacing:-.02em;color:var(--ink);text-wrap:pretty}
+.fork .fk-head p small{display:block;font-family:'Onest';font-size:13px;letter-spacing:.04em;color:var(--mute);margin-bottom:16px}
+.fork .fk-head p .acc{color:var(--wine)}
+@media (max-width:760px){.fork .fk-head h2,.fork .fk-head p{grid-column:1 / -1}}
+.fork .fk{margin-top:clamp(110px,12vw,190px)}
+.fk-svg .fk-lead{stroke-width:1.4;stroke-dasharray:4 7;opacity:0;transition:opacity .9s;animation:fkFlow 1.4s linear infinite;animation-play-state:paused}
+.fk.vis .fk-svg .fk-lead{opacity:.8;animation-play-state:running}
+.fk.chosen .fk-svg .fk-lead{opacity:.45}
+@keyframes fkFlow{to{stroke-dashoffset:-22}}
+@media (prefers-reduced-motion:reduce){.fk-svg .fk-lead{animation:none}}
+
+/* ---------- v21: fork on the left, a ticking clock on the right; looped hint under the options ---------- */
+.fk-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(30px,5vw,90px);align-items:center}
+.fork .fk-head{display:block}
+.fork .fk-head p{max-width:30ch}
+.fork .fk{max-width:none;margin-left:0;margin-right:0}
+.fk-o.pl b::after{transform:scaleX(1)}
+.fk-o.pl b{color:var(--wine)}
+.fk-clock{justify-self:center;width:min(100%,400px)}
+.fk-clock svg{display:block;width:100%;height:auto;overflow:visible}
+.ck-face{fill:none;stroke:var(--wine);stroke-width:1.3;stroke-linecap:round;opacity:.75}
+.ck-ticks line{stroke:var(--ink);stroke-width:1;opacity:.35;stroke-linecap:round}
+.ck-ticks line.q{stroke:var(--wine);stroke-width:1.6;opacity:.8}
+.ck-hand{transform-box:view-box;transform-origin:50% 50%}
+.ck-hand line{stroke-linecap:round}
+.ck-hh line{stroke:var(--ink);stroke-width:2.6}
+.ck-mh line{stroke:var(--ink);stroke-width:1.7}
+.ck-sh line{stroke:var(--wine);stroke-width:1.1}
+.ck-sh{transition:transform .35s cubic-bezier(.3,1.9,.5,1)}
+.ck-c{fill:var(--wine)}
+.ck-arc{fill:none;stroke:var(--wine);stroke-width:9;stroke-linecap:round;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s cubic-bezier(.6,0,.2,1),opacity .35s}
+.ck-l{font-family:'Onest',sans-serif;font-size:11px;fill:var(--wine);opacity:0;transition:opacity .5s;text-anchor:middle;dominant-baseline:middle}
+#fork.t1 .ck-a1,#fork.c1 .ck-a1,#fork.t5 .ck-a5,#fork.c5 .ck-a5{stroke-dashoffset:0;opacity:.5}
+#fork.t1 .ck-l1,#fork.c1 .ck-l1,#fork.t5 .ck-l5,#fork.c5 .ck-l5{opacity:1}
+@media (max-width:900px){.fk-grid{grid-template-columns:1fr}.fk-clock{display:none}.fork .fk-head p{max-width:none}}
+@media (prefers-reduced-motion:reduce){.ck-sh,.ck-arc{transition:none}}
+/* cookie notice */
+.ck-note{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:7;max-width:380px;display:flex;align-items:flex-end;gap:16px;padding:16px 18px;background:rgba(245,242,238,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);font-size:13px;line-height:1.45;color:#3F3634;box-shadow:0 20px 40px -24px rgba(23,16,15,.35);transform:translateY(12px);opacity:0;transition:opacity .5s,transform .5s cubic-bezier(.2,.7,.2,1)}
+.ck-note.on{opacity:1;transform:none}
+.ck-note a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ck-note button{flex:none;padding:4px 0 8px;background:none;border:0;cursor:pointer;font:inherit;font-weight:500;font-size:14px;color:var(--wine);position:relative}
+.ck-note button::after{content:"";position:absolute;left:-2px;right:-2px;bottom:0;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+@media (max-width:560px){.ck-note{left:16px;max-width:none}}
+
+/* ---------- v22: no thread drawing — the two options sit left under the text ---------- */
+.fork .fk{margin-top:clamp(34px,4vw,60px)}
+.fork .fk-opts{padding-top:0;grid-template-columns:repeat(2,max-content);justify-content:start;gap:clamp(30px,5vw,84px)}
+.fork .fk-o{align-items:flex-start;text-align:left}
+.fork .fk-o span{max-width:24ch}
+@media (max-width:420px){.fork .fk-opts{gap:24px}.fork .fk-o span{max-width:17ch}}
 </style>
 <script>document.documentElement.classList.add('fk-wait')</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114730019', 'ym');
+
+    ym(114730019, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<noscript><div><img src="https://mc.yandex.ru/watch/114730019" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <canvas id="air" aria-hidden="true"></canvas>
 
 <header class="top" id="top">
@@ -1409,20 +1576,45 @@ html.picked .fk-note{display:none}
 
 <section class="w fork" id="fork" aria-label="Выберите, как читать сайт">
   <div class="lab"><span>Развилка</span><span></span></div>
+  <div class="fk-grid">
+    <div class="fk-left">
   <div class="fk-head">
     <h2 class="rv">Сколько у вас <em>времени?</em></h2>
-    <p class="rv">Дальше мы рассказали всё до&nbsp;мелочей: вы ведь доверяете нам бизнес и деньги. Но если сейчас не до чтения — есть короткий путь.</p>
+    <p class="rv">Мы расписали всё до&nbsp;мелочей — вы&nbsp;ведь доверяете нам бизнес. Но&nbsp;если сейчас не&nbsp;до&nbsp;чтения, <span class="acc">есть короткий путь.</span></p>
   </div>
   <div class="fk" id="fk">
-    <svg class="fk-svg" aria-hidden="true"><path class="fk-a"/><path class="fk-b"/><g class="fk-st"></g><circle class="fk-end"/><circle class="fk-end"/><circle class="fk-dot" r="4.5"/></svg>
+    <svg class="fk-svg" aria-hidden="true" hidden><path class="fk-a"/><path class="fk-b"/><path class="fk-lead"/><g class="fk-st"></g><circle class="fk-end"/><circle class="fk-end"/><circle class="fk-dot" r="4.5"/></svg>
     <div class="fk-opts" role="group" aria-label="Как читать сайт">
-      <button type="button" class="fk-o" data-site="lite" aria-pressed="false"><b>Минута</b><span><em>Коротко:</em> суть, работы, цены и&nbsp;ответы на вопросы. Без воды.</span></button>
-      <button type="button" class="fk-o" data-site="full" aria-pressed="false"><b>Пять минут</b><span><em>Подробно:</em> плюс как думаем, чем работаем и&nbsp;как ведём проект — до мелочей.</span></button>
+      <button type="button" class="fk-o" data-site="lite" aria-pressed="false"><b>Минута</b><span>Суть, работы, цены и&nbsp;ответы. Без&nbsp;воды.</span></button>
+      <button type="button" class="fk-o" data-site="full" aria-pressed="false"><b>Пять минут</b><span>Всё до&nbsp;мелочей: как думаем, работаем и&nbsp;ведём проект.</span></button>
     </div>
-    <p class="fk-note">Дальше сайт откроется так, как вы выберете. Передумать можно в любой момент.</p>
+  </div>
+    </div>
+    <div class="fk-clock" aria-hidden="true">
+      <svg viewBox="0 0 240 240">
+        <path class="ck-face" transform="translate(22 22)"/>
+        <g class="ck-ticks"></g>
+        <path class="ck-arc ck-a1" pathLength="1"/><path class="ck-arc ck-a5" pathLength="1"/>
+        <text class="ck-l ck-l1">1 мин</text><text class="ck-l ck-l5">5 мин</text>
+        <g class="ck-hand ck-hh"><line x1="120" y1="128" x2="120" y2="76"/></g>
+        <g class="ck-hand ck-mh"><line x1="120" y1="132" x2="120" y2="50"/></g>
+        <g class="ck-hand ck-sh"><line x1="120" y1="138" x2="120" y2="40"/></g>
+        <circle class="ck-c" cx="120" cy="120" r="4"/>
+      </svg>
+    </div>
   </div>
 </section>
 
+<div class="lt-bar lite-only" id="ltBar">
+  <div class="lt-wrap">
+    <div class="lt-tabs" role="tablist" aria-label="Коротко о студии">
+      <button type="button" role="tab" data-go="0" aria-selected="true" class="on"><i>02</i>Суть</button>
+      <button type="button" role="tab" data-go="1" aria-selected="false"><i>03</i>Работы</button>
+      <button type="button" role="tab" data-go="2" aria-selected="false"><i>04</i>Цены</button>
+      <button type="button" role="tab" data-go="3" aria-selected="false"><i>05</i>Вопросы</button>
+    </div>
+  </div>
+</div>
 <div class="rest" id="rest">
 <section class="w lite-only" id="brief" aria-label="Суть">
   <div class="lab"><span>Суть</span><span>02</span></div>
@@ -1433,14 +1625,6 @@ html.picked .fk-note{display:none}
     <div class="bf-r rv"><dt>Без нейрослопа</dt><dd>Никаких шаблонов и сайтов из нейросети за пять минут. Каждый экран, текст и деталь дизайна продумываем под ваш бизнес.</dd></div>
     <div class="bf-r rv"><dt>По-честному</dt><dd>Цена — в договоре до старта. Финальный платёж — после вашей проверки. Код, дизайн и доступы — ваши.</dd></div>
   </dl>
-  <span class="hub-t">Что посмотреть</span>
-  <div class="hub" role="group" aria-label="Что посмотреть">
-    <button type="button" class="hub-o" data-panel="work" aria-expanded="false" aria-controls="work"><i>03</i><b>Работы</b><span aria-hidden="true">↓</span></button>
-    <button type="button" class="hub-o" data-panel="price" aria-expanded="false" aria-controls="price"><i>04</i><b>Цены</b><span aria-hidden="true">↓</span></button>
-    <button type="button" class="hub-o" data-panel="faq" aria-expanded="false" aria-controls="faq"><i>05</i><b>Вопросы</b><span aria-hidden="true">↓</span></button>
-    <a class="hub-o go" href="#hello" data-open><i>06</i><b>Написать</b><span aria-hidden="true">→</span></a>
-  </div>
-  <button type="button" class="bf-more" data-site="full">Читать полную версию сайта <span aria-hidden="true">↓</span></button>
 </section>
 
 <section class="w full-only" id="tools">
@@ -1543,8 +1727,10 @@ html.picked .fk-note{display:none}
     <article class="plan rv"><h3>Бот-магазин</h3><span class="from">от</span><span class="amt" data-usd="600"><span class="c">$</span><span class="n">600</span></span><p>Каталог, корзина, оплата, подарочные сертификаты и промокоды.</p></article>
     <article class="plan rv"><h3>Mini App</h3><span class="from">от</span><span class="amt" data-usd="800"><span class="c">$</span><span class="n">800</span></span><p>Полноценное приложение внутри Телеграма: меню, каталог, клуб, бонусы, личный кабинет.</p></article>
   </div>
-  <p class="ratenote rv">Пересчёт в другие валюты — по примерному курсу. Итоговую сумму фиксируем в договоре.</p>
-  <div class="combo rv"><span>Нужна связка — сайт, бот и автоматизация вместе? <b>Посчитаем под вашу задачу.</b></span><button class="lnk" type="button" data-open>Рассказать о задаче →</button></div>
+  <p class="ratenote rv" hidden>Пересчёт в другие валюты — по примерному курсу. Итоговую сумму фиксируем в договоре.</p>
+  <div class="tm">
+    <button class="tm-tg" type="button" aria-expanded="false" aria-controls="tmIn"><span class="tm-l">Условия работы</span><small>оплата, правки, гарантии</small><b aria-hidden="true">↓</b></button>
+    <div class="tm-fold" id="tmIn"><div class="tm-in">
   <ul class="perks">
     <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Старт — $100</b>, остальное двумя частями по ходу работы</span></li>
     <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>Рассрочка</b> без процентов на 3 месяца</span></li>
@@ -1555,13 +1741,19 @@ html.picked .fk-note{display:none}
     <li class="rv"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M2 10 C 4 11.5, 6 13.5, 8 16 C 11 10, 15 5, 20 2"/></svg><span><b>3 месяца поддержки</b> после запуска — бесплатно</span></li>
   </ul>
   <p class="costs rv">Отдельно — только домен и сервер. Оформляем их на вас, и вы платите напрямую по себестоимости, обычно $1–15 в месяц. Говорим об этом заранее.</p>
+    </div></div>
+  </div>
   <button class="pr-up" type="button" aria-controls="prMore">Свернуть ↑</button>
   </div></div>
 </section>
 
 <section class="w lp" id="faq">
   <div class="lab"><span>Вопросы</span><span>07</span></div>
-  <div class="faq">
+  <div class="fq-head">
+    <h2 class="rv">Есть вопросы?<br><em>У&nbsp;нас есть ответы!</em></h2>
+    <button type="button" class="fq-tg" aria-expanded="false" aria-controls="faqList"><span class="fq-l">Развернуть все ответы</span><small>12</small><b aria-hidden="true">↓</b></button>
+  </div>
+  <div class="fq-fold"><div class="faq" id="faqList">
     <details><summary>Вы делаете только сайты и ботов?<i aria-hidden="true">+</i></summary><div class="ans"><p>Нет. Мы умеем почти всё, что нужно бизнесу онлайн: сайты, боты, Mini App, дизайн, креативные идеи и логику того, как всё это работает вместе. Каждый проект собираем индивидуально под ваш запрос, без готовых пакетов.</p><p>Сначала разбираемся в задаче: где теряются клиенты, что съедает ваше время. Потом предлагаем решение — иногда это сайт, иногда бот, иногда их связка или просто правильно выстроенный процесс.</p><p>И мы дотошные: доводим работу до результата, которым вы правда довольны, а не до «сдали и забыли».</p></div></details>
     <details><summary>Сколько это стоит?<i aria-hidden="true">+</i></summary><div class="ans"><p>Ориентиры — в блоке «Сколько стоит» выше: сайт от $300, бот от $350. Цена растёт только от объёма задачи.</p><p>Точную сумму называем до старта и фиксируем в договоре. Без сюрпризов потом.</p></div></details>
     <details><summary>Как проходит оплата?<i aria-hidden="true">+</i></summary><div class="ans"><p>Официально: по договору, с закрывающими документами. Для старта — $100, остальное двумя частями по ходу работы.</p><p>Можно в рассрочку без процентов на 3 месяца.</p></div></details>
@@ -1584,7 +1776,7 @@ html.picked .fk-note{display:none}
         <p class="s4"><span class="nm">Откуда название.</span> ЛАЙТБИЗИ (LIGHTBIZY) — это английские <i>light</i> — «лёгкий» и <i>busy</i> — «занятой, деловой», а заодно <i>biz</i> — «бизнес». Лёгкость для тех, кто занят своим делом.</p>
       </div>
     </details>
-  </div>
+  </div></div>
 </section>
 
 <section class="w cta full-only" id="hello">
@@ -1600,9 +1792,19 @@ html.picked .fk-note{display:none}
   </div>
 </section>
 </div>
+<div class="w lt-end lite-only">
+  <span class="lt-end-t">Что дальше</span>
+  <div class="lt-end-r">
+    <button class="cbtn lt-cta" type="button" data-open><span class="mk-o">Обсудить задачу</span></button>
+    <button type="button" class="lt-full" data-site="full">Читать полную версию сайта <span aria-hidden="true">↓</span></button>
+  </div>
+</div>
 </main>
 
 <footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · <a href="/privacy.html" data-priv>Конфиденциальность</a> · lightbizy.com</span></div></footer>
+<div class="ck-note" id="ckNote" role="region" aria-label="Уведомление о cookie" hidden><span>Мы используем cookie и Яндекс Метрику, чтобы понимать, что на сайте удобно, а что нет. <a href="/privacy.html" data-priv>Подробнее</a></span><button type="button">Понятно</button></div>
+<button type="button" class="lt-side prev lite-only" aria-label="Назад" hidden><span></span><b aria-hidden="true">←</b></button>
+<button type="button" class="lt-side next lite-only" aria-label="Дальше: Работы"><span>Работы</span><b aria-hidden="true">→</b></button>
 
 <dialog id="case" class="short" aria-labelledby="case-t">
   <canvas class="cs-gems" id="gems" aria-hidden="true"></canvas>
@@ -1856,7 +2058,7 @@ html.picked .fk-note{display:none}
     <button class="back" type="button" data-pclose aria-label="Назад к сайту"><svg viewBox="0 0 28 16" aria-hidden="true"><path d="M26 8.5 C 19 7, 12 9.5, 3 8 M 9 2 L 2.5 8 L 9 14"/></svg><span>Назад</span></button>
     <span class="kick">Документ</span>
     <h3 id="priv-t">Политика обработки <em>персональных данных</em></h3>
-    <p class="pv-date">Редакция от 27 ноября 2026 года</p>
+    <p class="pv-date">Редакция от 28 ноября 2026 года</p>
     <div class="pv">
   <section class="pv-s"><span class="n">01</span><div><h4>Общие положения</h4>
       <p>1.1. Настоящая Политика в отношении обработки персональных данных (далее — «Политика») определяет порядок и условия сбора, обработки, хранения и защиты персональных данных пользователей интернет-ресурса, размещённого по адресу lightbizy.com (далее — «Сайт»).</p><p>1.2. Политика разработана в соответствии с Законом Республики Казахстан от 21 мая 2013 года № 94-V «О персональных данных и их защите» и иными нормативными правовыми актами Республики Казахстан.</p><p>1.3. Собственником и оператором персональных данных является лицо, оказывающее услуги под коммерческим обозначением «ЛАЙТБИЗИ» (LIGHTBIZY) (далее — «Оператор»). Регистрационные данные и реквизиты Оператора указываются в договоре, заключаемом с клиентом, и предоставляются субъекту персональных данных по его письменному запросу.</p><p>1.4. Использование Сайта и направление заявки через форму обратной связи означают безоговорочное согласие пользователя с настоящей Политикой и указанными в ней условиями обработки персональных данных.</p>
@@ -1865,22 +2067,22 @@ html.picked .fk-note{display:none}
       <p>2.1. <b>Персональные данные</b> — сведения, относящиеся к определённому или определяемому на их основании субъекту персональных данных, зафиксированные на электронном, бумажном и (или) ином материальном носителе.</p><p>2.2. <b>Субъект персональных данных</b> (далее — «Субъект») — физическое лицо, к которому относятся персональные данные.</p><p>2.3. <b>Обработка персональных данных</b> — действия, направленные на накопление, хранение, изменение, дополнение, использование, распространение, обезличивание, блокирование и уничтожение персональных данных.</p><p>2.4. <b>Трансграничная передача персональных данных</b> — передача персональных данных на территорию иностранных государств.</p>
     </div></section>
   <section class="pv-s"><span class="n">03</span><div><h4>Состав обрабатываемых персональных данных</h4>
-      <p>3.1. Оператор обрабатывает исключительно персональные данные, добровольно предоставленные Субъектом при заполнении формы обратной связи на Сайте:</p><ul><li>имя либо иное обращение, указанное Субъектом;</li><li>контактные данные (номер телефона, имя пользователя в мессенджере или социальной сети) и предпочтительный способ связи;</li><li>сведения о деятельности Субъекта и описание задачи — в объёме, указанном Субъектом по собственному усмотрению.</li></ul><p>3.2. При посещении Сайта технические данные (IP-адрес, сведения о браузере и устройстве) могут автоматически обрабатываться поставщиками услуг хостинга и передачи данных в соответствии с их собственными правилами. Оператор не осуществляет сбор и анализ указанных данных.</p><p>3.3. Оператор не осуществляет сбор и обработку биометрических персональных данных, а также сведений, относящихся к специальным категориям персональных данных. Субъекту не рекомендуется направлять через форму обратной связи сведения, не требующиеся для рассмотрения заявки.</p>
+      <p>3.1. Оператор обрабатывает исключительно персональные данные, добровольно предоставленные Субъектом при заполнении формы обратной связи на Сайте:</p><ul><li>имя либо иное обращение, указанное Субъектом;</li><li>контактные данные (номер телефона, имя пользователя в мессенджере или социальной сети) и предпочтительный способ связи;</li><li>сведения о деятельности Субъекта и описание задачи — в объёме, указанном Субъектом по собственному усмотрению.</li></ul><p>3.2. При посещении Сайта с помощью сервиса веб-аналитики «Яндекс Метрика» и файлов cookie автоматически собираются технические данные о посещении: IP-адрес и определяемое по нему примерное местоположение, сведения о браузере, операционной системе и устройстве, источник перехода на Сайт, дата и время посещения, а также действия на Сайте (просмотренные разделы, нажатия, прокрутка, выбранная версия Сайта). Порядок их обработки описан в разделе 11 настоящей Политики. Кроме того, технические данные могут автоматически обрабатываться поставщиками услуг хостинга и передачи данных в соответствии с их собственными правилами.</p><p>3.3. Вместе с заявкой Оператору передаются сведения о посещении: источник перехода на Сайт и метки рекламных кампаний (UTM), дата первого посещения и число посещений, выбранная версия Сайта и просмотренные разделы, время на Сайте до отправки заявки, тип устройства, операционная система, браузер, размер экрана, язык и часовой пояс, примерное местоположение (страна и город), определяемое сервером по IP-адресу без сохранения самого адреса, а также идентификатор посетителя в сервисе «Яндекс Метрика». Эти сведения используются, чтобы понять, из каких источников приходят клиенты, и подготовить ответ на заявку.</p><p>3.4. Оператор не осуществляет сбор и обработку биометрических персональных данных, а также сведений, относящихся к специальным категориям персональных данных. Субъекту не рекомендуется направлять через форму обратной связи сведения, не требующиеся для рассмотрения заявки.</p>
     </div></section>
   <section class="pv-s"><span class="n">04</span><div><h4>Цели обработки</h4>
-      <p>4.1. Персональные данные обрабатываются Оператором исключительно в следующих целях:</p><ul><li>рассмотрение заявки Субъекта и осуществление обратной связи с ним;</li><li>подготовка коммерческого предложения;</li><li>заключение и исполнение договора об оказании услуг;</li><li>исполнение обязанностей, возложенных на Оператора законодательством Республики Казахстан.</li></ul><p>4.2. Персональные данные не используются для направления рекламных и информационных рассылок и не передаются третьим лицам для использования в их собственных целях.</p>
+      <p>4.1. Персональные данные обрабатываются Оператором исключительно в следующих целях:</p><ul><li>рассмотрение заявки Субъекта и осуществление обратной связи с ним;</li><li>подготовка коммерческого предложения;</li><li>заключение и исполнение договора об оказании услуг;</li><li>анализ посещаемости Сайта и повышение его удобства — на основании обобщённых статистических данных;</li><li>определение источников, из которых приходят клиенты, — по сведениям о посещении, передаваемым вместе с заявкой;</li><li>исполнение обязанностей, возложенных на Оператора законодательством Республики Казахстан.</li></ul><p>4.2. Персональные данные не используются для направления рекламных и информационных рассылок и не передаются третьим лицам для использования в их собственных целях.</p>
     </div></section>
   <section class="pv-s"><span class="n">05</span><div><h4>Правовые основания обработки</h4>
-      <p>5.1. Правовым основанием обработки персональных данных является согласие Субъекта, выраженное путём направления заявки через форму обратной связи на Сайте, а также договор, стороной которого является Субъект, — в случае его заключения.</p><p>5.2. Субъект вправе отозвать согласие на обработку персональных данных в порядке, предусмотренном разделом 9 настоящей Политики, за исключением случаев, когда такой отзыв противоречит законодательству Республики Казахстан либо обязательствам по неисполненному договору.</p>
+      <p>5.1. Правовым основанием обработки персональных данных является согласие Субъекта, выраженное путём направления заявки через форму обратной связи на Сайте, а также договор, стороной которого является Субъект, — в случае его заключения. Обработка технических данных о посещении (раздел 11) осуществляется с согласия пользователя, выражаемого продолжением использования Сайта после ознакомления с уведомлением о файлах cookie.</p><p>5.2. Субъект вправе отозвать согласие на обработку персональных данных в порядке, предусмотренном разделом 9 настоящей Политики, за исключением случаев, когда такой отзыв противоречит законодательству Республики Казахстан либо обязательствам по неисполненному договору.</p>
     </div></section>
   <section class="pv-s"><span class="n">06</span><div><h4>Порядок и условия обработки</h4>
-      <p>6.1. Обработка персональных данных осуществляется с использованием средств автоматизации. Для обеспечения функционирования Сайта и доставки заявок Оператор привлекает поставщиков услуг хостинга, передачи и хранения данных.</p><p>6.2. Доступ к персональным данным предоставляется исключительно лицам, непосредственно участвующим в рассмотрении заявки и исполнении договора, и в объёме, необходимом для выполнения их функций.</p><p>6.3. Оператор не осуществляет распространение персональных данных, за исключением случаев, предусмотренных законодательством Республики Казахстан.</p>
+      <p>6.1. Обработка персональных данных осуществляется с использованием средств автоматизации. Для обеспечения функционирования Сайта и доставки заявок Оператор привлекает поставщиков услуг хостинга, передачи и хранения данных (в том числе Cloudflare, Inc. и мессенджер Telegram), а для анализа посещаемости — сервис веб-аналитики «Яндекс Метрика», предоставляемый ООО «ЯНДЕКС».</p><p>6.2. Доступ к персональным данным предоставляется исключительно лицам, непосредственно участвующим в рассмотрении заявки и исполнении договора, и в объёме, необходимом для выполнения их функций.</p><p>6.3. Оператор не осуществляет распространение персональных данных, за исключением случаев, предусмотренных законодательством Республики Казахстан.</p>
     </div></section>
   <section class="pv-s"><span class="n">07</span><div><h4>Трансграничная передача</h4>
-      <p>7.1. Серверы привлекаемых Оператором поставщиков услуг могут располагаться за пределами Республики Казахстан. Направляя заявку, Субъект выражает согласие на трансграничную передачу своих персональных данных в объёме и целях, указанных в настоящей Политике.</p><p>7.2. Трансграничная передача осуществляется в соответствии с требованиями законодательства Республики Казахстан и только в объёме, необходимом для достижения целей обработки.</p>
+      <p>7.1. Серверы привлекаемых Оператором поставщиков услуг могут располагаться за пределами Республики Казахстан, в том числе серверы сервиса «Яндекс Метрика» — на территории Российской Федерации. Направляя заявку либо продолжая пользоваться Сайтом после ознакомления с уведомлением о файлах cookie, Субъект выражает согласие на трансграничную передачу своих персональных данных в объёме и целях, указанных в настоящей Политике.</p><p>7.2. Трансграничная передача осуществляется в соответствии с требованиями законодательства Республики Казахстан и только в объёме, необходимом для достижения целей обработки.</p>
     </div></section>
   <section class="pv-s"><span class="n">08</span><div><h4>Сроки хранения</h4>
-      <p>8.1. Персональные данные хранятся не дольше, чем этого требуют цели их обработки.</p><p>8.2. В случае если договор с Субъектом не заключён, персональные данные подлежат уничтожению по истечении 12 (двенадцати) месяцев с даты последнего взаимодействия либо ранее — по требованию Субъекта.</p><p>8.3. В случае заключения договора персональные данные хранятся в течение срока его действия и в последующем — в течение сроков, установленных законодательством Республики Казахстан для хранения договорной и учётной документации.</p>
+      <p>8.1. Персональные данные хранятся не дольше, чем этого требуют цели их обработки.</p><p>8.2. В случае если договор с Субъектом не заключён, персональные данные подлежат уничтожению по истечении 12 (двенадцати) месяцев с даты последнего взаимодействия либо ранее — по требованию Субъекта.</p><p>8.3. В случае заключения договора персональные данные хранятся в течение срока его действия и в последующем — в течение сроков, установленных законодательством Республики Казахстан для хранения договорной и учётной документации.</p><p>8.4. Данные веб-аналитики хранятся в сервисе «Яндекс Метрика» в течение сроков, установленных правилами этого сервиса.</p>
     </div></section>
   <section class="pv-s"><span class="n">09</span><div><h4>Права субъекта</h4>
       <p>9.1. Субъект в соответствии с законодательством Республики Казахстан вправе:</p><ul><li>получать сведения о наличии у Оператора своих персональных данных и о порядке их обработки;</li><li>требовать изменения и дополнения своих персональных данных;</li><li>требовать блокирования и уничтожения персональных данных, обработка которых осуществляется с нарушением законодательства;</li><li>отозвать согласие на обработку персональных данных;</li><li>обжаловать действия (бездействие) Оператора в уполномоченный орган в сфере защиты персональных данных или в судебном порядке.</li></ul><p>9.2. Обращения Субъекта направляются по адресу электронной почты <a class="pv-mail" href="mailto:hello@lightbizy.com">hello@lightbizy.com</a> и рассматриваются Оператором в сроки, установленные законодательством Республики Казахстан.</p><p>9.3. Если законодательство страны пребывания Субъекта предоставляет ему дополнительные права в отношении персональных данных, Оператор рассматривает соответствующие обращения с учётом таких прав.</p>
@@ -1889,7 +2091,7 @@ html.picked .fk-note{display:none}
       <p>10.1. Оператор принимает необходимые правовые, организационные и технические меры для защиты персональных данных от неправомерного доступа, уничтожения, изменения, блокирования, копирования и распространения, в том числе:</p><ul><li>передача данных по защищённому протоколу HTTPS;</li><li>приём заявок исключительно с доменов Оператора;</li><li>хранение ключей доступа к сервисам отдельно от программного кода Сайта;</li><li>ограничение круга лиц, имеющих доступ к персональным данным.</li></ul>
     </div></section>
   <section class="pv-s"><span class="n">11</span><div><h4>Файлы cookie и аналитика</h4>
-      <p>11.1. Сайт не использует файлы cookie, рекламные пиксели и системы веб-аналитики.</p><p>11.2. В случае подключения указанных инструментов Оператор внесёт соответствующие изменения в настоящую Политику до начала их использования.</p>
+      <p>11.1. Сайт использует файлы cookie и сервис веб-аналитики «Яндекс Метрика», предоставляемый ООО «ЯНДЕКС» (Российская Федерация), чтобы понимать, как посетители пользуются Сайтом, и делать его удобнее.</p><p>11.2. С помощью сервиса собираются технические данные о посещении, перечисленные в пункте 3.2, и используется технология «Вебвизор» — запись действий на страницах Сайта (прокрутка, нажатия, перемещения курсора). Содержимое полей формы обратной связи в записи не передаётся.</p><p>11.3. Данные используются Оператором в обобщённом статистическом виде и не применяются для установления личности пользователя. Сайт не использует рекламные пиксели, а данные веб-аналитики не используются Оператором для показа рекламы.</p><p>11.4. Обработка данных сервисом осуществляется в соответствии с <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности ООО «ЯНДЕКС»</a> и <a href="https://yandex.ru/legal/metrica_termsofuse/" target="_blank" rel="noopener">Условиями использования сервиса Яндекс Метрика</a>.</p><p>11.5. Пользователь может запретить сохранение файлов cookie в настройках браузера либо отказаться от сбора данных сервисом, установив <a href="https://yandex.ru/support/metrica/general/opt-out.html" target="_blank" rel="noopener">официальный блокировщик Яндекс Метрики</a>. Отказ от файлов cookie не ограничивает доступ к Сайту и возможность направить заявку.</p><p>11.6. В браузере пользователя (в локальном хранилище) также сохраняются отметка о том, что уведомление о файлах cookie было закрыто, и сведения об источнике первого перехода на Сайт и числе посещений. Эти сведения не передаются третьим лицам и поступают Оператору только вместе с заявкой, если пользователь её отправит. Их можно удалить, очистив данные Сайта в настройках браузера.</p>
     </div></section>
   <section class="pv-s"><span class="n">12</span><div><h4>Заключительные положения</h4>
       <p>12.1. Оператор вправе вносить изменения в настоящую Политику. Новая редакция вступает в силу с момента её опубликования на Сайте, если иное не предусмотрено новой редакцией.</p><p>12.2. Действующая редакция Политики постоянно доступна по адресу lightbizy.com/privacy.html.</p><p>12.3. Вопросы, не урегулированные настоящей Политикой, разрешаются в соответствии с законодательством Республики Казахстан.</p>
@@ -1907,7 +2109,7 @@ html.picked .fk-note{display:none}
     <p class="lead">Посмотрим ваш бренд и вернёмся с предложением именно под вас. Без созвонов, если вам так удобнее.</p>
     <form id="form" novalidate>
       <div style="display:flex;flex-direction:column;gap:26px">
-        <div class="fld"><label for="f-name"><span class="no">01</span><b>Как к вам обращаться</b></label><input id="f-name" name="name" autocomplete="name" required><span class="uline" aria-hidden="true"></span></div>
+        <div class="fld"><label for="f-name"><span class="no">01</span><b>Как к вам обращаться</b></label><input id="f-name" class="ym-disable-keys ym-hide-content" name="name" autocomplete="name" required><span class="uline" aria-hidden="true"></span></div>
         <div class="fld">
           <span class="lb" id="ch-l"><span class="no">02</span><b>Где вам удобнее общаться</b></span>
           <fieldset class="chans" aria-labelledby="ch-l"><legend>Способ связи</legend>
@@ -1916,12 +2118,12 @@ html.picked .fk-note{display:none}
             <label class="chan"><input type="radio" name="channel" value="Instagram"><span>Instagram</span></label>
             <label class="chan"><input type="radio" name="channel" value="Звонок"><span>Звонок</span></label>
           </fieldset>
-          <input id="f-contact" name="contact" required placeholder="@ваш_ник" aria-label="Ваш ник или номер"><span class="uline" aria-hidden="true"></span>
+          <input id="f-contact" class="ym-disable-keys ym-hide-content" name="contact" required placeholder="@ваш_ник" aria-label="Ваш ник или номер"><span class="uline" aria-hidden="true"></span>
         </div>
         <p class="callnote" id="callnote" hidden>Звоним только по Казахстану. Из других стран удобнее Telegram или WhatsApp.</p>
-        <div class="fld"><label for="f-brand"><span class="no">03</span><b>Ссылка на бренд</b> (если есть)</label><input id="f-brand" name="brand" placeholder="instagram.com/… или сайт"><span class="uline" aria-hidden="true"></span></div>
+        <div class="fld"><label for="f-brand"><span class="no">03</span><b>Ссылка на бренд</b> (если есть)</label><input id="f-brand" class="ym-disable-keys ym-hide-content" name="brand" placeholder="instagram.com/… или сайт"><span class="uline" aria-hidden="true"></span></div>
         <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-        <div class="fld"><label for="f-msg"><span class="no">04</span><b>Пара слов о задаче</b> (необязательно)</label><textarea id="f-msg" name="msg" placeholder="Например: хотим онлайн-запись и сертификаты к Новому году"></textarea><span class="uline" aria-hidden="true"></span></div>
+        <div class="fld"><label for="f-msg"><span class="no">04</span><b>Пара слов о задаче</b> (необязательно)</label><textarea id="f-msg" class="ym-disable-keys ym-hide-content" name="msg" placeholder="Например: хотим онлайн-запись и сертификаты к Новому году"></textarea><span class="uline" aria-hidden="true"></span></div>
         <button class="send" type="submit"><span class="mk-o">Отправить</span><i aria-hidden="true">→</i></button>
         <p class="note">Ответим в течение дня там, где вам удобно. Отправляя заявку, вы соглашаетесь с <a href="/privacy.html" data-priv>политикой обработки персональных данных</a>.</p>
       </div>
@@ -1937,6 +2139,41 @@ html.picked .fk-note{display:none}
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Yandex.Metrika goals (create them in Metrika as «JavaScript-событие» with the same ids)
+  const YM = 114730019, JOURNEY = [], T0 = Date.now();
+  const goal = (n, p) => { JOURNEY.push([n, p || {}]); try { window.ym && ym(YM, 'reachGoal', n, p); } catch (e) {} }, ymParams = p => { try { window.ym && ym(YM, 'params', p); } catch (e) {} };
+  let ymCid = ''; try { window.ym && ym(YM, 'getClientID', id => { ymCid = String(id || ''); }); } catch (e) {}
+  // where the visitor came from: first visit is remembered in this browser, the current one is read from the URL / referrer
+  const SRC = (() => {
+    const now = Date.now(), u = new URL(location.href), q = u.searchParams, cut = v => String(v || '').slice(0, 80);
+    let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch (e) {}
+    if (ref === location.hostname.replace(/^www\./, '')) ref = '';
+    const utm = {}; ['source', 'medium', 'campaign', 'content', 'term'].forEach(k => { const v = q.get('utm_' + k); if (v) utm[k] = cut(v); });
+    const click = q.get('yclid') ? 'yclid' : q.get('gclid') ? 'gclid' : q.get('fbclid') ? 'fbclid' : '';
+    const cur = { ref: cut(ref), utm, click, land: cut(u.pathname + u.hash), at: now };
+    let st = null; try { st = JSON.parse(localStorage.getItem('lbz-src') || 'null'); } catch (e) {}
+    if (!st || !st.first) st = { first: cur, visits: 0, lastAt: 0 };
+    if (now - (st.lastAt || 0) > 30 * 60 * 1000) st.visits = (st.visits || 0) + 1;
+    st.lastAt = now;
+    try { localStorage.setItem('lbz-src', JSON.stringify(st)); } catch (e) {}
+    return { first: st.first, cur, visits: st.visits };
+  })();
+  function leadMeta() {
+    const ua = navigator.userAgent, has = n => JOURNEY.some(e => e[0] === n), last = n => [...JOURNEY].reverse().find(e => e[0] === n);
+    const os = /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Windows/.test(ua) ? 'Windows' : /Mac OS X/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : '';
+    const br = /Instagram/.test(ua) ? 'Instagram' : /FBAN|FBAV/.test(ua) ? 'Facebook' : /YaBrowser/.test(ua) ? 'Яндекс Браузер' : /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : '';
+    const coarse = matchMedia('(pointer:coarse)').matches, type = coarse ? (Math.min(screen.width, screen.height) >= 700 ? 'tablet' : 'phone') : 'desktop';
+    const root = document.documentElement, version = !root.classList.contains('picked') ? '' : root.classList.contains('lite') ? 'Минута' : 'Пять минут';
+    const slides = [...new Set(JOURNEY.filter(e => e[0] === 'lite_slide').map(e => e[1].slide))].slice(0, 4);
+    const faq = [...new Set(JOURNEY.filter(e => e[0] === 'faq_question').map(e => e[1].q))].slice(0, 6);
+    let tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    return {
+      src: SRC, version, switched: has('lite_to_full') || JOURNEY.filter(e => /^fork_(lite|full)$/.test(e[0])).length > 1, skipped: has('fork_skipped'),
+      caseOpen: has('case_open'), caseFull: has('case_full'), prices: has('prices_open') || version === 'Минута' && slides.includes('Цены'),
+      cur: (last('currency') || [, {}])[1].cur || '', terms: has('terms_open'), faq, slides, from: (last('form_open') || [, {}])[1].from || '',
+      secs: Math.round((Date.now() - T0) / 1000), device: { type, os, br, w: screen.width, h: screen.height }, lang: navigator.language || '', tz, cid: ymCid
+    };
+  }
   document.fonts.ready.then(() => requestAnimationFrame(() => document.body.classList.add('in')));
 
   /* ---------- feathers ---------- */
@@ -2370,6 +2607,7 @@ html.picked .fk-note{display:none}
   }
   function showCur(c) {
     curNow = c;
+    const rn = document.querySelector('.ratenote'); if (rn) rn.hidden = c === 'USD';
     curBtns.forEach(b => {
       const on = b.dataset.cur === c; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
       const pth = b.querySelector('path'); if (pth) pth.style.strokeDashoffset = on ? 0 : pth.getTotalLength();
@@ -2393,7 +2631,8 @@ html.picked .fk-note{display:none}
   }
   document.fonts.ready.then(() => { curLoops(); fitAmts(); });
   let prW = innerWidth; addEventListener('resize', () => { if (innerWidth !== prW) { prW = innerWidth; fitAmts(); } });
-  curBtns.forEach(b => b.addEventListener('click', () => b.dataset.cur !== curNow && showCur(b.dataset.cur)));
+  curBtns.forEach(b => b.addEventListener('click', () => { if (b.dataset.cur !== curNow) { showCur(b.dataset.cur); goal('currency', { cur: b.dataset.cur }); } }));
+  document.querySelectorAll('#faq details').forEach(d => d.addEventListener('toggle', () => d.open && goal('faq_question', { q: d.querySelector('summary').textContent.replace('+', '').trim() })));
   fetch('https://open.er-api.com/v6/latest/USD').then(r => r.json()).then(j => {
     if (j && j.rates) ['KZT', 'RUB', 'EUR'].forEach(c => { if (j.rates[c]) RATES[c] = j.rates[c]; });
     if (curNow !== 'USD') { amts.forEach(a => a.innerHTML = fmt(+a.dataset.usd, curNow)); fitAmts(); }
@@ -2770,6 +3009,7 @@ html.picked .fk-note{display:none}
       liveArrow.io.unobserve(live); liveArrow.io.observe(live);
     }
     function setMode(m, jump) {
+      if (m === 'full') goal('case_full');
       caseDlg.classList.toggle('short', m === 'short');
       caseDlg.querySelectorAll('.pick-o').forEach(b => { const on = b.dataset.mode === m; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
       syncPlayers();
@@ -2778,6 +3018,7 @@ html.picked .fk-note{display:none}
     }
     caseDlg.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode, b.classList.contains('more-b'))));
     function openCase() {
+      goal('case_open');
       build();
       const mode = 'short';   // every visit starts with the short version
       if (!caseDlg._gems) caseDlg._gems = gemsRun(caseDlg); setTimeout(() => caseDlg._gems.start(), 50);
@@ -2885,7 +3126,7 @@ html.picked .fk-note{display:none}
     if (open) setTimeout(() => { curLoops(); fitAmts(); }, 60);
     else document.getElementById('price').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
-  prTg.addEventListener('click', () => setPrices(!prMore.classList.contains('open')));
+  prTg.addEventListener('click', () => { setPrices(!prMore.classList.contains('open')); if (prMore.classList.contains('open')) goal('prices_open'); });
   document.querySelector('.pr-up').addEventListener('click', () => setPrices(false));
   document.querySelectorAll('a[href="#price"]').forEach(a => a.addEventListener('click', () => setPrices(true)));
 
@@ -2896,7 +3137,7 @@ html.picked .fk-note{display:none}
     const stG = fSvg.querySelector('.fk-st'), ends = [...fSvg.querySelectorAll('.fk-end')], fOpts = [...fork.querySelectorAll('.fk-o')];
     const STOPS = ['инструменты', 'результат', 'процесс', 'работы', 'цены', 'вопросы'];
     const numSecs = [...document.querySelectorAll('main section.w')].filter(s => /^\d+$/.test(s.querySelector(':scope > .lab span:last-child')?.textContent || ''));
-    const hub = [...document.querySelectorAll('.hub-o[data-panel]')], AFTER = ['tools', 'work', 'price', 'faq', 'hello'];
+    const AFTER = ['tools', 'work', 'price', 'faq', 'hello'];
     let fGen = 0, drawn = false, chosen = null, stLen = [];
     function renum() {
       const skip = chosen === 'lite' ? 'full-only' : 'lite-only'; let k = 0;
@@ -2909,18 +3150,36 @@ html.picked .fk-note{display:none}
     const f1 = v => v.toFixed(1);
     // the short road runs straight down; the long one curls like loose yarn, one loop per stop on the way
     function fGeo() {
+      if (fSvg.hasAttribute('hidden')) return; // the thread drawing is switched off — options sit under the text
       const r = fork.getBoundingClientRect(); if (!r.width) return;
       const A = fOpts[0].querySelector('b').getBoundingClientRect(), B = fOpts[1].querySelector('b').getBoundingClientRect();
-      const W = Math.round(r.width), H = Math.round(A.top - r.top - 12), xa = A.left - r.left + 3, xb = B.left - r.left + 3, ys = H * .26;
+      const W = Math.round(r.width), H = Math.round(A.top - r.top - 12), xm = W / 2, xa = A.left + A.width / 2 - r.left, xb = B.left + B.width / 2 - r.left, ys = H * .22;
       fSvg.setAttribute('width', W); fSvg.setAttribute('height', H + 6); fSvg.setAttribute('viewBox', `0 0 ${W} ${H + 6}`);
-      pa.setAttribute('d', `M ${f1(xa)} 0 L ${f1(xa)} ${H}`);
-      const P0 = [xa, ys], P1 = [xa + 24, ys + H * .5], P2 = [xb, ys - H * .02], P3 = [xb, H];
+      const lead = fSvg.querySelector('.fk-lead'), pr = fork.closest('section').querySelector('.fk-head p').getBoundingClientRect();
+      const fAcc = fork.closest('section').querySelector('.fk-head p .acc'), lr = [...fAcc.getClientRects()].pop() || pr, lx = lr.right - r.left + 12, ly = lr.top - r.top + lr.height * .72, D = -ly;
+      { // one loose loop on the way, like the yarn in the hero
+        const sg = xm >= lx ? 1 : -1, Q0 = [lx, ly], Q1 = [lx + sg * Math.min(140, W * .14) + 40, ly + D * .25], Q2 = [xm, -D * .5], Q3 = [xm, 0];
+        const qz = (t, i) => (1 - t) ** 3 * Q0[i] + 3 * (1 - t) ** 2 * t * Q1[i] + 3 * (1 - t) * t * t * Q2[i] + t ** 3 * Q3[i];
+        const qd = (t, i) => 3 * (1 - t) ** 2 * (Q1[i] - Q0[i]) + 6 * (1 - t) * t * (Q2[i] - Q1[i]) + 3 * t * t * (Q3[i] - Q2[i]);
+        let Lq = 0, pv = [qz(0, 0), qz(0, 1)];
+        for (let i = 1; i <= 60; i++) { const q = [qz(i / 60, 0), qz(i / 60, 1)]; Lq += Math.hypot(q[0] - pv[0], q[1] - pv[1]); pv = q; }
+        const cq = Lq / (2 * Math.PI), Rq = Math.min(cq * 1.7, W < 560 ? 26 : 34);
+        let dq = '';
+        for (let i = 0; i <= 160; i++) {
+          const t = i / 160, x = qz(t, 0), y = qz(t, 1), tx = qd(t, 0), ty = qd(t, 1), l = Math.hypot(tx, ty) || 1, T = [tx / l, ty / l], N = [-T[1], T[0]];
+          const env = Math.pow(Math.sin(Math.PI * t), 1.6) * Rq, tau = 2 * Math.PI * t, u = -env * Math.sin(tau), v = env * (1 - Math.cos(tau)) * .9;
+          dq += (i ? ' L ' : 'M ') + f1(x + T[0] * u + N[0] * v) + ' ' + f1(y + T[1] * u + N[1] * v);
+        }
+        lead.setAttribute('d', dq);
+      }
+      pa.setAttribute('d', `M ${f1(xm)} 0 L ${f1(xm)} ${f1(ys)} C ${f1(xm)} ${f1(ys + (H - ys) * .55)}, ${f1(xa)} ${f1(ys + (H - ys) * .3)}, ${f1(xa)} ${H}`);
+      const P0 = [xm, ys], P1 = [xm + 10, ys + (H - ys) * .6], P2 = [xb, ys + (H - ys) * .05], P3 = [xb, H];
       const bz = (t, i) => (1 - t) ** 3 * P0[i] + 3 * (1 - t) ** 2 * t * P1[i] + 3 * (1 - t) * t * t * P2[i] + t ** 3 * P3[i];
       const db = (t, i) => 3 * (1 - t) ** 2 * (P1[i] - P0[i]) + 6 * (1 - t) * t * (P2[i] - P1[i]) + 3 * t * t * (P3[i] - P2[i]);
       let L = 0, prev = [bz(0, 0), bz(0, 1)];
       for (let i = 1; i <= 100; i++) { const q = [bz(i / 100, 0), bz(i / 100, 1)]; L += Math.hypot(q[0] - prev[0], q[1] - prev[1]); prev = q; }
-      const labels = L > 430, k = labels ? STOPS.length + 2 : Math.max(2, Math.round(L / 85)), c = L / (2 * Math.PI * k), R = c * 2.1;
-      const pts = [[xa, 0], [xa, ys]], marks = [];
+      const labels = false, k = labels ? STOPS.length + 2 : Math.max(2, Math.round(L / 85)), c = L / (2 * Math.PI * k), R = c * 2.1;
+      const pts = [[xm, 0], [xm, ys]], marks = [];
       for (let i = 1, n = 1; i <= 420; i++) {
         const t = i / 420, x = bz(t, 0), y = bz(t, 1), tx = db(t, 0), ty = db(t, 1), l = Math.hypot(tx, ty) || 1, T = [tx / l, ty / l], N = [-T[1], T[0]];
         const env = Math.pow(Math.sin(Math.PI * t), .9) * R, tau = 2 * Math.PI * k * t, u = -env * Math.sin(tau), v = env * (1 - Math.cos(tau));
@@ -2939,6 +3198,29 @@ html.picked .fk-note{display:none}
       ends.forEach(e => e.style.opacity = drawn ? '' : 0);
       if (chosen) { const e = (chosen === 'lite' ? ends[0] : ends[1]); dot.setAttribute('cx', e.getAttribute('cx')); dot.setAttribute('cy', e.getAttribute('cy')); }
     }
+
+    // the clock: local time, ticking; the 1- and 5-minute arcs follow the dot and the choice
+    const fSec = fork.closest('section'), ck = fSec.querySelector('.fk-clock svg');
+    if (ck) {
+      const C = 120, ang = a => (a - 90) * Math.PI / 180, pt = (a, r) => [C + r * Math.cos(ang(a)), C + r * Math.sin(ang(a))];
+      try { ck.querySelector('.ck-face').setAttribute('d', loopPath(196, 196)); } catch (e) { ck.querySelector('.ck-face').setAttribute('d', 'M 98 0 A 98 98 0 1 1 97.9 0'); }
+      ck.querySelector('.ck-ticks').innerHTML = Array.from({ length: 12 }, (_, i) => { const q = i % 3 === 0, [x1, y1] = pt(i * 30, q ? 80 : 84), [x2, y2] = pt(i * 30, 91); return `<line class="${q ? 'q' : ''}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`; }).join('');
+      const hh = ck.querySelector('.ck-hh'), mh = ck.querySelector('.ck-mh'), sh = ck.querySelector('.ck-sh'), a1 = ck.querySelector('.ck-a1'), a5 = ck.querySelector('.ck-a5'), l1 = ck.querySelector('.ck-l1'), l5 = ck.querySelector('.ck-l5');
+      const arc = (s0, s1, r) => { const [x0, y0] = pt(s0, r), [x1, y1] = pt(s1, r); return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+      let secAcc = null, ckT = 0;
+      function tick() {
+        const d = new Date(), s = d.getSeconds(), m = d.getMinutes() + s / 60, h = d.getHours() % 12 + m / 60, ma = m * 6;
+        if (secAcc === null) secAcc = s * 6; else { const want = s * 6; let delta = (want - secAcc % 360 + 360) % 360; secAcc += delta; }
+        hh.style.transform = `rotate(${h * 30}deg)`; mh.style.transform = `rotate(${ma}deg)`; sh.style.transform = `rotate(${secAcc}deg)`;
+        a1.setAttribute('d', arc(ma, ma + 6, 70)); a5.setAttribute('d', arc(ma, ma + 30, 70));
+        const [x1, y1] = pt(ma + 3, 106), [x5, y5] = pt(ma + 15, 106);
+        l1.setAttribute('x', x1.toFixed(1)); l1.setAttribute('y', y1.toFixed(1)); l5.setAttribute('x', x5.toFixed(1)); l5.setAttribute('y', y5.toFixed(1));
+      }
+      tick();
+      new IntersectionObserver(es => es.forEach(e => { clearInterval(ckT); if (e.isIntersecting) { tick(); ckT = setInterval(tick, 1000); } })).observe(ck);
+    }
+    const hint = (k, on) => { fOpts[k].classList.toggle('pl', on); fSec.classList.toggle(k ? 't5' : 't1', on); };
+    const unhint = () => { hint(0, false); hint(1, false); };
     const fWait = (ms, g) => new Promise((res, rej) => setTimeout(() => g === fGen ? res() : rej(), ms));
     function fRun(p, dur, g) {
       return new Promise((res, rej) => {
@@ -2953,22 +3235,93 @@ html.picked .fk-note{display:none}
       });
     }
     const unlit = () => stG.querySelectorAll('text').forEach(t => t.classList.remove('lit'));
-    async function fIdle(g) { await fWait(500, g); for (;;) { await fRun(pa, 1000, g); await fWait(900, g); await fRun(pb, 3800, g); await fWait(1300, g); unlit(); await fWait(700, g); } }
-    function panel(id, go, force) {
-      const s = document.getElementById(id), b = hub.find(h => h.dataset.panel === id); if (!s || !b) return;
-      const open = force ?? !s.classList.contains('open-p');
-      s.classList.toggle('open-p', open); b.classList.toggle('on', open); b.setAttribute('aria-expanded', open);
-      if (open && id === 'price') setPrices(true);
-      if (open && go) requestAnimationFrame(() => { const t = s.querySelector('.lab'); scrollTo({ top: t.getBoundingClientRect().top + scrollY - (innerWidth < 760 ? 80 : 110), behavior: reduce ? 'auto' : 'smooth' }); });
+    async function fIdle(g) { await fWait(400, g); for (;;) { hint(0, true); await fWait(2200, g); hint(0, false); await fWait(500, g); hint(1, true); await fWait(2800, g); hint(1, false); await fWait(700, g); } }
+    // the short way: four slides, swipe / arrows / tabs; the strip takes the height of the slide in view
+    const rest = document.getElementById('rest'), ltBar = document.getElementById('ltBar'), NAMES = ['Суть', 'Работы', 'Цены', 'Вопросы'];
+    const slides = ['brief', 'work', 'price', 'faq'].map(id => document.getElementById(id));
+    const tabs = [...ltBar.querySelectorAll('[data-go]')];
+    const sNext = document.querySelector('.lt-side.next'), sPrev = document.querySelector('.lt-side.prev');
+    let cur = 0, stT = 0;
+    const hdr = () => document.querySelector('.top').offsetHeight;
+    const setHdr = () => root.style.setProperty('--hdr', hdr() + 'px'); setHdr();
+    function ltH() { rest.style.height = chosen === 'lite' ? slides[cur].offsetHeight + 'px' : ''; }
+    function ltMark(i) {
+      cur = i;
+      tabs.forEach((t, k) => { t.classList.toggle('on', k === i); t.classList.toggle('past', k < i); t.setAttribute('aria-selected', k === i); });
+      const last = i === slides.length - 1;
+      sNext.hidden = last; sPrev.hidden = i === 0; sPrev.classList.toggle('solo', last);
+      if (!last) { sNext.querySelector('span').textContent = NAMES[i + 1]; sNext.setAttribute('aria-label', 'Дальше: ' + NAMES[i + 1]); }
+      if (i) { sPrev.querySelector('span').textContent = NAMES[i - 1]; sPrev.setAttribute('aria-label', 'Назад: ' + NAMES[i - 1]); }
+      ltH(); if (typeof ltPing === 'function') ltPing();
     }
-    hub.forEach(b => b.addEventListener('click', () => panel(b.dataset.panel, true)));
+    function ltTop() {
+      const off = hdr() + ltBar.offsetHeight, t = rest.getBoundingClientRect().top;
+      if (t < off - 2) scrollTo({ top: scrollY + t - off, behavior: reduce ? 'auto' : 'smooth' });
+    }
+    function slideTo(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      rest.scrollTo({ left: i * rest.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+      if (i !== cur) { ltMark(i); ltTop(); goal('lite_slide', { slide: NAMES[i] }); }
+    }
+    rest.addEventListener('scroll', () => {
+      if (chosen !== 'lite') return;
+      clearTimeout(stT); stT = setTimeout(() => { const i = Math.round(rest.scrollLeft / rest.clientWidth); if (i !== cur) { ltMark(i); ltTop(); goal('lite_slide', { slide: NAMES[i], swipe: true }); } }, 90);
+    }, { passive: true });
+    tabs.forEach((t, k) => t.addEventListener('click', () => slideTo(k)));
+    sNext.addEventListener('click', () => slideTo(cur + 1)); sPrev.addEventListener('click', () => slideTo(cur - 1));
+    const tmT = document.querySelector('.tm-tg'), tmF = document.getElementById('tmIn');
+    tmT.addEventListener('click', () => {
+      const open = !tmF.classList.contains('open'); tmF.classList.toggle('open', open); tmT.setAttribute('aria-expanded', open); if (open) goal('terms_open');
+      if (chosen === 'lite') { let n = 0; (function track() { ltH(); if (++n < 42) requestAnimationFrame(track); })(); }
+    });
+    // FAQ in the short version: folded under one button
+    const fqT = document.querySelector('.fq-tg'), fqF = document.querySelector('.fq-fold');
+    fqT.addEventListener('click', () => {
+      const open = !fqF.classList.contains('open'); fqF.classList.toggle('open', open); fqT.setAttribute('aria-expanded', open); if (open) goal('faq_open');
+      fqT.querySelector('.fq-l').textContent = open ? 'Свернуть ответы' : 'Развернуть все ответы';
+      if (chosen === 'lite') { let n = 0; (function track() { ltH(); if (++n < 45) requestAnimationFrame(track); })(); }
+    });
+    new ResizeObserver(() => chosen === 'lite' && ltH()).observe(slides[0]);
+    slides.slice(1).forEach(s => new ResizeObserver(() => chosen === 'lite' && s === slides[cur] && ltH()).observe(s));
+    const ltEnd = document.querySelector('.lt-end'), ltVis = new Map();
+    const ltIO = new IntersectionObserver(es => { es.forEach(e => ltVis.set(e.target, e.isIntersecting)); root.classList.toggle('lt-in', [...ltVis.values()].some(Boolean)); }, { rootMargin: '0px 0px -40% 0px' });
+    ltIO.observe(rest); ltIO.observe(ltEnd);
+    // phones and small laptops: the button sits over the text, so it shows only when it's needed —
+    // right after a slide opens and once the slide is read to its end; never over the footer
+    const smallMQ = matchMedia('(max-width:1439px),(hover:none)'), foot = document.querySelector('footer');
+    let ltUntil = 0, ltRaf = 0;
+    function ltSmart() {
+      ltRaf = 0; if (chosen !== 'lite') return;
+      const r = rest.getBoundingClientRect(), endSeen = r.bottom < innerHeight * 1.04 && r.bottom > 0, footSeen = foot.getBoundingClientRect().top < innerHeight - 8;
+      root.classList.toggle('lt-hide', smallMQ.matches && (footSeen || !(endSeen || Date.now() < ltUntil)));
+    }
+    const ltPing = () => { ltUntil = Date.now() + 3500; ltSmart(); setTimeout(ltSmart, 3600); };
+    addEventListener('scroll', () => { if (!ltRaf) ltRaf = requestAnimationFrame(ltSmart); }, { passive: true });
+    // the hand-drawn loop around «Обсудить задачу» is drawn once the block is actually visible
+    function ltMarks() {
+      ltEnd.querySelectorAll('.mk-o').forEach(m => {
+        m.querySelector(':scope > svg')?.remove(); addMark(m, true);
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { m.querySelector(':scope > svg path').style.strokeDashoffset = 0; io.disconnect(); } }), { rootMargin: '0px 0px -12% 0px' });
+        io.observe(m);
+      });
+    }
+    addEventListener('keydown', e => {
+      if (chosen !== 'lite' || !root.classList.contains('lt-in') || e.altKey || e.metaKey || e.ctrlKey || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName) || document.querySelector('dialog[open]')) return;
+      if (e.key === 'ArrowRight') slideTo(cur + 1); else if (e.key === 'ArrowLeft') slideTo(cur - 1);
+    });
+    let ltW = innerWidth; addEventListener('resize', () => { setHdr(); if (chosen === 'lite') { rest.scrollTo({ left: cur * rest.clientWidth, behavior: 'auto' }); ltH(); if (innerWidth !== ltW) setTimeout(() => ltEnd.querySelectorAll('.mk-o > svg path').forEach(p => { p.style.transition = 'none'; p.style.strokeDashoffset = 0; }), 320); } if (innerWidth !== ltW) ltW = innerWidth; });
+    let nudged = false;
+    function nudge() {
+      if (nudged || reduce || !matchMedia('(pointer:coarse)').matches) return; nudged = true;
+      setTimeout(() => { if (cur) return; rest.scrollTo({ left: 90, behavior: 'smooth' }); setTimeout(() => !cur && rest.scrollTo({ left: 0, behavior: 'smooth' }), 600); }, 1500);
+    }
     function setSite(m, go) {
       const lite = m === 'lite'; chosen = m;
       root.classList.add('picked'); root.classList.toggle('lite', lite);
-      fork.classList.add('chosen'); fork.classList.toggle('lite-on', lite);
+      fork.classList.add('chosen'); fork.classList.toggle('lite-on', lite); unhint(); fSec.classList.toggle('c1', lite); fSec.classList.toggle('c5', !lite);
       fOpts.forEach(o => { const on = o.dataset.site === m; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
       pa.classList.toggle('on', lite); pb.classList.toggle('on', !lite); ends[0].classList.toggle('on', lite); ends[1].classList.toggle('on', !lite);
-      if (lite) hub.forEach(b => panel(b.dataset.panel, false, false));
+      if (lite) { setPrices(true); rest.scrollTo({ left: 0, behavior: 'auto' }); ltMark(0); requestAnimationFrame(ltMarks); sNext.classList.add('hint'); setTimeout(() => sNext.classList.remove('hint'), 4500); } else { rest.style.height = ''; rest.scrollLeft = 0; }
       renum(); unlit();
       const g = ++fGen, p = lite ? pa : pb;
       if (pb.getAttribute('d')) {
@@ -2976,25 +3329,26 @@ html.picked .fk-note{display:none}
         else fRun(p, lite ? 650 : 1900, g).catch(() => {});
       }
       if (go) setTimeout(() => {
-        const t = document.getElementById(lite ? 'brief' : 'tools').querySelector('.lab');
-        scrollTo({ top: t.getBoundingClientRect().top + scrollY - (innerWidth < 760 ? 80 : 110), behavior: reduce ? 'auto' : 'smooth' });
+        const top = lite ? ltBar.getBoundingClientRect().top + scrollY - hdr() : document.getElementById('tools').querySelector('.lab').getBoundingClientRect().top + scrollY - (innerWidth < 760 ? 80 : 110);
+        scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+        if (lite) nudge();
       }, reduce ? 0 : (lite ? 700 : 1300));
     }
     fOpts.forEach((o, i) => {
-      o.addEventListener('click', () => setSite(o.dataset.site, true));
-      o.addEventListener('mouseenter', () => [pa, pb][i].classList.add('hv'));
-      o.addEventListener('mouseleave', () => [pa, pb][i].classList.remove('hv'));
+      o.addEventListener('click', () => { const m = o.dataset.site; if (chosen !== m) { goal(m === 'lite' ? 'fork_lite' : 'fork_full', { switched: !!chosen }); ymParams({ site_version: m === 'lite' ? 'Минута' : 'Пять минут' }); } setSite(m, true); });
+      o.addEventListener('mouseenter', () => { [pa, pb][i].classList.add('hv'); fSec.classList.add(i ? 't5' : 't1'); });
+      o.addEventListener('mouseleave', () => { [pa, pb][i].classList.remove('hv'); if (!fOpts[i].classList.contains('pl')) fSec.classList.remove(i ? 't5' : 't1'); });
     });
-    document.querySelector('.bf-more').addEventListener('click', () => setSite('full', true));
+    document.querySelector('.lt-full').addEventListener('click', () => { goal('lite_to_full'); ymParams({ site_version: 'Пять минут' }); setSite('full', true); });
     // links from the menu and elsewhere still work: they pick a version on the way
     document.querySelectorAll('a[href^="#"]').forEach(a => {
-      const id = a.getAttribute('href').slice(1); if (!AFTER.includes(id) || a.hasAttribute('data-open') || a.closest('.hub')) return;
+      const id = a.getAttribute('href').slice(1); if (!AFTER.includes(id) || a.hasAttribute('data-open')) return;
       a.addEventListener('click', e => {
-        if (!chosen) setSite('full', false);
+        if (!chosen) { goal('fork_skipped', { via: id }); setSite('full', false); }
         else if (chosen === 'lite') {
           if (id === 'tools') setSite('full', false);
-          else if (id === 'hello') { e.preventDefault(); document.querySelector('.hub-o.go').click(); }
-          else panel(id, false, true);
+          else if (id === 'hello') { e.preventDefault(); document.querySelector('.lt-cta').click(); }
+          else { e.preventDefault(); const k = ['brief', 'work', 'price', 'faq'].indexOf(id); slideTo(k); scrollTo({ top: ltBar.getBoundingClientRect().top + scrollY - hdr(), behavior: reduce ? 'auto' : 'smooth' }); }
         }
       });
     });
@@ -3003,7 +3357,8 @@ html.picked .fk-note{display:none}
     document.fonts.ready.then(() => {
       fGeo(); renum();
       new IntersectionObserver(es => es.forEach(e => {
-        if (!e.isIntersecting) { fGen++; if (!chosen) { dot.style.opacity = 0; unlit(); } return; }
+        fork.classList.toggle('vis', e.isIntersecting);
+        if (!e.isIntersecting) { fGen++; if (!chosen) { dot.style.opacity = 0; unlit(); unhint(); } return; }
         if (!drawn) {
           drawn = true;
           if (reduce) { [pa, pb].forEach(p => p.style.strokeDasharray = 'none'); ends.forEach(x => x.style.opacity = ''); }
@@ -3014,7 +3369,7 @@ html.picked .fk-note{display:none}
             setTimeout(() => [pa, pb].forEach(p => { p.style.transition = ''; p.style.strokeDasharray = 'none'; }), 3200);
           }
         }
-        if (!chosen && !reduce) { const g = ++fGen; setTimeout(() => g === fGen && fIdle(g).catch(() => {}), 2800); }
+        if (!chosen && !reduce) { const g = ++fGen; setTimeout(() => g === fGen && fIdle(g).catch(() => {}), 900); }
       }), { threshold: .35 }).observe(fork);
     });
     let fW = innerWidth; addEventListener('resize', () => { if (innerWidth !== fW) { fW = innerWidth; fGeo(); } });
@@ -3037,10 +3392,10 @@ html.picked .fk-note{display:none}
   navLinks.forEach(a => { a.addEventListener('mouseenter', navPaint); a.addEventListener('mouseleave', () => setTimeout(navPaint, 10)); });
   const navSecs = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
   function navSpy() {
-    let cur = null; navSecs.forEach((sec, i) => { const r = sec.getBoundingClientRect(); if (r.top < innerHeight * .45 && r.bottom > innerHeight * .2) cur = navLinks[i]; });
+    let cur = null; navSecs.forEach((sec, i) => { const r = sec.getBoundingClientRect(); if (r.top < innerHeight * .45 && r.bottom > innerHeight * .2 && r.left < innerWidth * .5 && r.right > innerWidth * .5) cur = navLinks[i]; });
     if (cur !== navCur) { navCur = cur; navPaint(); }
   }
-  addEventListener('scroll', navSpy, { passive: true });
+  addEventListener('scroll', navSpy, { passive: true }); document.getElementById('rest')?.addEventListener('scroll', navSpy, { passive: true });
   let navW = innerWidth;
   document.fonts.ready.then(() => { navLoops(); navSpy(); }); addEventListener('resize', () => { if (innerWidth !== navW) { navW = innerWidth; navLoops(); } });
 
@@ -3057,7 +3412,7 @@ html.picked .fk-note{display:none}
   // адрес пересылки заявок в Телеграм (Cloudflare Worker); пока пусто — форма просто благодарит
   const LEAD_URL = 'https://lightbizy-leads.lu4danya.workers.dev';
   const dlg = document.getElementById('req'), sheet = document.getElementById('sheet'), form = document.getElementById('form');
-  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); sheet.classList.remove('sent'); dlg.showModal(); requestAnimationFrame(decorate); setTimeout(() => document.getElementById('f-name').focus(), 450); }));
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); goal('form_open', { from: (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40) }); sheet.classList.remove('sent'); dlg.showModal(); requestAnimationFrame(decorate); setTimeout(() => document.getElementById('f-name').focus(), 450); }));
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   const PH = { Telegram: '@ваш_ник', WhatsApp: '+7 700 000 00 00', Instagram: '@ваш_инстаграм', 'Звонок': '+7 700 000 00 00' };
@@ -3082,13 +3437,20 @@ html.picked .fk-note{display:none}
     [[sendMark, true], [headMark, false]].forEach(([el, loop]) => { el.querySelector(':scope > svg')?.remove(); addMark(el, loop); setTimeout(() => { const pth = el.querySelector(':scope > svg path'); if (pth) pth.style.strokeDashoffset = 0; }, 350); });
   }
   form.querySelectorAll('input,textarea').forEach(i => i.addEventListener('input', () => i.closest('.fld')?.classList.remove('bad')));
+  { // cookie notice: shown once, the acknowledgement is kept in this browser
+    const n = document.getElementById('ckNote'); let seen = false;
+    try { seen = localStorage.getItem('lbz-ck') === '1'; } catch (e) {}
+    if (n && !seen) { setTimeout(() => { n.hidden = false; requestAnimationFrame(() => n.classList.add('on')); }, 1800);
+      n.querySelector('button').addEventListener('click', () => { n.classList.remove('on'); setTimeout(() => n.hidden = true, 500); try { localStorage.setItem('lbz-ck', '1'); } catch (e) {} }); }
+  }
   form.addEventListener('submit', e => {
     e.preventDefault();
     const need = [form.elements['name'], form.elements['contact']].filter(i => !i.value.trim());
     need.forEach(i => i.closest('.fld').classList.add('bad'));
     if (need.length) { need[0].focus(); return; }
     const data = Object.fromEntries(new FormData(form));
-    const done = () => { sheet.classList.add('sent'); form.reset(); };
+    try { data.meta = leadMeta(); } catch (e) {}
+    const done = () => { sheet.classList.add('sent'); form.reset(); goal('form_sent', { channel: data.channel, version: document.documentElement.classList.contains('lite') ? 'Минута' : 'Пять минут' }); };
     if (!LEAD_URL) { done(); return; }
     const btn = form.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Отправляем…';
     fetch(LEAD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
