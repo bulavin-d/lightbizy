@@ -1526,6 +1526,40 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
 .fork .fk-o{align-items:flex-start;text-align:left}
 .fork .fk-o span{max-width:24ch}
 @media (max-width:420px){.fork .fk-opts{gap:24px}.fork .fk-o span{max-width:17ch}}
+
+/* ---------- v24: mobile pass — tighter rhythm, tappable fork rows, bottom bar for the short version ---------- */
+@media (max-width:760px){
+  section{padding-block:clamp(54px,15vw,72px)}
+  .lab{margin-bottom:clamp(26px,7vw,36px)}
+  .inside{gap:20px 22px}
+  .slots .slot,.slots.four .slot{aspect-ratio:auto;min-height:150px}
+  .pr-point{display:none!important}
+  #price .pr-head{margin-bottom:18px}
+  /* fork: two clear rows you can tap, each with an arrow */
+  .fork .fk{margin-top:28px}
+  .fork .fk-opts{grid-template-columns:1fr;gap:0}
+  .fork .fk-o{display:grid;grid-template-columns:1fr auto;grid-template-areas:"b ar" "s ar";align-items:center;column-gap:16px;row-gap:4px;width:100%;padding:18px 0;border-top:1px solid var(--line)}
+  .fork .fk-o:last-child{border-bottom:1px solid var(--line)}
+  .fork .fk-o b{grid-area:b;justify-self:start;font-size:30px;padding-bottom:9px}
+  .fork .fk-o span{grid-area:s;max-width:none;font-size:14px}
+  .fork .fk-o::after{content:"→";grid-area:ar;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--wine);color:var(--wine);font-size:18px;transition:background .3s,color .3s}
+  .fork .fk-o.pl::after,.fork .fk-o.on::after{background:var(--wine);color:var(--paper)}
+  /* short version: tabs + arrows live in one bar at the bottom (thumb zone), always there while you're in the slider */
+  .lt-bar{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:6;border-bottom:0;border-top:1px solid var(--line);padding:4px 64px calc(4px + env(safe-area-inset-bottom));background:rgba(245,242,238,.95);transform:translateY(110%);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  html.lt-in .lt-bar{transform:none}
+  html.lite.picked body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+  .lt-wrap{padding:0}
+  .lt-tabs{gap:6px}
+  .lt-tabs button{padding:13px 0;font-size:13px}
+  .lt-side,.lt-side.prev{width:44px;height:44px;bottom:calc(6px + env(safe-area-inset-bottom));box-shadow:none}
+  .lt-side.next{right:12px}
+  .lt-side.prev,.lt-side.prev.solo{left:12px;right:auto}
+  .lt-side b{width:40px;height:40px}
+  html.lt-in .ck-note{bottom:calc(72px + env(safe-area-inset-bottom))}
+  html.lite .rest>section{padding-top:28px;padding-bottom:36px}
+  .lt-end{padding-top:24px;padding-bottom:110px}
+}
+@media (min-width:761px) and (max-width:1439px),(min-width:761px) and (hover:none){html.lite.picked body{padding-bottom:84px}}
 </style>
 <script>document.documentElement.classList.add('fk-wait')</script>
 <!-- Yandex.Metrika counter -->
@@ -2179,6 +2213,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   /* ---------- feathers ---------- */
   const cv = document.getElementById('air'), ctx = cv.getContext('2d');
   let W, H, DPR, feathers = [], sprites = [];
+  const LOW = matchMedia('(pointer:coarse)').matches || innerWidth < 760; // phones: 30 fps and a lighter canvas
   function rnd(a, b) { return a + Math.random() * (b - a); }
 
   // one feather, drawn barb by barb: thin quill, asymmetric airy vane, clumps and splits, downy base
@@ -2228,7 +2263,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   const widthChanged = () => { if (innerWidth === lastW) return false; lastW = innerWidth; return true; };
 
   function sizeCanvas() {
-    DPR = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight;
+    DPR = Math.min(devicePixelRatio || 1, LOW ? 1.5 : 2); W = cv.clientWidth; H = cv.clientHeight;
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
   }
   function build() {
@@ -2270,6 +2305,8 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
 
   let last = performance.now();
   function frame(now) {
+    if (document.querySelector('dialog[open]')) { last = now; setTimeout(() => requestAnimationFrame(frame), 300); return; }
+    if (LOW && now - last < 30) { requestAnimationFrame(frame); return; }
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     const t = now / 1000;
     const sd = Math.max(-40, Math.min(40, scrollY - lastScroll)); lastScroll = scrollY;
@@ -3254,8 +3291,9 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
       if (i) { sPrev.querySelector('span').textContent = NAMES[i - 1]; sPrev.setAttribute('aria-label', 'Назад: ' + NAMES[i - 1]); }
       ltH(); if (typeof ltPing === 'function') ltPing();
     }
+    const barFixed = () => getComputedStyle(ltBar).position === 'fixed';
     function ltTop() {
-      const off = hdr() + ltBar.offsetHeight, t = rest.getBoundingClientRect().top;
+      const off = hdr() + (barFixed() ? 6 : ltBar.offsetHeight), t = rest.getBoundingClientRect().top;
       if (t < off - 2) scrollTo({ top: scrollY + t - off, behavior: reduce ? 'auto' : 'smooth' });
     }
     function slideTo(i) {
@@ -3288,12 +3326,12 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
     ltIO.observe(rest); ltIO.observe(ltEnd);
     // phones and small laptops: the button sits over the text, so it shows only when it's needed —
     // right after a slide opens and once the slide is read to its end; never over the footer
-    const smallMQ = matchMedia('(max-width:1439px),(hover:none)'), foot = document.querySelector('footer');
+    const smallMQ = matchMedia('(max-width:1439px),(hover:none)'), phoneMQ = matchMedia('(max-width:760px)'), foot = document.querySelector('footer');
     let ltUntil = 0, ltRaf = 0;
     function ltSmart() {
       ltRaf = 0; if (chosen !== 'lite') return;
       const r = rest.getBoundingClientRect(), endSeen = r.bottom < innerHeight * 1.04 && r.bottom > 0, footSeen = foot.getBoundingClientRect().top < innerHeight - 8;
-      root.classList.toggle('lt-hide', smallMQ.matches && (footSeen || !(endSeen || Date.now() < ltUntil)));
+      root.classList.remove('lt-hide'); // arrows stay put; the page has room under the footer instead
     }
     const ltPing = () => { ltUntil = Date.now() + 3500; ltSmart(); setTimeout(ltSmart, 3600); };
     addEventListener('scroll', () => { if (!ltRaf) ltRaf = requestAnimationFrame(ltSmart); }, { passive: true });
@@ -3329,7 +3367,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
         else fRun(p, lite ? 650 : 1900, g).catch(() => {});
       }
       if (go) setTimeout(() => {
-        const top = lite ? ltBar.getBoundingClientRect().top + scrollY - hdr() : document.getElementById('tools').querySelector('.lab').getBoundingClientRect().top + scrollY - (innerWidth < 760 ? 80 : 110);
+        const top = lite ? (barFixed() ? rest : ltBar).getBoundingClientRect().top + scrollY - hdr() : document.getElementById('tools').querySelector('.lab').getBoundingClientRect().top + scrollY - (innerWidth < 760 ? 80 : 110);
         scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
         if (lite) nudge();
       }, reduce ? 0 : (lite ? 700 : 1300));
@@ -3348,7 +3386,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
         else if (chosen === 'lite') {
           if (id === 'tools') setSite('full', false);
           else if (id === 'hello') { e.preventDefault(); document.querySelector('.lt-cta').click(); }
-          else { e.preventDefault(); const k = ['brief', 'work', 'price', 'faq'].indexOf(id); slideTo(k); scrollTo({ top: ltBar.getBoundingClientRect().top + scrollY - hdr(), behavior: reduce ? 'auto' : 'smooth' }); }
+          else { e.preventDefault(); const k = ['brief', 'work', 'price', 'faq'].indexOf(id); slideTo(k); scrollTo({ top: (barFixed() ? rest : ltBar).getBoundingClientRect().top + scrollY - hdr(), behavior: reduce ? 'auto' : 'smooth' }); }
         }
       });
     });
