@@ -1334,7 +1334,7 @@ dialog::backdrop{background:rgba(23,16,15,.32);backdrop-filter:blur(6px);-webkit
 .fk.chosen .fk-o:not(.on) b{color:#A79C98}
 .fk.chosen .fk-o:not(.on):hover b{color:var(--ink)}
 html.lite .full-only,html:not(.lite) .lite-only{display:none!important}
-html.lite .pr-fold,html.lite .pr-point,html.lite .pr-up{display:none!important}
+html.lite #price .pr-fold,html.lite .pr-point,html.lite .pr-up{display:none!important}
 .bf{margin:clamp(30px,4vw,56px) 0 0;max-width:1080px}
 .bf-r{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:6px clamp(24px,4vw,64px);border-top:1px solid var(--line);padding:clamp(18px,2vw,26px) 0}
 .bf-r:nth-child(2){transition-delay:.08s}.bf-r:nth-child(3){transition-delay:.16s}.bf-r:nth-child(4){transition-delay:.24s}
@@ -1424,13 +1424,6 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
 @media (prefers-reduced-motion:reduce){#faq .fq-fold,.lt-tabs button::before{transition:none}}
 
 /* ---------- v16: no pills — site-native text buttons; the "next" control is a circle everywhere ---------- */
-.fq-tg{position:relative;display:inline-flex;align-items:baseline;gap:8px;margin:clamp(22px,2.8vw,34px) 0 clamp(30px,4vw,48px);padding:6px 0 12px;border:0;background:none;cursor:pointer;font:inherit;font-weight:500;font-size:clamp(16px,1.3vw,18px);color:var(--ink);transition:color .3s}
-.fq-tg::after{content:"";position:absolute;left:-2px;right:-2px;bottom:1px;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5 C 30 2.5, 62 7.5, 104 4.6 S 172 3, 199 5.8' fill='none' stroke='%236B0F24' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.fq-tg small{align-self:flex-start;font-size:12px;font-weight:500;color:var(--wine);margin-left:-4px}
-.fq-tg b{font-weight:400;color:var(--wine);display:inline-block;transition:transform .5s cubic-bezier(.6,0,.2,1)}
-.fq-tg[aria-expanded="false"] b{animation:arBob 2.2s ease-in-out infinite}
-.fq-tg[aria-expanded="true"] b{transform:rotate(180deg)}
-.fq-tg:hover{color:var(--wine)}
 .lt-end-r .cbtn{margin-left:16px}
 @media (max-width:1439px),(hover:none){
   .lt-side{width:56px;height:56px;padding:0;gap:0;justify-content:center;border-radius:50%}
@@ -1560,6 +1553,98 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   .lt-end{padding-top:24px;padding-bottom:110px}
 }
 @media (min-width:761px) and (max-width:1439px),(min-width:761px) and (hover:none){html.lite.picked body{padding-bottom:84px}}
+
+/* ---------- v25: FAQ folds like the prices; calmer tools ---------- */
+.fq-head .fq-hint{margin:16px 0 0;color:#3F3634}
+.fq-row{margin-bottom:clamp(10px,1.4vw,20px)}
+.fq-point{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;transition:opacity .4s}
+.fq-point path{fill:none;stroke:var(--wine);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+#faq.fq-open .fq-point{opacity:0}
+#faq .fq-fold .faq{padding-top:clamp(14px,2vw,26px)}
+@media (max-width:760px){.fq-point{display:none}}
+.svc .stick p{color:#3F3634}
+.inside{gap:10px 24px;margin-top:18px}
+.inside span{display:inline-flex;align-items:center;gap:9px;padding:0;color:#3F3634}
+.inside span::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--wine);opacity:.75}
+.inside svg{display:none!important}
+
+/* ---------- v27: the navigator points at the block you're reading with a curving thread ---------- */
+.svc{position:relative}
+.tarrow{display:none}
+.tlink{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1}
+.tlink path{fill:none;stroke:var(--wine);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.tlink .ln{stroke-dasharray:1;stroke-dashoffset:1;opacity:.85}
+.tlink .hd{opacity:0;transition:opacity .3s}
+.tlink.on .ln{stroke-dashoffset:0;transition:stroke-dashoffset .8s cubic-bezier(.6,0,.3,1)}
+.tlink.on .hd{opacity:1;transition:opacity .3s .6s}
+@media (max-width:860px){.tlink{display:none}}
+@media (prefers-reduced-motion:reduce){.tlink.on .ln,.tlink.on .hd{transition:none}}
+
+/* ---------- v28: hand-drawn doodles in the empty space under the folds ---------- */
+.ddl{position:relative;height:0;pointer-events:none;z-index:3}
+.ddl svg{position:absolute;left:0;top:clamp(14px,2vw,30px);width:100%;height:auto;overflow:visible}
+.ddl{--sw:1.15}
+@media (max-width:1099px){.ddl{--sw:1.7}}
+@media (max-width:760px){.ddl{--sw:3.4}}
+.ddl path{fill:none;stroke:var(--wine);stroke-width:var(--sw);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.72;transition:stroke-dashoffset 1.1s cubic-bezier(.6,0,.3,1),opacity .3s,stroke-width .3s}
+.ddl path.sk{opacity:.28;stroke-width:calc(var(--sw) * .7)}
+.ddl path.dot{stroke-width:calc(var(--sw) * 2.3)}
+.ddl.on path{stroke-dashoffset:0}
+.ddl .sym{pointer-events:auto;cursor:pointer}
+.ddl .sym>g{transform-box:fill-box;transform-origin:50% 50%;animation:ddFloat 7s ease-in-out infinite;animation-play-state:paused}
+.ddl.on .sym>g{animation-play-state:running}
+.ddl .sym:hover path{opacity:1;stroke-width:calc(var(--sw) * 1.4)}
+.ddl .sym rect{fill:transparent;stroke:none}
+@keyframes ddFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(2deg)}}
+#price.pr-open .ddl-cur,html.lite .ddl-cur,#faq.fq-open .ddl-q{display:none}
+html.lite .ddl{height:auto}
+html.lite .ddl svg{position:relative;top:0;margin-top:14px}
+@media (prefers-reduced-motion:reduce){.ddl path{transition:none;stroke-dashoffset:0}.ddl .sym>g{animation:none}}
+.item .n{transition:color .4s}
+.item.tool-on .n{color:var(--wine)}
+
+/* ---------- v30: works card — clearer copy, number in front of the name, a real-looking "view" control ---------- */
+.case-txt{gap:14px}
+.case-k{order:-1;margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.case-t{display:flex;align-items:baseline;gap:.35em;flex-wrap:wrap}
+.case-t .case-no{font-size:.62em;font-weight:250;color:var(--wine);letter-spacing:-.02em}
+.case-d{max-width:38ch}
+.case-inv{font-size:14px;line-height:1.55;color:var(--mute);max-width:40ch;border-left:1px dashed #CDBFB8;padding-left:14px;margin:2px 0 6px}
+.case-go{display:inline-flex;align-items:center;gap:22px;font-size:clamp(15px,1.2vw,17px);font-weight:500;color:var(--ink);padding:10px 6px;margin-left:-6px}
+.case-go::after{display:none}
+.case-go .mk-o{padding:4px 8px}
+.case-go i{font-style:normal;color:var(--wine);font-size:18px;transition:transform .4s cubic-bezier(.2,.7,.2,1);animation:cgNudge 2.4s ease-in-out infinite}
+.case:hover .case-go i{animation:none;transform:translateX(6px)}
+.case:hover .case-go{color:var(--wine)}
+#work .case-t .case-nm{color:var(--ink)}
+#work .case-t .case-nm span{color:var(--wine)}
+@keyframes cgNudge{0%,60%,100%{transform:none}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.case-go i{animation:none}}
+/* v31: chat title pill sits exactly under the Dynamic Island */
+.ip .tg-top .tg-title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:52%}
+.ip .tg-top .tg-title b,.ip .tg-top .tg-title small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* ---------- v32: «3 000+ → 1» as a picture: every thread runs into one person ---------- */
+.brand{align-items:center}
+.brand-fn{margin:0;position:relative;max-width:440px;width:100%;justify-self:center}
+.fn-svg{display:block;width:100%;height:auto;overflow:visible;margin:-6px 0 -4px}
+.fn-t{fill:none;stroke:var(--wine);stroke-width:.7;opacity:.32;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.5,0,.3,1) calc(.35s + var(--d))}
+.fn-d{fill:#B9A9A2;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.3);transition:opacity .5s var(--d),transform .6s cubic-bezier(.2,.7,.2,1.4) var(--d)}
+.fn-one{fill:var(--wine);transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .7s cubic-bezier(.2,.7,.2,1.5) 1.9s}
+.fn-one-r{fill:none;stroke:var(--wine);stroke-width:1;opacity:0;transform-box:fill-box;transform-origin:center}
+.fn-p{fill:var(--wine);opacity:0}
+.brand-fn.on .fn-t{stroke-dashoffset:0}
+.brand-fn.on .fn-d{opacity:.85;transform:none}
+.brand-fn.on .fn-one{transform:none}
+.brand-fn.on .fn-one-r{animation:fnRing 2.2s ease-out 2.6s infinite}
+.brand-fn.on .fn-p{opacity:.9;transition:opacity .4s 2.4s}
+@keyframes fnRing{0%{opacity:.6;transform:scale(.6)}100%{opacity:0;transform:scale(1.9)}}
+.fn-top,.fn-bot{display:flex;align-items:baseline;gap:12px}
+.fn-bot{justify-content:center;text-align:left}
+.fn-top b,.fn-bot b{font-family:'Unbounded';font-weight:250;font-size:clamp(26px,2.6vw,38px);letter-spacing:-.03em;color:var(--ink);line-height:1;white-space:nowrap}
+.fn-bot b{color:var(--wine)}
+.fn-top span,.fn-bot span{font-size:14px;line-height:1.35;color:var(--mute);max-width:20ch}
+@media (prefers-reduced-motion:reduce){.fn-t,.fn-d,.fn-one{transition:none}.brand-fn.on .fn-one-r{animation:none}.fn-p{display:none}}
 </style>
 <script>document.documentElement.classList.add('fk-wait')</script>
 <!-- Yandex.Metrika counter -->
@@ -1664,6 +1749,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
 <section class="w full-only" id="tools">
   <div class="lab"><span>Инструменты</span><span>02</span></div>
   <div class="svc">
+    <svg class="tlink" aria-hidden="true"><path class="ln" pathLength="1"/><path class="hd"/></svg>
     <div class="stick">
       <h2 class="rv"><span>Основа —</span><span>три инструмента.</span><span><em>И не только.</em></span></h2>
       <p class="rv">Сначала разбираемся, как устроен ваш бизнес, и только потом выбираем инструмент. Чтобы клиенту было легко прийти, выбрать и заплатить, а вам — легко этим управлять.</p>
@@ -1717,12 +1803,11 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   <button class="case rv" type="button" data-case aria-haspopup="dialog" aria-label="Открыть кейс APRILS">
     <span class="case-vis" aria-hidden="true"><span class="case-art bn bn-card" data-banner></span></span>
     <span class="case-txt">
-      <span class="case-no">01</span>
-      <b class="case-t">APRILS<span>.KZ</span></b>
-      <span class="case-k">Бренд украшений</span>
-      <span class="case-d">Экосистема в Телеграме: магазин, закрытый клуб и подарочные карты — от идеи и дизайна до запуска.</span>
-      <span class="case-list">Бот-магазин<br>Закрытый клуб APRILS PRIVATE<br>Подарочные карты — дизайн и логика<br>Экосистема: связь ботов и перевод на казахский</span>
-      <span class="case-go">Смотреть кейс →</span>
+      <span class="case-k">Кейс · бренд украшений · Казахстан</span>
+      <b class="case-t"><span class="case-no">01.</span><span class="case-nm">APRILS<span>.KZ</span></span></b>
+      <span class="case-d">Заказы шли в директ и WhatsApp, каждый перевод сверялся вручную. Мы перенесли продажи в Телеграм — теперь заказы, оплата и подарочные карты работают сами.</span>
+      <span class="case-inv">Посмотрите, что мы сделали: живой бот, весь дизайн — от&nbsp;обложек до&nbsp;подарочных карт — и вся логика. Коротко за 2&nbsp;минуты или подробно.</span>
+      <span class="case-go"><span class="mk-o">Смотреть кейс</span><i aria-hidden="true">→</i></span>
     </span>
   </button>
   <div class="slots four">
@@ -1745,6 +1830,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   <div class="pr-fold rv">
     <button class="pr-tg" type="button" aria-expanded="false" aria-controls="prMore"><span class="mk-o">Посмотреть цены и условия</span><svg class="pr-ar" viewBox="0 0 22 30" aria-hidden="true"><path d="M11 2 C 8 10, 14 16, 11 26 M 5 20 L 11 27 L 17 20"/></svg></button>
   </div>
+  <div class="ddl ddl-cur" aria-hidden="true"></div>
   <div class="pr-more" id="prMore"><div class="pr-in">
   <div class="pr-head2">
     <div class="cur rv" role="group" aria-label="Валюта">
@@ -1785,8 +1871,11 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   <div class="lab"><span>Вопросы</span><span>07</span></div>
   <div class="fq-head">
     <h2 class="rv">Есть вопросы?<br><em>У&nbsp;нас есть ответы!</em></h2>
-    <button type="button" class="fq-tg" aria-expanded="false" aria-controls="faqList"><span class="fq-l">Развернуть все ответы</span><small>12</small><b aria-hidden="true">↓</b></button>
+    <p class="rv pr-hint fq-hint">Оплата, сроки, правки и гарантии — коротко и&nbsp;по&nbsp;делу</p>
   </div>
+  <svg class="fq-point" aria-hidden="true"><path class="a"/><path class="h"/></svg>
+  <div class="pr-fold fq-row rv"><button class="pr-tg fq-tg" type="button" aria-expanded="false" aria-controls="faqList"><span class="mk-o">Посмотреть все ответы</span><svg class="pr-ar" viewBox="0 0 22 30" aria-hidden="true"><path d="M11 2 C 8 10, 14 16, 11 26 M 5 20 L 11 27 L 17 20"/></svg></button></div>
+  <div class="ddl ddl-q" aria-hidden="true"></div>
   <div class="fq-fold"><div class="faq" id="faqList">
     <details><summary>Вы делаете только сайты и ботов?<i aria-hidden="true">+</i></summary><div class="ans"><p>Нет. Мы умеем почти всё, что нужно бизнесу онлайн: сайты, боты, Mini App, дизайн, креативные идеи и логику того, как всё это работает вместе. Каждый проект собираем индивидуально под ваш запрос, без готовых пакетов.</p><p>Сначала разбираемся в задаче: где теряются клиенты, что съедает ваше время. Потом предлагаем решение — иногда это сайт, иногда бот, иногда их связка или просто правильно выстроенный процесс.</p><p>И мы дотошные: доводим работу до результата, которым вы правда довольны, а не до «сдали и забыли».</p></div></details>
     <details><summary>Сколько это стоит?<i aria-hidden="true">+</i></summary><div class="ans"><p>Ориентиры — в блоке «Сколько стоит» выше: сайт от $300, бот от $350. Цена растёт только от объёма задачи.</p><p>Точную сумму называем до старта и фиксируем в договоре. Без сюрпризов потом.</p></div></details>
@@ -1904,10 +1993,11 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
           <p class="cs-p cv">APRILS — бренд серебряных украшений из Казахстана. Основательница ведёт его сама: сама снимает рилсы, сама упаковывает заказы в фирменные коробки и отвечает каждой покупательнице.</p>
           <p class="cs-p cv">Бренд держится на личном отношении — за это его и любят.</p>
         </div>
-        <dl class="brand-f">
-          <div class="cv"><dt>3 000+</dt><dd>подписчиков в Instagram</dd></div>
-          <div class="cv"><dt>1</dt><dd>человек, через которого проходил каждый заказ</dd></div>
-        </dl>
+<figure class="brand-fn cv" aria-label="3000 с лишним подписчиков, и каждый заказ проходил через одного человека">
+          <figcaption class="fn-top"><b>3 000+</b><span>подписчиков в&nbsp;Instagram</span></figcaption>
+          <svg class="fn-svg" viewBox="0 0 420 300" aria-hidden="true"><path class="fn-t" pathLength="1" d="M140.9 34.6 C140.9 159.7 201.7 222.0 210 255" style="--d:0.06s"/><path class="fn-t" pathLength="1" d="M269.2 26.0 C269.2 155.8 217.1 222.0 210 255" style="--d:0.20s"/><path class="fn-t" pathLength="1" d="M224.1 58.2 C224.1 170.3 211.7 222.0 210 255" style="--d:0.42s"/><path class="fn-t" pathLength="1" d="M36.7 73.8 C36.7 177.3 189.2 222.0 210 255" style="--d:0.29s"/><path class="fn-t" pathLength="1" d="M41.4 28.0 C41.4 156.7 189.8 222.0 210 255" style="--d:0.42s"/><path class="fn-t" pathLength="1" d="M180.4 109.0 C180.4 193.1 206.4 222.0 210 255" style="--d:0.53s"/><path class="fn-t" pathLength="1" d="M62.5 42.6 C62.5 163.3 192.3 222.0 210 255" style="--d:0.70s"/><path class="fn-t" pathLength="1" d="M260.0 122.2 C260.0 199.1 216.0 222.0 210 255" style="--d:0.75s"/><path class="fn-t" pathLength="1" d="M396.7 23.1 C396.7 154.5 232.4 222.0 210 255" style="--d:0.92s"/><path class="fn-t" pathLength="1" d="M350.5 49.9 C350.5 166.5 226.9 222.0 210 255" style="--d:0.21s"/><path class="fn-t" pathLength="1" d="M134.9 107.8 C134.9 192.6 201.0 222.0 210 255" style="--d:0.32s"/><path class="fn-t" pathLength="1" d="M84.8 82.0 C84.8 181.0 195.0 222.0 210 255" style="--d:0.30s"/><path class="fn-t" pathLength="1" d="M264.5 59.0 C264.5 170.6 216.5 222.0 210 255" style="--d:0.38s"/><path class="fn-t" pathLength="1" d="M228.7 24.9 C228.7 155.3 212.2 222.0 210 255" style="--d:0.38s"/><path class="fn-t" pathLength="1" d="M280.7 65.0 C280.7 173.4 218.5 222.0 210 255" style="--d:0.57s"/><path class="fn-t" pathLength="1" d="M137.1 82.4 C137.1 181.2 201.3 222.0 210 255" style="--d:0.72s"/><path class="fn-t" pathLength="1" d="M191.6 51.0 C191.6 167.0 207.8 222.0 210 255" style="--d:0.88s"/><path class="fn-t" pathLength="1" d="M325.4 94.9 C325.4 186.8 223.8 222.0 210 255" style="--d:0.76s"/><path class="fn-t" pathLength="1" d="M109.7 81.2 C109.7 180.6 198.0 222.0 210 255" style="--d:0.20s"/><path class="fn-t" pathLength="1" d="M219.9 114.3 C219.9 195.5 211.2 222.0 210 255" style="--d:0.24s"/><path class="fn-t" pathLength="1" d="M299.9 49.7 C299.9 166.5 220.8 222.0 210 255" style="--d:0.34s"/><path class="fn-t" pathLength="1" d="M29.4 91.5 C29.4 185.3 188.3 222.0 210 255" style="--d:0.31s"/><path class="fn-t" pathLength="1" d="M313.7 81.0 C313.7 180.6 222.4 222.0 210 255" style="--d:0.37s"/><path class="fn-t" pathLength="1" d="M286.6 83.4 C286.6 181.6 219.2 222.0 210 255" style="--d:0.58s"/><path class="fn-t" pathLength="1" d="M241.3 68.2 C241.3 174.8 213.8 222.0 210 255" style="--d:0.65s"/><path class="fn-t" pathLength="1" d="M343.3 121.9 C343.3 199.0 226.0 222.0 210 255" style="--d:0.84s"/><path class="fn-t" pathLength="1" d="M199.8 91.1 C199.8 185.1 208.8 222.0 210 255" style="--d:0.73s"/><path class="fn-t" pathLength="1" d="M165.2 91.6 C165.2 185.3 204.6 222.0 210 255" style="--d:0.07s"/><path class="fn-t" pathLength="1" d="M79.9 30.9 C79.9 158.0 194.4 222.0 210 255" style="--d:0.28s"/><path class="fn-t" pathLength="1" d="M123.1 63.7 C123.1 172.8 199.6 222.0 210 255" style="--d:0.24s"/><path class="fn-t" pathLength="1" d="M154.6 115.3 C154.6 196.0 203.4 222.0 210 255" style="--d:0.48s"/><path class="fn-t" pathLength="1" d="M244.9 46.9 C244.9 165.2 214.2 222.0 210 255" style="--d:0.59s"/><path class="fn-t" pathLength="1" d="M15.6 64.1 C15.6 172.9 186.7 222.0 210 255" style="--d:0.67s"/><path class="fn-t" pathLength="1" d="M387.6 94.0 C387.6 186.4 231.3 222.0 210 255" style="--d:0.75s"/><path class="fn-t" pathLength="1" d="M216.1 85.9 C216.1 182.8 210.7 222.0 210 255" style="--d:0.76s"/><path class="fn-t" pathLength="1" d="M366.6 103.8 C366.6 190.8 228.8 222.0 210 255" style="--d:0.94s"/><path class="fn-t" pathLength="1" d="M167.8 61.9 C167.8 171.9 204.9 222.0 210 255" style="--d:0.15s"/><path class="fn-t" pathLength="1" d="M54.6 87.8 C54.6 183.6 191.4 222.0 210 255" style="--d:0.13s"/><path class="fn-t" pathLength="1" d="M14.1 34.6 C14.1 159.7 186.5 222.0 210 255" style="--d:0.33s"/><path class="fn-t" pathLength="1" d="M53.8 58.0 C53.8 170.2 191.3 222.0 210 255" style="--d:0.41s"/><path class="fn-t" pathLength="1" d="M24.0 114.2 C24.0 195.5 187.7 222.0 210 255" style="--d:0.53s"/><path class="fn-t" pathLength="1" d="M196.7 71.2 C196.7 176.1 208.4 222.0 210 255" style="--d:0.65s"/><path class="fn-t" pathLength="1" d="M338.9 35.8 C338.9 160.2 225.5 222.0 210 255" style="--d:0.76s"/><path class="fn-t" pathLength="1" d="M79.5 102.9 C79.5 190.4 194.3 222.0 210 255" style="--d:0.69s"/><path class="fn-t" pathLength="1" d="M153.4 21.2 C153.4 153.6 203.2 222.0 210 255" style="--d:0.73s"/><path class="fn-t" pathLength="1" d="M25.0 48.7 C25.0 166.0 187.8 222.0 210 255" style="--d:0.13s"/><circle class="fn-d" cx="140.9" cy="34.6" r="3" style="--d:0.04s"/><circle class="fn-d" cx="269.2" cy="26.0" r="3" style="--d:0.12s"/><circle class="fn-d" cx="224.1" cy="58.2" r="3" style="--d:0.25s"/><circle class="fn-d" cx="36.7" cy="73.8" r="2.2" style="--d:0.17s"/><circle class="fn-d" cx="41.4" cy="28.0" r="2.6" style="--d:0.25s"/><circle class="fn-d" cx="180.4" cy="109.0" r="3.4" style="--d:0.32s"/><circle class="fn-d" cx="62.5" cy="42.6" r="2.2" style="--d:0.42s"/><circle class="fn-d" cx="260.0" cy="122.2" r="3" style="--d:0.45s"/><circle class="fn-d" cx="396.7" cy="23.1" r="2.2" style="--d:0.55s"/><circle class="fn-d" cx="350.5" cy="49.9" r="2.2" style="--d:0.13s"/><circle class="fn-d" cx="134.9" cy="107.8" r="2.6" style="--d:0.19s"/><circle class="fn-d" cx="84.8" cy="82.0" r="2.6" style="--d:0.18s"/><circle class="fn-d" cx="264.5" cy="59.0" r="3" style="--d:0.23s"/><circle class="fn-d" cx="228.7" cy="24.9" r="3.4" style="--d:0.23s"/><circle class="fn-d" cx="280.7" cy="65.0" r="2.2" style="--d:0.34s"/><circle class="fn-d" cx="137.1" cy="82.4" r="2.6" style="--d:0.43s"/><circle class="fn-d" cx="191.6" cy="51.0" r="2.2" style="--d:0.53s"/><circle class="fn-d" cx="325.4" cy="94.9" r="3.4" style="--d:0.45s"/><circle class="fn-d" cx="109.7" cy="81.2" r="2.6" style="--d:0.12s"/><circle class="fn-d" cx="219.9" cy="114.3" r="3.4" style="--d:0.15s"/><circle class="fn-d" cx="299.9" cy="49.7" r="3" style="--d:0.21s"/><circle class="fn-d" cx="29.4" cy="91.5" r="2.6" style="--d:0.19s"/><circle class="fn-d" cx="313.7" cy="81.0" r="2.2" style="--d:0.22s"/><circle class="fn-d" cx="286.6" cy="83.4" r="2.6" style="--d:0.35s"/><circle class="fn-d" cx="241.3" cy="68.2" r="2.6" style="--d:0.39s"/><circle class="fn-d" cx="343.3" cy="121.9" r="2.6" style="--d:0.50s"/><circle class="fn-d" cx="199.8" cy="91.1" r="2.6" style="--d:0.44s"/><circle class="fn-d" cx="165.2" cy="91.6" r="2.6" style="--d:0.04s"/><circle class="fn-d" cx="79.9" cy="30.9" r="3" style="--d:0.17s"/><circle class="fn-d" cx="123.1" cy="63.7" r="3.4" style="--d:0.15s"/><circle class="fn-d" cx="154.6" cy="115.3" r="2.2" style="--d:0.29s"/><circle class="fn-d" cx="244.9" cy="46.9" r="3" style="--d:0.35s"/><circle class="fn-d" cx="15.6" cy="64.1" r="3.4" style="--d:0.40s"/><circle class="fn-d" cx="387.6" cy="94.0" r="2.6" style="--d:0.45s"/><circle class="fn-d" cx="216.1" cy="85.9" r="2.2" style="--d:0.46s"/><circle class="fn-d" cx="366.6" cy="103.8" r="2.6" style="--d:0.56s"/><circle class="fn-d" cx="167.8" cy="61.9" r="2.6" style="--d:0.09s"/><circle class="fn-d" cx="54.6" cy="87.8" r="3.4" style="--d:0.08s"/><circle class="fn-d" cx="14.1" cy="34.6" r="2.2" style="--d:0.20s"/><circle class="fn-d" cx="53.8" cy="58.0" r="3" style="--d:0.25s"/><circle class="fn-d" cx="24.0" cy="114.2" r="3.4" style="--d:0.32s"/><circle class="fn-d" cx="196.7" cy="71.2" r="2.2" style="--d:0.39s"/><circle class="fn-d" cx="338.9" cy="35.8" r="2.2" style="--d:0.46s"/><circle class="fn-d" cx="79.5" cy="102.9" r="3" style="--d:0.42s"/><circle class="fn-d" cx="153.4" cy="21.2" r="2.2" style="--d:0.44s"/><circle class="fn-d" cx="25.0" cy="48.7" r="2.2" style="--d:0.08s"/><circle class="fn-p" r="2.6" style="--d:0.0s"><animateMotion dur="4.4s" begin="0.0s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.55;1" calcMode="spline" keySplines=".5 0 .3 1;0 0 1 1" path="M36.7 73.8 C36.7 177.3 189.2 222.0 210 255"/></circle><circle class="fn-p" r="2.6" style="--d:1.1s"><animateMotion dur="4.4s" begin="1.1s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.55;1" calcMode="spline" keySplines=".5 0 .3 1;0 0 1 1" path="M325.4 94.9 C325.4 186.8 223.8 222.0 210 255"/></circle><circle class="fn-p" r="2.6" style="--d:2.2s"><animateMotion dur="4.4s" begin="2.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.55;1" calcMode="spline" keySplines=".5 0 .3 1;0 0 1 1" path="M123.1 63.7 C123.1 172.8 199.6 222.0 210 255"/></circle><circle class="fn-p" r="2.6" style="--d:3.3s"><animateMotion dur="4.4s" begin="3.3s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.55;1" calcMode="spline" keySplines=".5 0 .3 1;0 0 1 1" path="M24.0 114.2 C24.0 195.5 187.7 222.0 210 255"/></circle><circle class="fn-one-r" cx="210" cy="262" r="13"/><circle class="fn-one" cx="210" cy="262" r="7"/></svg>
+          <figcaption class="fn-bot"><b>1</b><span>человек, через которого проходил каждый заказ</span></figcaption>
+        </figure>
       </div>
     </section>
 
@@ -2519,24 +2609,44 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
   const tnav = document.getElementById('tnav'), tlinks = [...tnav.querySelectorAll('a')], tarrow = document.getElementById('tarrow');
   const tItems = ['t1', 't2', 't3', 't4'].map(id => document.getElementById(id));
   let tCur = -1;
+  const svcBox = tnav.closest('.svc'), tl = svcBox.querySelector('.tlink'), [tlLn, tlHd] = tl.querySelectorAll('path');
+  // a thread from the active navigator item to the block it stands for — it follows the block while you scroll
   function placeArrow(i) {
-    const a = tlinks[i];
-    tarrow.style.transform = `translate(${a.offsetLeft + a.offsetWidth + 16}px, ${a.offsetTop + a.offsetHeight / 2 - 15}px)`;
+    if (i < 0 || !tlinks[i] || innerWidth <= 860) return;
+    const R = svcBox.getBoundingClientRect(), a = tlinks[i].getBoundingClientRect(), it = tItems[i].getBoundingClientRect();
+    const x0 = a.right - R.left + 14, y0 = a.top + a.height / 2 - R.top;
+    const nb = (tItems[i].querySelector('.n') || tItems[i]).getBoundingClientRect(), x1 = nb.left - R.left - 10, y1 = nb.top + nb.height / 2 - R.top;
+    const dx = x1 - x0, f = v => v.toFixed(1);
+    tl.setAttribute('viewBox', `0 0 ${f(R.width)} ${f(R.height)}`);
+    tlLn.setAttribute('d', `M ${f(x0)} ${f(y0)} C ${f(x0 + dx * .78)} ${f(y0)}, ${f(x1 - dx * .42)} ${f(y1)}, ${f(x1)} ${f(y1)}`);
+    tlHd.setAttribute('d', `M ${f(x1 - 10)} ${f(y1 - 7)} L ${f(x1)} ${f(y1)} L ${f(x1 - 10)} ${f(y1 + 7)}`);
   }
   function redrawArrow() {
-    tarrow.querySelectorAll('path').forEach((pth, k) => {
-      const L = pth.getTotalLength(); pth.style.transition = 'none'; pth.style.strokeDasharray = L; pth.style.strokeDashoffset = L;
-      pth.getBoundingClientRect();
-      pth.style.transition = `stroke-dashoffset ${k ? .3 : .7}s cubic-bezier(.6,0,.3,1) ${k ? .95 : .3}s`; pth.style.strokeDashoffset = 0;
-    });
+    tl.classList.remove('on'); tlLn.getBoundingClientRect(); requestAnimationFrame(() => tl.classList.add('on'));
   }
-  function syncTools() {
-    let i = 0;
-    tItems.forEach((el, k) => { if (el.getBoundingClientRect().top < innerHeight * 0.5) i = k; });
+  let tLock = 0;
+  function setTool(i) {
     if (i === tCur) return;
-    tCur = i; tlinks.forEach((a, k) => a.classList.toggle('on', k === i));
+    tCur = i; tlinks.forEach((a, k) => a.classList.toggle('on', k === i)); tItems.forEach((el, k) => el.classList.toggle('tool-on', k === i));
     placeArrow(i); redrawArrow();
   }
+  // the branch you're reading is the one that holds the line a third of the way down the screen
+  function syncTools() {
+    if (Date.now() < tLock) return;
+    const line = Math.min(innerHeight * 0.36, 320) + (document.getElementById('top')?.offsetHeight || 0) * 0.5;
+    let i = 0;
+    tItems.forEach((el, k) => { if (el.getBoundingClientRect().top <= line) i = k; });
+    setTool(i);
+  }
+  // a click lands the branch right under the header and keeps the mark on it while the page travels
+  tlinks.forEach((a, k) => a.addEventListener('click', e => {
+    e.preventDefault();
+    const hd = document.getElementById('top')?.offsetHeight || 0, y = tItems[k].getBoundingClientRect().top + scrollY - hd - 28;
+    tLock = Date.now() + 1100; setTool(k);
+    scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    const release = () => { tLock = 0; removeEventListener('scrollend', release); };
+    addEventListener('scrollend', release);
+  }));
   document.fonts.ready.then(() => { tCur = -1; syncTools(); }); addEventListener('resize', () => tCur >= 0 && placeArrow(tCur));
 
   const top = document.getElementById('top');
@@ -2545,7 +2655,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
     const solid = scrollY > innerHeight * 0.6;
     top.classList.toggle('solid', solid);
     paintFills();
-    syncTools();
+    syncTools(); placeArrow(tCur);
     threads.forEach(t => t.len && t.paint());
     const sr = steps.getBoundingClientRect();
     const tp = innerWidth <= 860 ? Math.min(1, Math.max(0, (innerHeight * 0.75 - sr.top) / sr.height)) : Math.min(1, Math.max(0, (innerHeight * 0.85 - sr.top) / (innerHeight * 0.55)));
@@ -3157,11 +3267,61 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
       a.style.transition = reduce ? 'none' : 'stroke-dashoffset 1.3s cubic-bezier(.6,0,.3,1) .5s'; h.style.transition = reduce ? 'none' : 'stroke-dashoffset .35s ease-out 1.75s'; a.style.strokeDashoffset = 0; h.style.strokeDashoffset = 0; }), { threshold: .6 }).observe(prTg);
   });
   let prAW = innerWidth; addEventListener("resize", () => { if (innerWidth !== prAW) { prAW = innerWidth; prArrow(); } });
+
+  // the same hand-drawn hook for the FAQ fold
+  { const sec = document.getElementById('faq'), hint = sec && sec.querySelector('.fq-hint'), btn = sec && sec.querySelector('.fq-tg'), pt = sec && sec.querySelector('.fq-point');
+    if (sec && hint && btn && pt) {
+      let shown = false;
+      const draw = () => {
+        const r = sec.getBoundingClientRect(), rs = hint.getClientRects(), bt = btn.querySelector('.mk-o').getBoundingClientRect(); if (!rs.length || !r.width || !bt.width) return;
+        const h0 = rs[0], W = Math.round(r.width), H = Math.round(bt.bottom - r.top + 40), bL = bt.left - r.left, hL = h0.left - r.left;
+        pt.setAttribute('width', W); pt.setAttribute('height', H); pt.setAttribute('viewBox', `0 0 ${W} ${H}`);
+        if (bL - hL <= 70) { pt.style.display = 'none'; return; } pt.style.display = '';
+        const x0 = hL + 22, y0 = h0.bottom - r.top + 10, x1 = bL - 26, y1 = bt.top - r.top + bt.height * .5, c1x = x0 - 4, c1y = y1 - 6, c2x = x1 - 44, c2y = y1 + 3, f = v => v.toFixed(1);
+        const ang = Math.atan2(c2y - y1, c2x - x1), arm = k => `${f(x1 + Math.cos(ang + k) * 12)} ${f(y1 + Math.sin(ang + k) * 12)}`, [a, h] = pt.querySelectorAll('path');
+        a.setAttribute('d', `M ${f(x0)} ${f(y0)} C ${f(c1x)} ${f(c1y)}, ${f(c2x)} ${f(c2y)}, ${f(x1)} ${f(y1)}`); h.setAttribute('d', `M ${arm(.5)} L ${f(x1)} ${f(y1)} L ${arm(-.5)}`);
+        [a, h].forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; if (!shown) { p.style.transition = 'none'; p.style.strokeDashoffset = L; } });
+      };
+      document.fonts.ready.then(() => {
+        draw();
+        new IntersectionObserver((es, o) => es.forEach(en => { if (!en.isIntersecting) return; o.disconnect(); draw(); shown = true; const [a, h] = pt.querySelectorAll('path');
+          a.style.transition = reduce ? 'none' : 'stroke-dashoffset 1.3s cubic-bezier(.6,0,.3,1) .5s'; h.style.transition = reduce ? 'none' : 'stroke-dashoffset .35s ease-out 1.75s'; a.style.strokeDashoffset = 0; h.style.strokeDashoffset = 0; }), { threshold: .6 }).observe(btn);
+      });
+      let w0 = innerWidth; addEventListener('resize', () => { if (innerWidth !== w0) { w0 = innerWidth; draw(); } });
+    }
+  }
   function setPrices(open) {
     prSec.classList.toggle('pr-open', open);
     prMore.classList.toggle('open', open); prTg.setAttribute('aria-expanded', open);
     if (open) setTimeout(() => { curLoops(); fitAmts(); }, 60);
     else document.getElementById('price').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  /* ---------- doodles: $ ₸ ₽ € under the prices, question marks under the FAQ ---------- */
+  {
+    const G = {
+      '$': ['M40 20 C34 10 14 8 11 20 C8 32 22 36 28 39 C36 43 42 50 38 60 C33 71 13 70 7 60', 'M25 4 C24 30 26 55 24 77'],
+      '₸': ['M6 12 C18 10 30 11 44 10', 'M6 24 C18 23 31 23 44 22', 'M25 23 C24 40 26 58 24 76'],
+      '₽': ['M14 6 C13 30 15 55 13 76', 'M14 7 C30 4 42 12 40 25 C38 37 25 40 14 39', 'M4 56 C14 55 24 56 34 55'],
+      '€': ['M46 16 C38 4 14 4 9 34 C5 62 30 78 46 64', 'M2 30 C14 29 24 30 34 29', 'M2 44 C12 43 22 44 31 43'],
+      '?': ['M10 22 C9 6 40 2 41 20 C42 34 24 34 24 52', '#M24 66 L24.6 67'],
+      '*': ['M0 -9 C1 -3 -1 3 0 9', 'M-9 0 C-3 -1 3 1 9 0'],
+    };
+    const sym = (ch, x, y, k, r, d, attr = '') => {
+      const paths = G[ch].map(p => { const dot = p[0] === '#', dd = dot ? p.slice(1) : p;
+        return `<path class="${dot ? 'dot' : ''}" pathLength="1" d="${dd}" style="transition-delay:${d}s"/>` + (dot ? '' : `<path class="sk" pathLength="1" d="${dd}" transform="translate(1.4 1)" style="transition-delay:${(d + .15).toFixed(2)}s"/>`); }).join('');
+      const hit = ch === '*' ? '' : '<rect x="-6" y="-4" width="60" height="88"/>';
+      return `<g class="${ch === '*' ? 'spk' : 'sym'}" transform="translate(${x} ${y}) rotate(${r}) scale(${k})" ${attr}><g style="animation-delay:-${(d * 3).toFixed(1)}s">${hit}${paths}</g></g>`;
+    };
+    const fill = (el, items) => { if (!el) return; el.innerHTML = `<svg viewBox="0 0 1000 200" preserveAspectRatio="xMinYMin meet">${items.join('')}</svg>`;
+      new IntersectionObserver(es => es.forEach(e => el.classList.toggle('on', e.isIntersecting)), { rootMargin: '0px 0px -10% 0px' }).observe(el.firstChild); };
+    const curEl = document.querySelector('.ddl-cur'), qEl = document.querySelector('.ddl-q');
+    fill(curEl, [sym('$', 40, 26, 1.35, -8, 0, 'data-cur="USD"'), sym('*', 225, 50, 1, 20, .5), sym('₸', 300, 54, 1.15, 6, .25, 'data-cur="KZT"'), sym('*', 470, 150, .8, -10, .7),
+      sym('₽', 560, 18, 1.3, -5, .5, 'data-cur="RUB"'), sym('*', 735, 40, .9, 15, .9), sym('€', 820, 46, 1.2, 9, .75, 'data-cur="EUR"'), sym('*', 965, 150, .7, 0, 1.1)]);
+    fill(qEl, [sym('?', 30, 18, 1.5, -10, 0), sym('*', 200, 140, .8, 10, .6), sym('?', 240, 70, .95, 8, .2), sym('?', 420, 10, 1.3, -4, .4), sym('*', 560, 40, 1, -15, .8),
+      sym('?', 640, 66, 1.05, 12, .6), sym('?', 850, 16, 1.4, -7, .8), sym('*', 980, 120, .7, 0, 1)]);
+    curEl && curEl.addEventListener('click', e => { const g = e.target.closest('[data-cur]'); if (!g) return; showCur(g.dataset.cur); setPrices(true); goal('currency', { cur: g.dataset.cur, from: 'doodle' }); goal('prices_open'); });
+    qEl && qEl.addEventListener('click', e => { if (e.target.closest('.sym')) document.querySelector('.fq-tg').click(); });
   }
   prTg.addEventListener('click', () => { setPrices(!prMore.classList.contains('open')); if (prMore.classList.contains('open')) goal('prices_open'); });
   document.querySelector('.pr-up').addEventListener('click', () => setPrices(false));
@@ -3316,7 +3476,7 @@ html.lt-hide .lt-side{opacity:0!important;pointer-events:none!important}
     const fqT = document.querySelector('.fq-tg'), fqF = document.querySelector('.fq-fold');
     fqT.addEventListener('click', () => {
       const open = !fqF.classList.contains('open'); fqF.classList.toggle('open', open); fqT.setAttribute('aria-expanded', open); if (open) goal('faq_open');
-      fqT.querySelector('.fq-l').textContent = open ? 'Свернуть ответы' : 'Развернуть все ответы';
+      document.getElementById('faq').classList.toggle('fq-open', open);
       if (chosen === 'lite') { let n = 0; (function track() { ltH(); if (++n < 45) requestAnimationFrame(track); })(); }
     });
     new ResizeObserver(() => chosen === 'lite' && ltH()).observe(slides[0]);
