@@ -219,7 +219,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..600&family=Onest:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F5F2EE;--ink:#17100F;--wine:#6B0F24;--blush:#EFC3CC;--mute:#857A78;--line:#DFD7D1;--pad:clamp(18px,3vw,44px)}
+:root{--paper:#F5F2EE;--ink:#17100F;--wine:#6B0F24;--blush:#EFC3CC;--mute:#766B69;--line:#DFD7D1;--pad:clamp(18px,3vw,44px)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Onest',system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -1645,6 +1645,11 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
 .fn-bot b{color:var(--wine)}
 .fn-top span,.fn-bot span{font-size:14px;line-height:1.35;color:var(--mute);max-width:20ch}
 @media (prefers-reduced-motion:reduce){.fn-t,.fn-d,.fn-one{transition:none}.brand-fn.on .fn-one-r{animation:none}.fn-p{display:none}}
+/* v33: polish — readable grey, comfortable small links, keyboard focus, compact cookie note */
+.alt .mk,footer a,.ck-note a{display:inline-block;padding:10px 2px;margin:-10px -2px}
+.ck-note button{min-height:40px}
+:focus-visible{outline:2px solid var(--wine);outline-offset:3px;border-radius:2px}
+@media (max-width:560px){.ck-note{padding:12px 14px;gap:12px;font-size:12.5px;align-items:center}.ck-note .ck-long{display:none}}
 </style>
 <script>document.documentElement.classList.add('fk-wait')</script>
 <!-- Yandex.Metrika counter -->
@@ -1925,7 +1930,7 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
 </main>
 
 <footer><div class="w"><b>ЛАЙТБИЗИ</b><span>Делаем бизнес лёгким · <a href="/privacy.html" data-priv>Конфиденциальность</a> · lightbizy.com</span></div></footer>
-<div class="ck-note" id="ckNote" role="region" aria-label="Уведомление о cookie" hidden><span>Мы используем cookie и Яндекс Метрику, чтобы понимать, что на сайте удобно, а что нет. <a href="/privacy.html" data-priv>Подробнее</a></span><button type="button">Понятно</button></div>
+<div class="ck-note" id="ckNote" role="region" aria-label="Уведомление о cookie" hidden><span>Мы используем cookie и Яндекс Метрику<span class="ck-long">, чтобы понимать, что на сайте удобно, а что нет</span>. <a href="/privacy.html" data-priv>Подробнее</a></span><button type="button">Понятно</button></div>
 <button type="button" class="lt-side prev lite-only" aria-label="Назад" hidden><span></span><b aria-hidden="true">←</b></button>
 <button type="button" class="lt-side next lite-only" aria-label="Дальше: Работы"><span>Работы</span><b aria-hidden="true">→</b></button>
 
@@ -3172,7 +3177,6 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
       if (!caseDlg.open) caseDlg.showModal();
       document.documentElement.style.overflow = 'hidden';
       cs.scrollTop = 0;
-      if (location.hash !== '#aprils') history.replaceState(null, '', '#aprils');
       requestAnimationFrame(() => {
         setMode(mode); loops(mBtns); loops(gTabs); loops(pBtns);
         setTimeout(() => caseDlg.querySelector('.collage').classList.add('on'), 120);
@@ -3195,7 +3199,7 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
     document.querySelectorAll('[data-case]').forEach(b => b.addEventListener('click', openCase));
     document.querySelectorAll('.never-used').forEach(a => { a.innerHTML = GIFT.svg('birthday', 1) + GIFT.svg('universal', 1); a.querySelectorAll('.gc-sum').forEach(s => s.textContent = money(25000)); document.fonts.ready.then(() => a.querySelectorAll('.gc-code').forEach(s => fitCode(s, newCode()))); });
     if (location.hash === '#aprils') document.fonts.ready.then(openCase);
-    addEventListener('hashchange', () => { if (location.hash === '#aprils') openCase(); });
+    addEventListener('hashchange', () => { if (location.hash === '#aprils' && !window.__lbzBack) openCase(); });
     let csW = innerWidth; addEventListener('resize', () => { if (innerWidth !== csW && caseDlg.open) { csW = innerWidth; loops(gTabs); loops(mBtns); loops(pBtns); liveArrow(); } });
   }
 
@@ -3571,6 +3575,15 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
       }), { threshold: .35 }).observe(fork);
     });
     let fW = innerWidth; addEventListener('resize', () => { if (innerWidth !== fW) { fW = innerWidth; fGeo(); } });
+    // someone who just keeps scrolling past the fork gets the full site instead of a dead end
+    { let tries = 0, ty = 0, lastT = 0;
+      const atEnd = () => !chosen && fork.getBoundingClientRect().bottom < innerHeight && scrollY + innerHeight >= document.documentElement.scrollHeight - 6;
+      const push = () => { const now = Date.now(); if (now - lastT < 350) return; lastT = now; if (++tries >= 2) { goal('fork_scroll'); ymParams({ site_version: 'Пять минут' }); setSite('full', false); tries = 0; } };
+      addEventListener('wheel', e => { if (e.deltaY > 0 && atEnd()) push(); }, { passive: true });
+      addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
+      addEventListener('touchmove', e => { if (ty - e.touches[0].clientY > 40 && atEnd()) { ty = e.touches[0].clientY; push(); } }, { passive: true });
+      addEventListener('keydown', e => { if (/^(ArrowDown|PageDown|End| )$/.test(e.key) && atEnd()) push(); });
+    }
   }
 
   /* ---------- header: loops drawn by hand around the menu ---------- */
@@ -3604,12 +3617,39 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
   priv.querySelectorAll('[data-pclose]').forEach(b => b.addEventListener('click', () => priv.close()));
   priv.addEventListener('click', e => { if (e.target === priv) priv.close(); });
   if (location.hash === '#privacy') openPriv();
-  addEventListener('hashchange', () => { if (location.hash === '#privacy') openPriv(); });
+  addEventListener('hashchange', () => { if (location.hash === '#privacy' && !window.__lbzBack) openPriv(); });
 
   /* ---------- request form ---------- */
   // адрес пересылки заявок в Телеграм (Cloudflare Worker); пока пусто — форма просто благодарит
   const LEAD_URL = 'https://lightbizy-leads.lu4danya.workers.dev';
   const dlg = document.getElementById('req'), sheet = document.getElementById('sheet'), form = document.getElementById('form');
+
+  { // phone «back» closes the open window (case, form, policy) instead of leaving the site
+    const stack = []; let skipPop = 0;
+    const strip = () => location.pathname + location.search + (/^#(aprils|privacy)$/.test(location.hash) ? '' : location.hash);
+    document.querySelectorAll('dialog').forEach(d => {
+      new MutationObserver(() => {
+        if (!d.open || stack.includes(d.id)) return;
+        const base = strip();
+        if (!stack.length) history.replaceState(history.state, '', base);
+        history.pushState({ lbzDlg: d.id }, '', d.id === 'case' ? base.replace(/#.*$/, '') + '#aprils' : base);
+        stack.push(d.id);
+      }).observe(d, { attributes: true, attributeFilter: ['open'] });
+      d.addEventListener('close', () => {
+        const i = stack.lastIndexOf(d.id); if (i < 0) return;
+        if (i === stack.length - 1) { stack.pop(); skipPop++; window.__lbzBack = true; history.back(); }
+        else stack.splice(i, 1);
+      });
+    });
+    addEventListener('popstate', () => {
+      setTimeout(() => { window.__lbzBack = false; }, 60);
+      if (skipPop) { skipPop--; return; }
+      if (!stack.length) { window.__lbzBack = false; return; }   // an ordinary hash jump, not our window
+      window.__lbzBack = true;
+      const id = stack.pop(), d = id && document.getElementById(id);
+      if (d && d.open) d.close();
+    });
+  }
   document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); goal('form_open', { from: (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40) }); sheet.classList.remove('sent'); dlg.showModal(); requestAnimationFrame(decorate); setTimeout(() => document.getElementById('f-name').focus(), 450); }));
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
