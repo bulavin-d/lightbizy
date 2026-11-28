@@ -1650,6 +1650,14 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
 .ck-note button{min-height:40px}
 :focus-visible{outline:2px solid var(--wine);outline-offset:3px;border-radius:2px}
 @media (max-width:560px){.ck-note{padding:12px 14px;gap:12px;font-size:12.5px;align-items:center}.ck-note .ck-long{display:none}}
+/* v34: nudge — both options light up when someone tries to scroll on without choosing */
+.fk-o.nudge b{color:var(--wine)}
+.fk-o.nudge b::after{transform:scaleX(1)}
+.fk-o.nudge{animation:fkNudge .7s cubic-bezier(.3,1.6,.5,1)}
+.fk-o.nudge:nth-child(2){animation-delay:.12s}
+@keyframes fkNudge{0%,100%{transform:none}35%{transform:translateY(-6px)}}
+@media (max-width:760px){.fork .fk-o.nudge::after{background:var(--wine);color:var(--paper)}}
+@media (prefers-reduced-motion:reduce){.fk-o.nudge{animation:none}}
 </style>
 <script>document.documentElement.classList.add('fk-wait')</script>
 <!-- Yandex.Metrika counter -->
@@ -3575,14 +3583,16 @@ html.lite .ddl svg{position:relative;top:0;margin-top:14px}
       }), { threshold: .35 }).observe(fork);
     });
     let fW = innerWidth; addEventListener('resize', () => { if (innerWidth !== fW) { fW = innerWidth; fGeo(); } });
-    // someone who just keeps scrolling past the fork gets the full site instead of a dead end
-    { let tries = 0, ty = 0, lastT = 0;
-      const atEnd = () => !chosen && fork.getBoundingClientRect().bottom < innerHeight && scrollY + innerHeight >= document.documentElement.scrollHeight - 6;
-      const push = () => { const now = Date.now(); if (now - lastT < 350) return; lastT = now; if (++tries >= 2) { goal('fork_scroll'); ymParams({ site_version: 'Пять минут' }); setSite('full', false); tries = 0; } };
-      addEventListener('wheel', e => { if (e.deltaY > 0 && atEnd()) push(); }, { passive: true });
+    // trying to scroll on without a choice: both options light up for a moment — the site still waits for a click
+    { let ty = 0, lastN = 0;
+      const atEnd = () => !chosen && fork.getBoundingClientRect().bottom < innerHeight + 40 && scrollY + innerHeight >= document.documentElement.scrollHeight - 6;
+      const nudge = () => { const now = Date.now(); if (now - lastN < 1600) return; lastN = now;
+        fOpts.forEach(o => { o.classList.remove('nudge'); void o.offsetWidth; o.classList.add('nudge'); }); fSec.classList.add('t1', 't5');
+        setTimeout(() => { fOpts.forEach(o => o.classList.remove('nudge')); if (!chosen) fSec.classList.remove('t1', 't5'); }, 1400); };
+      addEventListener('wheel', e => { if (e.deltaY > 0 && atEnd()) nudge(); }, { passive: true });
       addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
-      addEventListener('touchmove', e => { if (ty - e.touches[0].clientY > 40 && atEnd()) { ty = e.touches[0].clientY; push(); } }, { passive: true });
-      addEventListener('keydown', e => { if (/^(ArrowDown|PageDown|End| )$/.test(e.key) && atEnd()) push(); });
+      addEventListener('touchmove', e => { if (ty - e.touches[0].clientY > 30 && atEnd()) nudge(); }, { passive: true });
+      addEventListener('keydown', e => { if (/^(ArrowDown|PageDown|End| )$/.test(e.key) && atEnd()) nudge(); });
     }
   }
 
